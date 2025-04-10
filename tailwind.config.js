@@ -23,6 +23,9 @@ export default {
                     700: 'var(--color-orange-foreground-700)',
                 },
             },
+            fontFamily: {
+                sans: ['Taylor Sans', 'sans-serif'],
+            },
         },
     },
     plugins: [],
