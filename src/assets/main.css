@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root{
+    --color-orange-50: #F2E3D3;
+    --color-orange-100: #F8D1A9;
+    --color-orange-200: #FABA7B;
+    --color-orange-300: #FCA24B;
+    --color-orange-400: #FD902B;
+    --color-orange-500: #FF8019;
+    --color-orange-600: #FA7418;
+    --color-orange-700: #F4631C;
+    --color-orange-800: #EB531C;
+    --color-orange-900: #E1331E;
+
+    --color-orange-foreground-100: #FBBE78;
+    --color-orange-foreground-200: #FB9541;
+    --color-orange-foreground-400: #FE7719;
+    --color-orange-foreground-700: #FA4F1D;
+}
