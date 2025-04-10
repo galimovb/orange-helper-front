@@ -2,64 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
-    --color-orange-50: #F2E3D3;
-    --color-orange-100: #F8D1A9;
-    --color-orange-200: #FABA7B;
-    --color-orange-300: #FCA24B;
-    --color-orange-400: #FD902B;
-    --color-orange-500: #FF8019;
-    --color-orange-600: #FA7418;
-    --color-orange-700: #F4631C;
-    --color-orange-800: #EB531C;
-    --color-orange-900: #E1331E;
+:root {
+  --color-orange-50: #f2e3d3;
+  --color-orange-100: #f8d1a9;
+  --color-orange-200: #faba7b;
+  --color-orange-300: #fca24b;
+  --color-orange-400: #fd902b;
+  --color-orange-500: #ff8019;
+  --color-orange-600: #fa7418;
+  --color-orange-700: #f4631c;
+  --color-orange-800: #eb531c;
+  --color-orange-900: #e1331e;
 
-    --color-orange-foreground-100: #FBBE78;
-    --color-orange-foreground-200: #FB9541;
-    --color-orange-foreground-400: #FE7719;
-    --color-orange-foreground-700: #FA4F1D;
+  --color-orange-foreground-100: #fbbe78;
+  --color-orange-foreground-200: #fb9541;
+  --color-orange-foreground-400: #fe7719;
+  --color-orange-foreground-700: #fa4f1d;
 }
 @font-face {
-    font-family: 'Taylor Sans';
-    src: url('@/assets/fonts/TaylorSans/TaylorSans-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Taylor Sans';
-    src: url('@/assets/fonts/TaylorSans/TaylorSans-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
+  font-family: "Taylor Sans";
+  src: url("@/assets/fonts/TaylorSans/TaylorSans-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Taylor Sans';
-    src: url('@/assets/fonts/TaylorSans/TaylorSans-ExtraBold.ttf') format('truetype');
-    font-weight: 800;
-    font-style: normal;
+  font-family: "Taylor Sans";
+  src: url("@/assets/fonts/TaylorSans/TaylorSans-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Taylor Sans';
-    src: url('@/assets/fonts/TaylorSans/TaylorSans-Light.ttf') format('truetype');
-    font-weight: 300;
-    font-style: normal;
+  font-family: "Taylor Sans";
+  src: url("@/assets/fonts/TaylorSans/TaylorSans-ExtraBold.ttf")
+    format("truetype");
+  font-weight: 800;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Taylor Sans';
-    src: url('@/assets/fonts/TaylorSans/TaylorSans-SemiBold.ttf') format('truetype');
-    font-weight: 600;
-    font-style: normal;
+  font-family: "Taylor Sans";
+  src: url("@/assets/fonts/TaylorSans/TaylorSans-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Taylor Sans';
-    src: url('@/assets/fonts/TaylorSans/TaylorSans-Thin.ttf') format('truetype');
-    font-weight: 100;
-    font-style: normal;
+  font-family: "Taylor Sans";
+  src: url("@/assets/fonts/TaylorSans/TaylorSans-SemiBold.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: normal;
 }
 
-
-
+@font-face {
+  font-family: "Taylor Sans";
+  src: url("@/assets/fonts/TaylorSans/TaylorSans-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}

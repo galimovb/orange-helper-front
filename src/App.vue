@@ -1,5 +1,4 @@
-<script setup>
-</script>
+<script setup></script>
 <template>
   <div class="app-container">
     <nav class="flex gap-4 bg-orange-foreground-200 font-bold underline mb-6">
