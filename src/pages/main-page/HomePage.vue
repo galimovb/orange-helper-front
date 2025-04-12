@@ -12,15 +12,22 @@ import SectionWithLines from "@/components/main-page/SectionWithLines.vue";
         <div class="partners-info__title p-[10px] max-w-[1024px]">
           <h1 class="text-center leading-none text-4xl">
             Проект создан при поддержке Федерального государственного бюджетного учреждения
-            "Фонд содействия развитию малых форм предприятий в научно-технической сфере в рамках программы "Студенческий стартап"
+            "Фонд содействия развитию малых форм предприятий в научно-технической сфере в рамках программы "Студенческий
+            стартап"
           </h1>
         </div>
         <div class="partners-info__icons flex justify-between max-w-[1060px]">
           <div class="partners-info__icon">
-            <img src="@/assets/img/fond-sodeystviya.svg" />
+            <img
+              src="@/assets/img/fond-sodeystviya.svg"
+              alt="fond-sodeystviya.svg"
+            />
           </div>
           <div class="partners-info__icon">
-            <img src="@/assets/img/kpfu.svg" />
+            <img
+              src="@/assets/img/kpfu.svg"
+              alt="kpfu.svg"
+            />
           </div>
         </div>
       </div>
@@ -41,10 +48,13 @@ import SectionWithLines from "@/components/main-page/SectionWithLines.vue";
     </section>
     <section class="project-goals bg-white p-8">
       <div class="mx-auto flex justify-center items-center gap-[30px]">
-        <div>
-          <img src="@/assets/img/goals-task.svg" alt="goals-task">
+        <div class="project-goals__image">
+          <img
+            src="@/assets/img/goals-task.svg"
+            alt="goals-task"
+          >
         </div>
-        <div class="project-goals__content w-[800px] leading-[100%] text-4xl text-left">
+        <div class="project-goals__content max-w-[800px] leading-[100%] text-4xl text-left">
           <h2 class="text-[55px] text-orange-500 mb-8">
             Цели и задачи проекта
           </h2>
@@ -80,57 +90,78 @@ import SectionWithLines from "@/components/main-page/SectionWithLines.vue";
       </div>
     </section>
     <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]" />
-    <SectionWithLines
-      title="Ключевая концепция"
-    >
+    <SectionWithLines title="Ключевая концепция">
       Создание удобного онлайн-пространства для взаимодействия родителей с педагогами и психологами.
       Проект способствует не только повышению родительской компетентности, но и формирует условия для эффективного
       сотрудничества семьи и образовательных организаций в вопросах сопровождения, воспитания и развития детей.
     </SectionWithLines>
-
-    <!--ПЛАТФОРМА БУДЕТ ПОЛЕЗНА-->
     <div class="useful-platform bg-orange-500 text-white py-8">
-      <div>
-        <div>
-          <h4>
-            Платформа будет полезна
-          </h4>
-          <ul>
-            <li>
-              Родителям и законным представителям, которые хотят лучше понимать своих детей и получать
-              профессиональную
-              поддержку в воспитании.
-            </li>
-            <li>
-              Педагогам и психологам, желающим делиться знаниями, оказывать помощь и расширять круг
-              взаимодействия с
-              семьями.
-            </li>
-            <li>
-              Образовательным организациям, заинтересованным в выстраивании партнёрских отношений с
-              родителями и
-              создании условий для гармоничного развития детей.
-            </li>
-
-          </ul>
+      <div class="mx-auto flex justify-center items-end gap-[30px]">
+        <div class="useful-platform__content max-w-[925px] text-left">
+            <h4 class="text-[55px] mb-8">
+              Платформа будет полезна
+            </h4>
+            <ul class="list-disc pl-10 text-4xl">
+              <li>
+                Родителям и законным представителям, которые хотят лучше понимать своих детей и получать
+                профессиональную
+                поддержку в воспитании.
+              </li>
+              <li>
+                Педагогам и психологам, желающим делиться знаниями, оказывать помощь и расширять круг
+                взаимодействия с
+                семьями.
+              </li>
+              <li>
+                Образовательным организациям, заинтересованным в выстраивании партнёрских отношений с
+                родителями и
+                создании условий для гармоничного развития детей.
+              </li>
+            </ul>
         </div>
-        <div class="useful-platform__image">
-          <img src="@/assets/img/useful-platform.svg">
+        <img
+          src="@/assets/img/useful-platform.svg"
+          alt="useful-platform"
+        >
+      </div>
+    </div>
+    <div class="consultation py-8">
+      <div class="mx-auto flex justify-center items-center gap-[70px]">
+        <div class="consultation__image">
+          <img
+            src="@/assets/img/consultation.svg"
+            alt="consultation.svg"
+          >
+        </div>
+        <div class="consultation__content max-w-[630px] leading-[100%] text-4xl text-left">
+          <h5 class="text-[55px] mb-8">
+            Консультация
+          </h5>
+          <p>
+            Вы можете
+          </p>
+          <ul class="list-disc pl-10">
+            <li>Обратиться к специалисту напрямую</li>
+            <li>Получить индивидуальную консультацию в удобное время</li>
+            <li>Обсудить актуальные трудности или тревоги</li>
+            <li>Найти решение совместно с опытным профессионалом</li>
+          </ul>
         </div>
       </div>
     </div>
-
-    <!--КОНСУЛЬТАЦИЯ-->
-
+    <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]" />
     <SectionWithLines
       title="Финансовая выгода"
     >
       Платформа «Оранжевый помощник» — это доступ к профессиональной помощи без лишних затрат. Мы предлагаем бесплатные
       материалы, гибкие тарифы на консультации и регулярные акции, чтобы каждая семья могла получить поддержку
-      независимо от уровня дохода. Это выгодная альтернатива дорогостоящим частным специалистам — удобно, доступно и без
-      переплат.
+      независимо от уровня дохода.
+      <p>Это выгодная альтернатива дорогостоящим частным специалистам — удобно, доступно и без
+        переплат.</p>
     </SectionWithLines>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

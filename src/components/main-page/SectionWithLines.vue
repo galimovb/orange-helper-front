@@ -1,5 +1,5 @@
 <template>
-  <section class="section-with-lines mx-auto text-center max-w-[80%] ">
+  <section class="section-with-lines mx-auto text-center max-w-[90%] ">
     <div class="section-with-lines__title mb-[20px] flex justify-center items-center">
       <div class="line-left bg-orange-500 h-[5px] inline-block flex-grow"></div>
       <h2 class="bg-orange-500 text-white inline-block px-[50px] py-[8px] text-4xl rounded-[10px]">
