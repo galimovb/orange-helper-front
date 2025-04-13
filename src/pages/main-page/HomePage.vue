@@ -1,5 +1,34 @@
 <script setup lang="ts">
 import SectionWithLines from "@/components/main-page/SectionWithLines.vue";
+import MemberCard from "@/components/main-page/MemberCard.vue";
+
+const teamMembers = [
+  {
+    src: "/src/assets/img/team-member.svg",
+    name: "Иван Иванов",
+    position: "Директор",
+    description: "Руководитель команды, ответственен за стратегию и развитие проекта."
+  },
+  {
+    src: "/src/assets/img/team-member.svg",
+    name: "Мария Смирнова",
+    position: "Менеджер",
+    description: "Координирует деятельность команды и общается с партнерами."
+  },
+  {
+    src: "/src/assets/img/consultation.svg",
+    name: "Алексей Попов",
+    position: "Технический директор",
+    description: "Отвечает за техническую поддержку и разработку новых функций."
+  },
+  {
+    src: "/src/assets/img/team-member.svg",
+    name: "Мария Смирнова",
+    position: "Менеджер",
+    description: "Координирует деятельность команды и общается с партнерами."
+  },
+
+];
 </script>
 
 <template>
@@ -90,7 +119,9 @@ import SectionWithLines from "@/components/main-page/SectionWithLines.vue";
       </div>
     </section>
     <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]" />
-    <SectionWithLines title="Ключевая концепция">
+    <SectionWithLines
+      title="Ключевая концепция"
+    >
       Создание удобного онлайн-пространства для взаимодействия родителей с педагогами и психологами.
       Проект способствует не только повышению родительской компетентности, но и формирует условия для эффективного
       сотрудничества семьи и образовательных организаций в вопросах сопровождения, воспитания и развития детей.
@@ -98,26 +129,26 @@ import SectionWithLines from "@/components/main-page/SectionWithLines.vue";
     <div class="useful-platform bg-orange-500 text-white py-8">
       <div class="mx-auto flex justify-center items-end gap-[30px]">
         <div class="useful-platform__content max-w-[925px] text-left">
-            <h4 class="text-[55px] mb-8">
-              Платформа будет полезна
-            </h4>
-            <ul class="list-disc pl-10 text-4xl">
-              <li>
-                Родителям и законным представителям, которые хотят лучше понимать своих детей и получать
-                профессиональную
-                поддержку в воспитании.
-              </li>
-              <li>
-                Педагогам и психологам, желающим делиться знаниями, оказывать помощь и расширять круг
-                взаимодействия с
-                семьями.
-              </li>
-              <li>
-                Образовательным организациям, заинтересованным в выстраивании партнёрских отношений с
-                родителями и
-                создании условий для гармоничного развития детей.
-              </li>
-            </ul>
+          <h4 class="text-[55px] mb-8">
+            Платформа будет полезна
+          </h4>
+          <ul class="list-disc pl-10 text-4xl">
+            <li>
+              Родителям и законным представителям, которые хотят лучше понимать своих детей и получать
+              профессиональную
+              поддержку в воспитании.
+            </li>
+            <li>
+              Педагогам и психологам, желающим делиться знаниями, оказывать помощь и расширять круг
+              взаимодействия с
+              семьями.
+            </li>
+            <li>
+              Образовательным организациям, заинтересованным в выстраивании партнёрских отношений с
+              родителями и
+              создании условий для гармоничного развития детей.
+            </li>
+          </ul>
         </div>
         <img
           src="@/assets/img/useful-platform.svg"
@@ -159,6 +190,21 @@ import SectionWithLines from "@/components/main-page/SectionWithLines.vue";
       <p>Это выгодная альтернатива дорогостоящим частным специалистам — удобно, доступно и без
         переплат.</p>
     </SectionWithLines>
+    <div class="project-team bg-orange-500 text-white py-8">
+      <h6 class="text-[55px] mb-8 ml-12">
+        Наша команда
+      </h6>
+      <div class="project-team__members mx-auto flex flex-wrap justify-evenly">
+        <MemberCard
+          v-for="(member, index) in teamMembers"
+          :key="index"
+          :src="member.src"
+          :name="member.name"
+          :position="member.position"
+          :description="member.description"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
