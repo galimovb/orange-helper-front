@@ -1,41 +1,53 @@
 <script setup lang="ts">
 import SectionWithLines from "@/components/main-page/SectionWithLines.vue";
 import MemberCard from "@/components/main-page/MemberCard.vue";
+import Footer from "@/components/Footer.vue";
+import Header from "@/components/Header.vue";
 
 const teamMembers = [
   {
-    src: "/src/assets/img/team-member.svg",
+    src: "src/assets/img/avatar.jpg",
     name: "Иван Иванов",
     position: "Директор",
     description: "Руководитель команды, ответственен за стратегию и развитие проекта."
   },
   {
-    src: "/src/assets/img/team-member.svg",
+    src: "src/assets/img/avatar.jpg",
     name: "Мария Смирнова",
     position: "Менеджер",
     description: "Координирует деятельность команды и общается с партнерами."
   },
   {
-    src: "/src/assets/img/consultation.svg",
+    src: "src/assets/img/avatar.jpg",
     name: "Алексей Попов",
     position: "Технический директор",
     description: "Отвечает за техническую поддержку и разработку новых функций."
-  },
-  {
-    src: "/src/assets/img/team-member.svg",
-    name: "Мария Смирнова",
-    position: "Менеджер",
-    description: "Координирует деятельность команды и общается с партнерами."
-  },
-
+  }
 ];
 </script>
 
 <template>
+
   <div class="home-page">
+    <div class="relative">
+      <div class="bg-orange-500 rounded-[10px] absolute top-0 left-[55px] right-[40%] bottom-[65%] z-0"></div>
+      <Header />
+      <section class="main flex flex-wrap xl:flex-nowrap justify-between px-[55px]">
+        <div>
+          <div class="relative z-20 ">
+            <h1 class="text-white leading-[100%]  text-[96px] z-30">
+              Оранжевый <br> помощник
+            </h1>
+          </div>
+          <p class="leading-[100%] text-4xl mt-[30px]">
+            проект для улучшения взаимоотношений
+            взрослых и детей.
+          </p>
+        </div>
+        <img src="@/assets/img/main-illustration.svg" alt="main-illustration" class="z-20">
+      </section>
+    </div>
     <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]" />
-
-
     <div class="partners-info bg-white flex justify-center mb-[50px]">
       <div class=" flex flex-col gap-[30px]">
         <div class="partners-info__title p-[10px] max-w-[1024px]">
@@ -126,7 +138,7 @@ const teamMembers = [
       Проект способствует не только повышению родительской компетентности, но и формирует условия для эффективного
       сотрудничества семьи и образовательных организаций в вопросах сопровождения, воспитания и развития детей.
     </SectionWithLines>
-    <div class="useful-platform bg-orange-500 text-white py-8">
+    <section class="useful-platform bg-orange-500 text-white py-8">
       <div class="mx-auto flex justify-center items-end gap-[30px]">
         <div class="useful-platform__content max-w-[925px] text-left">
           <h4 class="text-[55px] mb-8">
@@ -155,8 +167,8 @@ const teamMembers = [
           alt="useful-platform"
         >
       </div>
-    </div>
-    <div class="consultation py-8">
+    </section>
+    <section class="consultation py-8">
       <div class="mx-auto flex justify-center items-center gap-[70px]">
         <div class="consultation__image">
           <img
@@ -179,7 +191,7 @@ const teamMembers = [
           </ul>
         </div>
       </div>
-    </div>
+    </section>
     <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]" />
     <SectionWithLines
       title="Финансовая выгода"
@@ -190,11 +202,11 @@ const teamMembers = [
       <p>Это выгодная альтернатива дорогостоящим частным специалистам — удобно, доступно и без
         переплат.</p>
     </SectionWithLines>
-    <div class="project-team bg-orange-500 text-white py-8">
-      <h6 class="text-[55px] mb-8 ml-12">
+    <section class="project-team bg-orange-500 text-white py-8 mb-12" id="project-team">
+      <h6 class="text-[55px] mb-8 pl-[55px]">
         Наша команда
       </h6>
-      <div class="project-team__members mx-auto flex flex-wrap justify-evenly">
+      <div class="project-team__members mx-auto flex flex-wrap justify-evenly gap-[75px]">
         <MemberCard
           v-for="(member, index) in teamMembers"
           :key="index"
@@ -204,7 +216,8 @@ const teamMembers = [
           :description="member.description"
         />
       </div>
-    </div>
+    </section>
+    <Footer />
   </div>
 </template>
 
