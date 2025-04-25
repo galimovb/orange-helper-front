@@ -1,5 +1,5 @@
 <template>
-  <header class="mx-[55px] mt-5">
+  <header class="px-[55px]">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-8 z-20">
         <button>

@@ -80,7 +80,7 @@
           </div>
         </div>
       </div>
-      <div class="footer__logo bg-orange-500 max-w-[400px]">
+      <div class="footer__logo bg-orange-500 max-w-[400px] lg:block hidden">
         <div class="py-3 px-5">
           <h1 class="text-white text-[55px] leading-[100%]">
             Оранжевый помощник

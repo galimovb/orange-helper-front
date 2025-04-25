@@ -3,6 +3,8 @@ import SectionWithLines from "@/components/main-page/SectionWithLines.vue";
 import MemberCard from "@/components/main-page/MemberCard.vue";
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
+import Circle from "@/components/Circle.vue";
+import Button from "@/components/Button.vue";
 
 const teamMembers = [
   {
@@ -24,31 +26,51 @@ const teamMembers = [
     description: "Отвечает за техническую поддержку и разработку новых функций."
   }
 ];
+
+const circleLabel = [
+  {
+    label: "Регистрация"
+  },
+  {
+    label: "Определение запроса и проблемы"
+  },
+  {
+    label: "Подбор специалиста"
+  },
+  {
+    label: "Онлайн-консультация "
+  },
+  {
+    label: "Поддержка и сопровождение"
+  }
+
+];
 </script>
 
 <template>
 
   <div class="home-page">
-    <div class="relative">
-      <div class="bg-orange-500 rounded-[10px] absolute top-0 left-[55px] right-[40%] bottom-[65%] z-0"></div>
+    <section class="main relative">
+      <div
+        class="bg-orange-500 rounded-[10px] absolute top-0 left-[55px] right-[50%] bottom-[50%] z-0 xl:block hidden"></div>
       <Header />
-      <section class="main flex flex-wrap xl:flex-nowrap justify-between px-[55px]">
+      <div class="main-content flex flex-wrap xl:flex-nowrap justify-between px-[55px]">
         <div>
-          <div class="relative z-20 ">
-            <h1 class="text-white leading-[100%]  text-[96px] z-30">
+          <div class="relative z-20 xl:mt-[100px] mt-[50px]">
+            <h1 class="xl:text-white text-black leading-[100%] text-[96px] z-30">
               Оранжевый <br> помощник
             </h1>
           </div>
-          <p class="leading-[100%] text-4xl mt-[30px]">
+          <p class="leading-[100%] text-4xl mt-[60px]">
             проект для улучшения взаимоотношений
             взрослых и детей.
           </p>
         </div>
         <img src="@/assets/img/main-illustration.svg" alt="main-illustration" class="z-20">
-      </section>
-    </div>
+      </div>
+    </section>
     <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]" />
-    <div class="partners-info bg-white flex justify-center mb-[50px]">
+    <section class="partners-info bg-white flex justify-center mb-[50px] px-[55px]">
       <div class=" flex flex-col gap-[30px]">
         <div class="partners-info__title p-[10px] max-w-[1024px]">
           <h1 class="text-center leading-none text-4xl">
@@ -72,8 +94,8 @@ const teamMembers = [
           </div>
         </div>
       </div>
-    </div>
-    <section class="project-info bg-orange-500 text-white py-8" id="about-project">
+    </section>
+    <section class="project-info bg-orange-500 text-white py-8 px-[55px]" id="about-project">
       <div class="project-info__content max-w-[1024px] mx-auto">
         <h1 class="text-center leading-none text-[96px] mb-[30px]">
           О проекте
@@ -87,9 +109,9 @@ const teamMembers = [
         </p>
       </div>
     </section>
-    <section class="project-goals bg-white p-8">
+    <section class="project-goals bg-white p-8 px-[55px]">
       <div class="mx-auto flex justify-center items-center gap-[30px]">
-        <div class="project-goals__image">
+        <div class="project-goals__image lg:block hidden">
           <img
             src="@/assets/img/goals-task.svg"
             alt="goals-task"
@@ -131,20 +153,22 @@ const teamMembers = [
       </div>
     </section>
     <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]" />
-    <SectionWithLines
-      title="Ключевая концепция"
-    >
-      Создание удобного онлайн-пространства для взаимодействия родителей с педагогами и психологами.
-      Проект способствует не только повышению родительской компетентности, но и формирует условия для эффективного
-      сотрудничества семьи и образовательных организаций в вопросах сопровождения, воспитания и развития детей.
-    </SectionWithLines>
-    <section class="useful-platform bg-orange-500 text-white py-8">
-      <div class="mx-auto flex justify-center items-end gap-[30px]">
-        <div class="useful-platform__content max-w-[925px] text-left">
-          <h4 class="text-[55px] mb-8">
+    <section class="key-concept bg-white p-8 px-[55px]">
+      <SectionWithLines
+        title="Ключевая концепция"
+      >
+        Создание удобного онлайн-пространства для взаимодействия родителей с педагогами и психологами.
+        Проект способствует не только повышению родительской компетентности, но и формирует условия для эффективного
+        сотрудничества семьи и образовательных организаций в вопросах сопровождения, воспитания и развития детей.
+      </SectionWithLines>
+    </section>
+    <section class="useful-platform bg-orange-500 text-white py-8 px-[55px]">
+      <div class="mx-auto flex lg:flex-row flex-col justify-center  gap-[30px]">
+        <div class="useful-platform__content flex flex-col gap-[30px] text-left">
+          <h4 class="text-[55px]">
             Платформа будет полезна
           </h4>
-          <ul class="list-disc pl-10 text-4xl">
+          <ul class="list-disc pl-10 text-4xl flex flex-col gap-[20px]">
             <li>
               Родителям и законным представителям, которые хотят лучше понимать своих детей и получать
               профессиональную
@@ -168,8 +192,8 @@ const teamMembers = [
         >
       </div>
     </section>
-    <section class="consultation py-8">
-      <div class="mx-auto flex justify-center items-center gap-[70px]">
+    <section class="consultation py-8 px-[55px]">
+      <div class="mx-auto flex lg:flex-row flex-col-reverse justify-center items-center gap-[70px]">
         <div class="consultation__image">
           <img
             src="@/assets/img/consultation.svg"
@@ -193,30 +217,57 @@ const teamMembers = [
       </div>
     </section>
     <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]" />
-    <SectionWithLines
-      title="Финансовая выгода"
-    >
-      Платформа «Оранжевый помощник» — это доступ к профессиональной помощи без лишних затрат. Мы предлагаем бесплатные
-      материалы, гибкие тарифы на консультации и регулярные акции, чтобы каждая семья могла получить поддержку
-      независимо от уровня дохода.
-      <p>Это выгодная альтернатива дорогостоящим частным специалистам — удобно, доступно и без
-        переплат.</p>
-    </SectionWithLines>
-    <section class="project-team bg-orange-500 text-white py-8 mb-12" id="project-team">
-      <h6 class="text-[55px] mb-8 pl-[55px]">
-        Наша команда
-      </h6>
-      <div class="project-team__members mx-auto flex flex-wrap justify-evenly gap-[75px]">
-        <MemberCard
-          v-for="(member, index) in teamMembers"
-          :key="index"
-          :src="member.src"
-          :name="member.name"
-          :position="member.position"
-          :description="member.description"
-        />
+    <section class="financing bg-white p-8 px-[55px]">
+      <SectionWithLines
+        title="Финансовая выгода"
+      >
+        Платформа «Оранжевый помощник» — это доступ к профессиональной помощи без лишних затрат. Мы предлагаем
+        бесплатные
+        материалы, гибкие тарифы на консультации и регулярные акции, чтобы каждая семья могла получить поддержку
+        независимо от уровня дохода.
+        <p>Это выгодная альтернатива дорогостоящим частным специалистам — удобно, доступно и без
+          переплат.</p>
+      </SectionWithLines>
+    </section>
+    <section class="project-team bg-orange-500 text-white px-[55px] py-8 mb-12" id="project-team">
+      <div class="flex flex-col gap-8">
+        <h6 class="text-[55px]">
+          Наша команда
+        </h6>
+        <div class="project-team__members flex lg:flex-row flex-col items-center gap-10 justify-between">
+          <MemberCard
+            v-for="(member, index) in teamMembers"
+            :key="index"
+            :src="member.src"
+            :name="member.name"
+            :position="member.position"
+            :description="member.description"
+          />
+        </div>
       </div>
     </section>
+    <section class="path-platform px-[55px]">
+      <div class="flex flex-col gap-[75px]">
+        <h6 class="text-[55px]">
+          Путь на платформе
+        </h6>
+        <div class="flex justify-between flex-wrap gap-6 mb-[50px]">
+          <Circle
+            v-for="circle in circleLabel"
+            :label="circle.label"
+          />
+        </div>
+      </div>
+      <div class="flex justify-center mb-[50px]">
+        <Button
+          label="Записаться на консультацию"
+          color="orange"
+          size="large"
+        />
+      </div>
+
+    </section>
+    <div class="content-rectangle h-[2px] bg-orange-500 mb-[50px]" />
     <Footer />
   </div>
 </template>
