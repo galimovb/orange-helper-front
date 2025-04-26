@@ -4,16 +4,44 @@ import Header from "@/components/Header.vue";
 import Button from "@/components/Button.vue";
 import Input from "@/components/Input.vue";
 import Footer from "@/components/Footer.vue";
+import Accordion from "@/components/Accordion.vue";
+
+const accordion = [
+  {
+    title: "Как записаться на консультацию?",
+    content: "Заполните форму ниже и наш специалист свяжется с вами в ближайшее время"
+  },
+  {
+    title: "Как понять, нужна ли ребенку помощь психолога?",
+    content: "Наш специалист поможет определиться с вопросом и понять, нужна ли ребенку помощь психолога"
+  },
+  {
+    title: "Можно ли пройти тестирование без регистрации?",
+    content: "Желательно, но не обязательно. Мы поможем определиться с вопросом и понять, нужна ли ребенку помощь психолога"
+  },
+  {
+    title: "Кто может пользоваться сервисом?",
+    content: "Наш специалист поможет определиться с вопросом и понять, нужна ли ребенку помощь психолога"
+  }
+];
 
 </script>
 
 <template>
   <div class="new-page">
     <Header />
-    <section class="q&a mb-[50px]">
+    <section class="q&a flex flex-col gap-[50px] mb-[50px] px-[55px]">
       <h1 class="text-[55px] leading-[100%] text-center text-orange-500">
         Ответы на популярные вопросы
       </h1>
+      <div class="flex flex-col gap-[40px]">
+        <Accordion
+          v-for="(item, index) in accordion"
+          :key="index"
+          :title="item.title"
+          :content="item.content"
+        />
+      </div>
     </section>
     <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]" />
     <section class="receive px-[55px] mb-[50px]">
