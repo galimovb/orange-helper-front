@@ -188,9 +188,9 @@ const accordion = [
                 name="consent"
                 value="yes"
                 required
-                class="w-[25px] h-[25px]"
+                class="lg:w-[25px] lg:h-[25px] w-[50px] h-[50px]"
               >
-              <label for="consent" class="text-2xl leading-[100%]">
+              <label for="consent" class="lg:text-2xl text-3xl leading-[100%]">
                 Я ознакомлен(-а) с Политикой конфиденциальности
               </label>
             </div>

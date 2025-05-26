@@ -97,7 +97,7 @@ const cardsWithImage = [
             :key="key"
             :title="card.title"
             :text="card.text"
-            class="p-3 lg:h-full h-[350px]"
+            class="p-3 lg:h-full h-[350px] text-center"
           />
         </div>
       </div>
@@ -154,7 +154,7 @@ const cardsWithImage = [
         :title="card.title"
         :image="card.image"
         :titleSize="`text-4xl`"
-        class="px-3 py-[26px] text-white text-4xl"
+        class="px-3 py-[26px] text-white text-center  text-4xl"
       />
     </div>
   </section>

@@ -43,7 +43,6 @@ const circleLabel = [
   {
     label: "Поддержка и сопровождение"
   }
-
 ];
 </script>
 
@@ -251,7 +250,7 @@ const circleLabel = [
         <h6 class="text-[55px]">
           Путь на платформе
         </h6>
-        <div class="flex justify-between flex-wrap gap-6 mb-[50px]">
+        <div class="grid grid-cols-5 gap-10 mb-[50px]">
           <Circle
             v-for="circle in circleLabel"
             :label="circle.label"
@@ -265,7 +264,6 @@ const circleLabel = [
           size="large"
         />
       </div>
-
     </section>
     <div class="content-rectangle h-[2px] bg-orange-500 mb-[50px]" />
     <Footer />

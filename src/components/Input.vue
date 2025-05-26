@@ -9,7 +9,7 @@ defineProps({
   <input
     :type="type"
     :placeholder="placeholder"
-    class="input  w-full"
+    class="input w-full lg:text-2xl text-4xl"
   >
 </template>
 
