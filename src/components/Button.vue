@@ -17,6 +17,7 @@ defineProps({
 <template>
   <button :class="['btn', `btn_${color}`, `btn_${size}`]">
     {{ label }}
+    <slot/>
   </button>
 </template>
 

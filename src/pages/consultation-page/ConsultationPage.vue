@@ -48,8 +48,11 @@ const cards_3 = [
     text: "Гибкий график "
   },
   {
+    text: "Своевременная оплата"
+  },
+  /*{
     text: "Обязательное наличие профильного образования и опыта работы с детьми/семьями"
-  }
+  }*/
 ];
 
 const circleLabel = [
@@ -286,6 +289,9 @@ const circleLabel = [
         Если вы — педагог или психолог и хотите присоединиться к проекту «Оранжевый помощник», мы открыты для
         сотрудничества. Работайте в удобное время, консультируйте родителей и вносите вклад в развитие
         детско-родительских отношений.
+        <br/>
+        <br>
+        Для начала работы необходимо заполнить форму, пройти собеседование и внести организационный взнос.
       </p>
     </div>
     <div class="flex flex-col lg:flex-row lg:gap-[250px] gap-[30px]">
@@ -317,16 +323,34 @@ const circleLabel = [
       <div class="lg:grid lg:grid-cols-2 flex flex-col gap-5">
         <div class="flex flex-col gap-3">
           <label class="text-3xl leading-[100%]">
-            Профиль
+            ФИО
           </label>
           <Input
-            type="name"
-            placeholder="Психолог/педагог"
+              type="name"
+              placeholder="Иванов Иван Иванович"
           />
         </div>
         <div class="flex flex-col gap-3">
           <label class="text-3xl leading-[100%]">
-            Опыт работы
+            Возраст
+          </label>
+          <Input
+            type="number"
+            placeholder="18"
+          />
+        </div>
+        <div class="flex flex-col gap-3">
+          <label class="text-3xl leading-[100%]">
+            Образование
+          </label>
+          <Input
+              type="text"
+              placeholder="КФУ"
+          />
+        </div>
+        <div class="flex flex-col gap-3">
+          <label class="text-3xl leading-[100%]">
+            Опыт работы(где работали)
           </label>
           <Input
             type="text"
@@ -335,11 +359,20 @@ const circleLabel = [
         </div>
         <div class="flex flex-col gap-3">
           <label class="text-3xl leading-[100%]">
-            ФИО
+            Стаж работы(сколько работали)
+          </label>
+          <Input
+              type="text"
+              placeholder="1 год"
+          />
+        </div>
+        <div class="flex flex-col gap-3">
+          <label class="text-3xl leading-[100%]">
+            Квалификация
           </label>
           <Input
             type="name"
-            placeholder="Прохова Ирина Ивановна "
+            placeholder="Психолог/преподаватель"
           />
         </div>
         <div class="flex flex-col gap-3">
