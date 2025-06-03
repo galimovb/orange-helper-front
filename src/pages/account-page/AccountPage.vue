@@ -28,7 +28,7 @@ const employees = [
     education: "ИпиО КФУ",
     specialization: "Подростковый возраст, самооценка",
     rating: "5,0",
-    avatar: "src/assets/img/elvira.png"
+    avatar: "@/assets/img/elvira.png"
   },
   {
     fullName: "Ильина Ксения Алексеевна ",
@@ -37,7 +37,7 @@ const employees = [
     education: "ИпиО КФУ",
     specialization: "Подростковый возраст, самооценка",
     rating: "5,0",
-    avatar: "src/assets/img/ksusha.png"
+    avatar: "@/assets/img/ksusha.png"
   },
   {
     fullName: "Иванова Алёна Кирилловна ",
@@ -46,7 +46,7 @@ const employees = [
     education: "ИпиО КФУ",
     specialization: "Подростковый возраст, самооценка",
     rating: "5,0",
-    avatar: "src/assets/img/alyona.png"
+    avatar: "@/assets/img/alyona.png"
   },
 ]
 

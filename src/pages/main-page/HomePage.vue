@@ -8,19 +8,19 @@ import Button from "@/components/Button.vue";
 
 const teamMembers = [
   {
-    src: "src/assets/img/elvira.png",
+    src: "@/assets/img/elvira.png",
     name: "Сабирова Эльвира Гильфановна ",
     position: "Научный руководитель",
     description: "Кандидат педагогических наук ИпиО КФУ"
   },
   {
-    src: "src/assets/img/ksusha.png",
+    src: "@/assets/img/ksusha.png",
     name: "Ильина Ксения Алексеевна ",
     position: "Руководитель проекта",
     description: "студент 5 курса ИпиО КФУ"
   },
   {
-    src: "src/assets/img/alyona.png",
+    src: "@/assets/img/alyona.png",
     name: "Иванова Алёна Кирилловна ",
     position: "Педагог начального образования",
     description: "Студент 5 курса ИпиО КФУ"
