@@ -8,6 +8,7 @@ import DiagnosticsPage  from "@/pages/diagnostics-page/DiagnosticsPage.vue";
 import UsefulMaterialsPage from "@/pages/useful-materials-page/UsefulMaterialsPage.vue";
 import ConsultationPage from "@/pages/consultation-page/ConsultationPage.vue";
 import NotFoundPage from "@/pages/not-found-page/NotFoundPage.vue";
+import AccountPage from "@/pages/account-page/AccountPage.vue";
 
 const routes = [
   { path: "/", component: HomePage },
@@ -17,6 +18,7 @@ const routes = [
   { path: "/useful-materials", component: UsefulMaterialsPage },
   { path: "/consultation", component: ConsultationPage },
   { path: "/:pathMatch(.*)*", component: NotFoundPage },
+  { path: "/account", component: AccountPage },
 ];
 
 export const router = createRouter({

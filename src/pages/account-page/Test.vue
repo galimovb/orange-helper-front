@@ -1,16 +1,16 @@
 <script setup>
-import { ref } from 'vue';
+import {ref} from 'vue';
 import Header from "@/components/Header.vue";
 import Button from "@/components/Button.vue";
 import Input from "@/components/Input.vue";
 import Footer from "@/components/Footer.vue";
 
 const tabs = [
-  { name: 'Личные данные' },
-  { name: 'Расписание' },
-  { name: 'История консультаций' },
-  { name: 'Команда специалистов' },
-  { name: 'Записаться' },
+  {name: 'Личные данные'},
+  {name: 'Расписание'},
+  {name: 'История консультаций'},
+  {name: 'Команда специалистов'},
+  {name: 'Записаться'},
 ];
 
 const userInfo = ref({
@@ -19,36 +19,6 @@ const userInfo = ref({
   phone: "+71234567890",
   childName: "Дмитрий Иванов"
 });
-
-const employees = [
-  {
-    fullName: "Сабирова Эльвира Гильфановна ",
-    age: "31 год",
-    experience: "8 лет",
-    education: "ИпиО КФУ",
-    specialization: "Подростковый возраст, самооценка",
-    rating: "5,0",
-    avatar: "src/assets/img/elvira.png"
-  },
-  {
-    fullName: "Ильина Ксения Алексеевна ",
-    age: "23 года",
-    experience: "2 года ",
-    education: "ИпиО КФУ",
-    specialization: "Подростковый возраст, самооценка",
-    rating: "5,0",
-    avatar: "src/assets/img/ksusha.png"
-  },
-  {
-    fullName: "Иванова Алёна Кирилловна ",
-    age: "23 года",
-    experience: "2 года",
-    education: "ИпиО КФУ",
-    specialization: "Подростковый возраст, самооценка",
-    rating: "5,0",
-    avatar: "src/assets/img/alyona.png"
-  },
-]
 
 const tableHeaders = [
   {label: 'Специалист'},
@@ -121,38 +91,38 @@ const activeTab = ref(0);
 
 <template>
   <Header/>
-  <section class="personal-page flex flex-col gap-12 px-[55px] py-8 mb-[50px]">
-    <div class="flex flex-wrap justify-center gap-[30px] mx-auto">
+  <section class="personal-page flex flex-col gap-12  mb-[50px]">
+    <div class="flex flex-wrap justify-center gap-[30px] px-[55px] py-8 mx-auto">
       <button
-        v-for="(tab, index) in tabs"
-        :key="tab.name"
-        @click="activeTab = index"
-        :class="[
+          v-for="(tab, index) in tabs"
+          :key="tab.name"
+          @click="activeTab = index"
+          :class="[
           'text-3xl',
           activeTab === index ? 'text-black' : 'text-gray-300'
         ]"
       >
         {{ tab.name }}
         <div
-          :class="[
+            :class="[
             'h-[10px] rounded-[10px] mt-3',
             activeTab === index ? 'bg-orange-500 ' : 'bg-gray-300'
           ]"
         />
       </button>
     </div>
-    <div class="personal-content">
+    <div class="personal-content py-3 px-8 lg:px-14 lg:py-11">
       <div
-        v-show="activeTab === 0"
-        class="flex flex-col gap-8 lg:w-1/2 w-full"
+          v-show="activeTab === 0"
+          class="flex flex-col gap-8 lg:w-1/2 w-full"
       >
         <div class="flex flex-col gap-3">
           <label class="text-2xl">
             ФИО
           </label>
           <Input
-            v-model="userInfo.fullName"
-            type="text"
+              v-model="userInfo.fullName"
+              type="text"
           />
         </div>
         <div class="flex flex-col gap-3">
@@ -160,8 +130,8 @@ const activeTab = ref(0);
             Ваш E-mail
           </label>
           <Input
-            v-model="userInfo.email"
-            type="text"
+              v-model="userInfo.email"
+              type="text"
           />
         </div>
         <div class="flex flex-col gap-3">
@@ -169,8 +139,8 @@ const activeTab = ref(0);
             Контактный номер
           </label>
           <Input
-            v-model="userInfo.phone"
-            type="text"
+              v-model="userInfo.phone"
+              type="text"
           />
         </div>
         <div class="flex flex-col gap-3">
@@ -178,14 +148,14 @@ const activeTab = ref(0);
             Имя ребенка
           </label>
           <Input
-            v-model="userInfo.childName"
-            type="text"
+              v-model="userInfo.childName"
+              type="text"
           />
         </div>
 
         <Button
-          label="Сохранить"
-          color="orange"
+            label="Сохранить"
+            color="orange"
         >
         </Button>
       </div>
@@ -263,47 +233,7 @@ const activeTab = ref(0);
       </div>
 
       <div v-show="activeTab === 3">
-        <div class="lg:grid lg:grid-cols-2 flex flex-col gap-[50px]">
-          <div
-            v-for="(employee, key) in employees"
-            :key=key
-            class="flex flex-col gap-12 border-2 border-[rgba(255,165,0,0.5)] rounded-[10px] p-[30px]"
-          >
-            <div class="flex items-center gap-8">
-              <img
-                :src=employee.avatar
-                alt="avatar"
-                class="max-w-[150px] max-h-[150px] rounded-full"
-              >
-              <div class="flex flex-col gap-2 text-3xl">
-                <label>
-                  {{ employee.fullName }}
-                </label>
-                <label>
-                  {{employee.age}}
-                </label>
-              </div>
-            </div>
-            <div class="flex flex-col gap-5">
-              <div class="flex items-center gap-[10px] text-3xl">
-                <label>Стаж:</label>
-                <label>{{employee.experience}}</label>
-              </div>
-              <div class="flex items-center gap-[10px] text-3xl">
-                <label>Образование:</label>
-                <label>{{employee.education}}</label>
-              </div>
-              <div class="flex items-center gap-[10px] text-3xl">
-                <label>Специализация: </label>
-                <label>{{employee.specialization}}</label>
-              </div>
-              <div class="flex items-center gap-[10px] text-3xl">
-                <label>Отзывы:</label>
-                <label>{{ employee.rating }}</label>
-              </div>
-            </div>
-          </div>
-        </div>
+        <h2>Команда специалистов</h2>
       </div>
 
       <div v-show="activeTab === 4">
@@ -312,9 +242,9 @@ const activeTab = ref(0);
             Форма для записи
           </h5>
           <form
-            action=""
-            method="post"
-            class="bg-orange-500 flex flex-col gap-5 p-[30px] rounded-[10px]"
+              action=""
+              method="post"
+              class="bg-orange-500 flex flex-col gap-5 p-[30px] rounded-[10px]"
           >
             <div class="lg:grid lg:grid-cols-2 flex flex-col gap-5">
               <div class="flex flex-col gap-3">
@@ -322,8 +252,8 @@ const activeTab = ref(0);
                   ФИО родителя
                 </label>
                 <Input
-                  type="name"
-                  placeholder="Прохова Ирина Ивановна "
+                    type="name"
+                    placeholder="Прохова Ирина Ивановна "
                 />
               </div>
               <div class="flex flex-col gap-3">
@@ -331,8 +261,8 @@ const activeTab = ref(0);
                   Желаемое время
                 </label>
                 <Input
-                  type="time"
-                  placeholder="15:00"
+                    type="time"
+                    placeholder="15:00"
                 />
               </div>
               <div class="flex flex-col gap-3">
@@ -340,8 +270,8 @@ const activeTab = ref(0);
                   ФИО ребенка
                 </label>
                 <Input
-                  type="name"
-                  placeholder="Прохова Ирина Ивановна "
+                    type="name"
+                    placeholder="Прохова Ирина Ивановна "
                 />
               </div>
               <div class="flex flex-col gap-3">
@@ -349,8 +279,8 @@ const activeTab = ref(0);
                   Дата
                 </label>
                 <Input
-                  type="date"
-                  placeholder="04.05.2025"
+                    type="date"
+                    placeholder="04.05.2025"
                 />
               </div>
               <div class="flex flex-col gap-3">
@@ -358,28 +288,28 @@ const activeTab = ref(0);
                   Фамилия специалиста
                 </label>
                 <Input
-                  type="name"
-                  placeholder="Козлова"
+                    type="name"
+                    placeholder="Козлова"
                 />
               </div>
             </div>
             <div class="flex items-center gap-2">
               <input
-                type="checkbox"
-                id="consent"
-                name="consent"
-                value="yes"
-                required
-                class="lg:w-[25px] lg:h-[25px] w-[50px] h-[50px]"
+                  type="checkbox"
+                  id="consent"
+                  name="consent"
+                  value="yes"
+                  required
+                  class="lg:w-[25px] lg:h-[25px] w-[50px] h-[50px]"
               >
               <label for="consent" class="lg:text-2xl text-3xl leading-[100%]">
                 Я ознакомлен(-а) с Политикой конфиденциальности
               </label>
             </div>
             <Button
-              label="Записаться"
-              color="black"
-              size="large"
+                label="Записаться"
+                color="black"
+                size="large"
             />
           </form>
         </div>
@@ -397,4 +327,5 @@ button {
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
+
 </style>
