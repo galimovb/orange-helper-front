@@ -1,16 +1,29 @@
 <script setup>
-defineProps({
+import { ref, watch } from 'vue';
+
+const props = defineProps({
   placeholder: String,
-  type: String
-})
+  type: String,
+  modelValue: String
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const localValue = ref(props.modelValue);
+
+watch(localValue, (newValue) => {
+  emit('update:modelValue', newValue);
+});
 </script>
 
 <template>
   <input
-    :type="type"
-    :placeholder="placeholder"
+    v-bind="$attrs"
+    v-model="localValue"
+    :type="props.type"
+    :placeholder="props.placeholder"
     class="input w-full lg:text-2xl text-4xl"
-  >
+  />
 </template>
 
 <style scoped>
