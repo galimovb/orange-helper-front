@@ -40,7 +40,7 @@ function navigateTo(path: string) {
           class="z-[100] rounded w-[260px] px-[30px] pt-6 lg:w-[655px] lg:pt-10 lg:pl-[30px] lg:pr-[30px] pb-5 bg-orange-500 shadow-lg text-white will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
       >
         <div class="">
-          <div class="flex flex-col gap-6 text-base lg:text-6xl">
+          <div class="flex flex-col gap-6 text-2xl lg:text-6xl">
             <button
                 v-for="item in navItems"
                 :key="item.path"
@@ -55,7 +55,7 @@ function navigateTo(path: string) {
 
             <Button
                 color="white"
-                class="h-[72px] !text-orange-500 mt-10 text-base lg:text-6xl"
+                class="h-[72px] !text-orange-500 mt-10 !text-2xl !lg:text-6xl"
                 @click="navigateTo('/login')"
                 label="Вход и регистрация"
             />
