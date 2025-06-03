@@ -21,6 +21,63 @@ const userInfo = ref({
   childName: "Дмитрий Иванов"
 });
 
+const employees = [
+  {
+    fullName: "Белов Артём Викторович",
+    age: "31 год",
+    experience: "8 лет ",
+    education: "СПбГУ, клиническая психология",
+    specialization: "Подростковый возраст, самооценка",
+    rating: "4,7",
+    avatar: "src/assets/img/employee-ava_1.jpg"
+  },
+  {
+    fullName: "Белов Артём Викторович",
+    age: "31 год",
+    experience: "8 лет ",
+    education: "СПбГУ, клиническая психология",
+    specialization: "Подростковый возраст, самооценка",
+    rating: "4,7",
+    avatar: "src/assets/img/employee-ava_1.jpg"
+  },
+  {
+    fullName: "Белов Артём Викторович",
+    age: "31 год",
+    experience: "8 лет ",
+    education: "СПбГУ, клиническая психология",
+    specialization: "Подростковый возраст, самооценка",
+    rating: "4,7",
+    avatar: "src/assets/img/employee-ava_1.jpg"
+  },
+  {
+    fullName: "Белов Артём Викторович",
+    age: "31 год",
+    experience: "8 лет ",
+    education: "СПбГУ, клиническая психология",
+    specialization: "Подростковый возраст, самооценка",
+    rating: "4,7",
+    avatar: "src/assets/img/employee-ava_1.jpg"
+  },
+  {
+    fullName: "Белов Артём Викторович",
+    age: "31 год",
+    experience: "8 лет ",
+    education: "СПбГУ, клиническая психология",
+    specialization: "Подростковый возраст, самооценка",
+    rating: "4,7",
+    avatar: "src/assets/img/employee-ava_1.jpg"
+  },
+  {
+    fullName: "Белов Артём Викторович",
+    age: "31 год",
+    experience: "8 лет ",
+    education: "СПбГУ, клиническая психология",
+    specialization: "Подростковый возраст, самооценка",
+    rating: "4,7",
+    avatar: "src/assets/img/employee-ava_1.jpg"
+  },
+]
+
 const activeTab = ref(0);
 </script>
 
@@ -104,7 +161,47 @@ const activeTab = ref(0);
       </div>
 
       <div v-show="activeTab === 3">
-        <h2>Команда специалистов</h2>
+        <div class="lg:grid lg:grid-cols-2 flex flex-col gap-[50px]">
+          <div
+            v-for="(employee, key) in employees"
+            :key=key
+            class="flex flex-col gap-12 border-2 border-[rgba(255,165,0,0.5)] rounded-[10px] p-[30px]"
+          >
+            <div class="flex items-center gap-8">
+              <img
+                :src=employee.avatar
+                alt="avatar"
+                class="max-w-[150px] max-h-[150px] rounded-full"
+              >
+              <div class="flex flex-col gap-2 text-3xl">
+                <label>
+                  {{ employee.fullName }}
+                </label>
+                <label>
+                  {{employee.age}}
+                </label>
+              </div>
+            </div>
+            <div class="flex flex-col gap-5">
+              <div class="flex items-center gap-[10px] text-3xl">
+                <label>Стаж:</label>
+                <label>{{employee.experience}}</label>
+              </div>
+              <div class="flex items-center gap-[10px] text-3xl">
+                <label>Образование:</label>
+                <label>{{employee.education}}</label>
+              </div>
+              <div class="flex items-center gap-[10px] text-3xl">
+                <label>Специализация: </label>
+                <label>{{employee.specialization}}</label>
+              </div>
+              <div class="flex items-center gap-[10px] text-3xl">
+                <label>Отзывы:</label>
+                <label>{{ employee.rating }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div v-show="activeTab === 4">
