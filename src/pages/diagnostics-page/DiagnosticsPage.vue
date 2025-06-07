@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { ref, watchEffect } from "vue";
 import Header from "@/components/Header.vue";
 import InfoCard from "@/components/InfoCard.vue";
 import Button from "@/components/Button.vue";
@@ -8,7 +8,7 @@ import PopUp from "@/components/PopUp.vue";
 
 const cards = [
   {
-    title: "Когда режим дня — не мелочь",
+    title: "Когда режим дня — не мелочь.",
     text: "Как нарушение режима дня влияет на школьные трудности",
     description: "Рассматривается реальный пример первоклассника Дениса, который учится в престижной школе и ежедневно проводит в дороге более двух часов. Из-за этого он хронически недосыпает, у него нет полноценного завтрака, отсутствует утренняя зарядка и отдых после школы. Его день перегружен дополнительными занятиями, а домашнее задание он делает уже поздно вечером в состоянии утомления. Это приводит к истерикам, агрессии, бессоннице и сниженной учебной мотивации. Анализ показал: режим Дениса не соответствует возрастным нормам, в нем отсутствует необходимый баланс между учебой, отдыхом, сном и физической активностью. Даже при отличных школьных условиях такая нагрузка провоцирует психологические и физиологические срывы. История подчеркивает, насколько важно соблюдать режим дня для младших школьников и насколько разрушительными могут быть последствия его игнорирования."
   },
@@ -29,14 +29,40 @@ const cards = [
   }
 ];
 
+const psychologyCards = [
+  {
+    title: "Что формирует наши чувства и поведение с детства.",
+    description:
+      "Три внутренних ребенка. Когда в нас пробуждается одна из трех внутренних Детей, наше восприятие и поведение кажутся такими же незрелыми. Мы интенсивно проживаем чувства, которые нельзя полностью объяснить текущей ситуацией. Обстоятельства напоминают нам сцены из детства и юности, в которых наши базовые потребности проигнорировали. Различают Печального, Капризного и Счастливого Ребенка"
+  },
+  {
+    title: "Печальный Ребенок, Капризный Ребенок, Счастливый Ребенок",
+    description: `
+      <strong>Печальный Ребенок</strong>: Этот внутренний ребенок чувствует стыд, одиночество и беспомощность. Он возникает, когда сталкиваемся с отказом, чувствуем себя покинутыми или беспомощными. Работа с Печальным Ребенком включает принятие своих эмоций, понимание их причин и заботу о себе в моменты уязвимости.<br><br>
+
+      <strong>Капризный Ребенок</strong>: Это ребенок, который проявляет ярость, злость и упрямство, когда его потребности не удовлетворены. Он появляется в моменты, когда испытываем критику или отвержение. Чтобы поддержать Капризного Ребенка, важно научиться распознавать его потребности за эмоциональными вспышками и осознавать, что необходимо для восстановления внутреннего баланса.<br><br>
+
+      <strong>Счастливый Ребенок</strong>: Этот ребенок внутри нас испытывает радость, легкость и уверенность в себе. Он появляется, когда мы чувствуем поддержку, любовь и безопасность. Счастливый Ребенок помогает нам быть открытыми к новым возможностям и радоваться жизни. Его поддержка заключается в умении наслаждаться простыми моментами и ценить собственное благополучие.
+    `
+  },
+  {
+    title: "Требующий и Карающий Судья.",
+    description: "Воплощают разрушающие голоса из нашего детства и юности. Они транслируют исключительно негативные послания. Из-за них мы чувствуем, что мы никогда не дотягиваем до нужного уровня, не стоим любви, что мы скучны, глупы, безобразны и некомпетенты."
+  },
+  {
+    title: "Как мы преодолеваем нечто тяжелое по-детски.",
+    description: "Для того чтобы справиться с эмоциональной нагрузкой и тяжелыми ситуациями, в детстве для самозащиты мы усваивали определенные виды поведения, которые позже закрепились. Эти стратегии включают подчинение, избегание и гиперкомпенсацию."
+  }
+];
+
 
 const cardsWithImage = [
   {
-    title: "«Готов ли ребёнок к школе?»",
+    title: "Опросник «Отношение педагога к родителям»",
     image: "/src/assets/img/infoCard_1.svg"
   },
   {
-    title: " «Какой у ребёнка учебный стиль?»",
+    title: "Опросник «Отношение педагога к детям»",
     image: "/src/assets/img/infoCard_2.svg"
   },
   {
@@ -72,9 +98,9 @@ const closePopup = () => {
 
 watchEffect(() => {
   if (isPopupVisible.value) {
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   } else {
-    document.body.style.overflow = '';
+    document.body.style.overflow = "";
   }
 });
 </script>
@@ -130,11 +156,6 @@ watchEffect(() => {
       </div>
     </div>
   </section>
-  <PopUp
-    :isVisible="isPopupVisible"
-    :card="selectedCard"
-    @close="closePopup"
-  />
   <section class="about-psychology bg-orange-500 flex flex-col gap-8 px-[55px] py-8">
     <div class="flex flex-col gap-6">
       <h3 class="text-white text-[55px] leading-[100%]">
@@ -146,24 +167,15 @@ watchEffect(() => {
       </p>
     </div>
     <div class="flex flex-col gap-8">
-      <div class="bg-white lg:text-2xl text-4xl text-left rounded-[5px] px-[30px] py-[18px]">
+      <div
+        v-for="(card, key) in psychologyCards"
+        :key="key"
+        :title="card.title"
+        @click="openPopup(card)"
+        class="bg-white lg:text-2xl text-4xl text-left rounded-[5px] px-[30px] py-[18px] cursor-pointer"
+      >
         <p>
-          «Привязанность: как она формируется и почему это важно» — выдержки из книги Дж. Боулби
-        </p>
-      </div>
-      <div class="bg-white lg:text-2xl text-4xl text-left rounded-[5px] px-[30px] py-[18px]">
-        <p>
-          «Что скрывают детские капризы?» — объяснения от детского психолога
-        </p>
-      </div>
-      <div class="bg-white lg:text-2xl text-4xl text-left rounded-[5px] px-[30px] py-[18px]">
-        <p>
-          «Родительское выгорание и как его распознать» — современный взгляд на ресурсы взрослого
-        </p>
-      </div>
-      <div class="bg-white lg:text-2xl text-4xl text-left rounded-[5px] px-[30px] py-[18px]">
-        <p>
-          «Как переживаются перемены у детей» — советы по адаптации в семье и школе
+          {{ card.title }}
         </p>
       </div>
     </div>
@@ -180,14 +192,19 @@ watchEffect(() => {
       </p>
     </div>
     <div class="grid lg:grid-cols-3 grid-cols-2 gap-[30px] px-[72px]">
-      <InfoCard
+      <router-link
         v-for="(card, key) in cardsWithImage"
         :key="key"
-        :title="card.title"
-        :image="card.image"
-        :titleSize="`text-4xl`"
-        class="px-3 py-[26px] text-white text-center  text-4xl"
-      />
+        :to="`/test/${key+1}`"
+        class="cursor-pointer"
+      >
+        <InfoCard
+          :title="card.title"
+          :image="card.image"
+          :titleSize="`text-4xl`"
+          class="px-3 py-[26px] text-white text-center text-4xl"
+        />
+      </router-link>
     </div>
   </section>
   <section class="results bg-orange-500 px-[55px] py-12 mb-8">
@@ -207,5 +224,10 @@ watchEffect(() => {
       />
     </div>
   </section>
-  <Footer/>
+  <PopUp
+    :isVisible="isPopupVisible"
+    :card="selectedCard"
+    @close="closePopup"
+  />
+  <Footer />
 </template>

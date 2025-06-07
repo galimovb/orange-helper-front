@@ -3,24 +3,34 @@
     class="info-card bg-orange-500 rounded-[10px] shadow-[8px_14px_16px_1px_rgba(0,0,0,0.25)] flex flex-col justify-between"
     @click="openPopup"
   >
-      <div class="text-white lg:text-2xl text-4xl flex flex-col items-center justify-center gap-6 w-full">
+    <div class="text-white flex flex-col items-center gap-6 w-full">
+      <div
+        v-if="title"
+        class="lg:text-2xl text-4xl leading-[100%] lg:min-h-[128px] min-h-[160px]"
+      >
         <h2 :class="titleSize">
           {{ title }}
         </h2>
-        <p
-          v-if="text"
-          class="break-words"
-        >
+      </div>
+      <div
+        v-if="text"
+        class="lg:text-2xl text-4xl leading-[100%]"
+      >
+        <p>
           {{ text }}
         </p>
+      </div>
+      <div class="">
         <img
           v-if="image"
           :src="image"
           alt="image"
-          class="bg-white max-w-[241px] max-h-[202px] rounded-[5px] "
+          class="bg-white max-w-[241px] min-h-[202px] rounded-[5px] "
         />
       </div>
-      <Button
+    </div>
+
+    <Button
         v-if="showButton"
         label="Подробнее"
         color="white"

@@ -9,6 +9,7 @@ import UsefulMaterialsPage from "@/pages/useful-materials-page/UsefulMaterialsPa
 import ConsultationPage from "@/pages/consultation-page/ConsultationPage.vue";
 import NotFoundPage from "@/pages/not-found-page/NotFoundPage.vue";
 import AccountPage from "@/pages/account-page/AccountPage.vue";
+import TestPage from "@/pages/test-page/TestPage.vue";
 
 const routes = [
   { path: "/", component: HomePage },
@@ -19,9 +20,13 @@ const routes = [
   { path: "/consultation", component: ConsultationPage },
   { path: "/:pathMatch(.*)*", component: NotFoundPage },
   { path: "/account", component: AccountPage },
+  { path: "/test/:id", component: TestPage, props: true },
 ];
 
 export const router = createRouter({
   history: createWebHistory(),
   routes,
+
 });
+
+

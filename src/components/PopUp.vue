@@ -8,8 +8,7 @@
       <h2 class="lg:text-3xl text-[55px] font-semibold mb-4">
         {{ card?.title }}
       </h2>
-      <p class="lg:text-lg text-4xl leading-[100%]">
-        {{ card?.description }}
+      <p class="lg:text-lg text-4xl leading-[100%]" v-html="card?.description">
       </p>
       <div class="mt-auto pt-6 flex justify-end">
         <Button
