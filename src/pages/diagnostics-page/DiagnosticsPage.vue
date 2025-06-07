@@ -201,8 +201,7 @@ watchEffect(() => {
         <InfoCard
           :title="card.title"
           :image="card.image"
-          :titleSize="`text-4xl`"
-          class="px-3 py-[26px] text-white text-center text-4xl"
+          class="px-3 py-[26px] text-white text-center"
         />
       </router-link>
     </div>
