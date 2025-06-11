@@ -117,7 +117,7 @@ const cardsWithImage = [
             <InfoCard
               :title="card.title"
               :text="card.preview"
-              class="p-3 lg:h-full text-center cursor-pointer"
+              class="p-3 lg:h-full text-center cursor-pointer transition-transform transform hover:scale-105 hover:shadow-lg"
             />
           </router-link>
         </div>
@@ -189,10 +189,5 @@ const cardsWithImage = [
       />
     </div>
   </section>
-  <PopUp
-    :isVisible="isPopupVisible"
-    :card="selectedCard"
-    @close="closePopup"
-  />
   <Footer />
 </template>
