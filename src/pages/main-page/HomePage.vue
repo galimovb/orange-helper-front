@@ -8,19 +8,19 @@ import Button from "@/components/Button.vue";
 
 const teamMembers = [
   {
-    src: "/src/assets/img/elvira.png",
+    src: "/img/elvira.png",
     name: "Сабирова Эльвира Гильфановна ",
     position: "Научный руководитель",
     description: "Кандидат педагогических наук ИпиО КФУ"
   },
   {
-    src: "/src/assets/img/ksusha.png",
+    src: "/img/ksusha.png",
     name: "Ильина Ксения Алексеевна ",
     position: "Руководитель проекта",
     description: "студент 5 курса ИпиО КФУ"
   },
   {
-    src: "/src/assets/img/alyona.png",
+    src: "/img/alyona.png",
     name: "Иванова Алёна Кирилловна ",
     position: "Педагог начального образования",
     description: "Студент 5 курса ИпиО КФУ"
@@ -70,7 +70,7 @@ const priceList = [
             проект для улучшения взаимоотношений родителей и детей.
           </p>
         </div>
-        <img src="@/assets/img/main-illustration.svg" alt="main-illustration" class="z-20">
+        <img src="/img/main-illustration.svg" alt="main-illustration" class="z-20">
       </div>
     </section>
     <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]"/>
@@ -86,13 +86,13 @@ const priceList = [
         <div class="partners-info__icons flex justify-between max-w-[1060px]">
           <div class="partners-info__icon">
             <img
-                src="@/assets/img/fond-sodeystviya.svg"
+                src="/img/fond-sodeystviya.svg"
                 alt="fond-sodeystviya.svg"
             />
           </div>
           <div class="partners-info__icon">
             <img
-                src="@/assets/img/kpfu.svg"
+                src="/img/kpfu.svg"
                 alt="kpfu.svg"
             />
           </div>
@@ -115,7 +115,7 @@ const priceList = [
       <div class="mx-auto flex justify-center items-center gap-[30px]">
         <div class="project-goals__image lg:block hidden">
           <img
-              src="@/assets/img/goals-task.svg"
+              src="/img/goals-task.svg"
               alt="goals-task"
           >
         </div>
@@ -187,7 +187,7 @@ const priceList = [
           </ul>
         </div>
         <img
-            src="@/assets/img/useful-platform.svg"
+            src="/img/useful-platform.svg"
             alt="useful-platform"
         >
       </div>
@@ -196,7 +196,7 @@ const priceList = [
       <div class="mx-auto flex lg:flex-row flex-col-reverse justify-center items-center gap-[70px]">
         <div class="consultation__image">
           <img
-              src="@/assets/img/consultation.svg"
+              src="/img/consultation.svg"
               alt="consultation.svg"
           >
         </div>

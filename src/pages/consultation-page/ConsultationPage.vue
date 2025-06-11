@@ -95,8 +95,8 @@ const priceListPsychologic = [
       </p>
     </div>
     <div class="flex justify-center">
-      <img src="@/assets/img/pedagogical-consultation_1.svg" alt="">
-      <img src="@/assets/img/pedagogical-consultation_2.svg" alt="">
+      <img src="/img/pedagogical-consultation_1.svg" alt="">
+      <img src="/img/pedagogical-consultation_2.svg" alt="">
     </div>
   </section>
   <SectionWithLines
@@ -121,7 +121,7 @@ const priceListPsychologic = [
     </div>
   </SectionWithLines>
   <section class="conditions flex flex-col gap-12 px-[55px] py-8 mb-[40px]">
-    <div class="flex flex-col items-center gap-12">
+<!--    <div class="flex flex-col items-center gap-12">
       <h1 class="text-orange-500 text-[55px] leading-[100%]">
         Условия
       </h1>
@@ -133,8 +133,8 @@ const priceListPsychologic = [
           class="lg:max-w-[250px] lg:p-[20px] p-[40px]"
         />
       </div>
-    </div>
-    <div class="content-rectangle h-[5px] bg-orange-500 " />
+    </div>-->
+<!--    <div class="content-rectangle h-[5px] bg-orange-500 " />-->
     <div class="flex flex-col gap-5">
       <h5 class="text-4xl leading-[100%]">
         Форма для записи
@@ -226,7 +226,7 @@ const priceListPsychologic = [
         Онлайн-консультация с психологом, где специалист проведет диагностику и поможет решить проблемы.
       </p>
     </div>
-    <div class="flex flex-col items-center gap-12">
+<!--    <div class="flex flex-col items-center gap-12">
       <h1 class="text-orange-500 text-[55px] leading-[100%]">
         Условия
       </h1>
@@ -238,7 +238,7 @@ const priceListPsychologic = [
           class="lg:max-w-[250px] lg:p-[20px] p-[40px]"
         />
       </div>
-    </div>
+    </div>-->
     <SectionWithLines
         title="Стоимость"
         class="!mx-0"
@@ -364,12 +364,16 @@ const priceListPsychologic = [
         Если вы — педагог или психолог и хотите присоединиться к проекту «Оранжевый помощник», мы открыты для
         сотрудничества. Работайте в удобное время, консультируйте родителей и вносите вклад в развитие
         детско-родительских отношений.
-        <br/>
-        <br>
+      </p>
+      <p class="text-4xl leading-[100%]">
+        Условия: проведение онлайн-консультаций, гибкий график, своевременная оплата.
+      </p>
+
+      <p class="text-4xl leading-[100%]">
         Для начала работы необходимо заполнить форму, пройти собеседование и внести организационный взнос.
       </p>
     </div>
-    <div class="flex flex-col lg:flex-row lg:gap-[250px] gap-[30px]">
+<!--    <div class="flex flex-col lg:flex-row lg:gap-[250px] gap-[30px]">
       <div class="flex flex-col gap-6">
         <h1 class="text-orange-500 text-4xl leading-[100%]">
           Условия
@@ -384,7 +388,7 @@ const priceListPsychologic = [
         </div>
       </div>
       <img src="@/assets/img/useful-platform.svg" alt="">
-    </div>
+    </div>-->
   </section>
   <section class="flex flex-col gap-5 px-[55px] py-8 mb-[30px]">
     <h5 class="text-4xl leading-[100%]">

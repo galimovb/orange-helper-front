@@ -52,12 +52,15 @@ const currentCard = cards[cardId];
   <Header/>
   <div class="px-12 py-8 flex flex-col mb-11">
     <h1 class="text-orange-500 text-7xl  mb-6">
+      Диагностический инструментарий
+    </h1>
+    <h1 class="text-orange-500 text-7xl  mb-6">
       Поговорим о психологии
     </h1>
     <h1 class="text-orange-500 text-[55px] mb-6 opacity-80">
       {{ currentCard.title }}
     </h1>
-    <p class="lg:text-xl text-4xl whitespace-pre-line">
+    <p class="lg:text-xl text-4xl whitespace-pre-line opacity-80">
       {{ currentCard.text }}
     </p>
   </div>

@@ -85,7 +85,7 @@
           <h1 class="text-white text-[55px] leading-[100%]">
             Оранжевый помощник
           </h1>
-          <img src="@/assets/img/logo-bg__white.svg" alt="logo">
+          <img src="/img/logo-bg__white.svg" alt="logo">
         </div>
       </div>
     </div>

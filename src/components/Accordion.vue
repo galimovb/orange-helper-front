@@ -20,7 +20,7 @@ const toggleAccordion = () => {
         {{title}}
       </h1>
       <img
-        src="@/assets/img/accordion-icon.svg"
+        src="/img/accordion-icon.svg"
         alt="accordion-icon"
         :class="{ 'transform rotate-180': isOpen }"
         class="transition-transform duration-200"

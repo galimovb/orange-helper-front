@@ -82,7 +82,7 @@ const cardsWithImage = [
         </p>
       </div>
       <img
-        src="@/assets/img/diagnostics.svg"
+        src="/img/diagnostics.svg"
         alt="diagnostics"
       >
     </div>
@@ -101,7 +101,7 @@ const cardsWithImage = [
       </div>
       <div class="flex lg:flex-row flex-col-reverse items-center justify-center gap-[50px] ">
         <img
-          src="@/assets/img/pedagogy.svg"
+          src="/img/pedagogy.svg"
           alt="pedagogy"
         >
         <div class="grid grid-cols-2 gap-[41px] lg:max-w-[535px]">

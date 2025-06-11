@@ -83,7 +83,7 @@ const cardsWorkshop = [
           class="gap-12  p-[20px] "
         />
       </div>
-      <img src="@/assets/img/workshop.svg" alt="workshop">
+      <img src="/img/workshop.svg" alt="workshop">
     </div>
   </section>
   <section class="music bg-orange-500 text-white flex flex-col gap-12 px-[55px] py-8">
@@ -94,7 +94,7 @@ const cardsWorkshop = [
       <!--Заглушка-->
       <div class="flex flex-col  items-center gap-3 ">
         <img
-          src="@/assets/img/music_1.svg"
+          src="/img/music_1.svg"
           alt="music"
           class="max-w-[319px] max-h-[319px]"
         >
@@ -104,7 +104,7 @@ const cardsWorkshop = [
       </div>
       <div class="flex flex-col items-center gap-3">
         <img
-          src="@/assets/img/music_2.svg"
+          src="/img/music_2.svg"
           alt="music"
           class="max-w-[319px] max-h-[319px]"
         >
@@ -114,7 +114,7 @@ const cardsWorkshop = [
       </div>
       <div class="flex flex-col items-center gap-3">
         <img
-          src="@/assets/img/music_3.svg"
+          src="/img/music_3.svg"
           alt="music"
           class="max-w-[319px] max-h-[319px]"
 
@@ -142,7 +142,7 @@ const cardsWorkshop = [
     <div class="flex lg:flex-row flex-col justify-center lg:gap-[133px] gap-[50px]">
       <div class="flex flex-col lg:items-center gap-3 ">
         <img
-          src="@/assets/img/video_1.svg"
+          src="/img/video_1.svg"
           alt="music"
           class="lg:max-w-[319px] lg:max-h-[190px]"
         >
@@ -152,7 +152,7 @@ const cardsWorkshop = [
       </div>
       <div class="flex flex-col lg:items-center gap-3 ">
         <img
-          src="@/assets/img/video_2.svg"
+          src="/img/video_2.svg"
           alt="music"
           class="lg:max-w-[319px] lg:max-h-[190px]"
         >
@@ -162,7 +162,7 @@ const cardsWorkshop = [
       </div>
       <div class="flex flex-col lg:items-center gap-3 ">
         <img
-          src="@/assets/img/video_3.svg"
+          src="/img/video_3.svg"
           alt="music"
           class="lg:max-w-[319px] lg:max-h-[190px]"
         >

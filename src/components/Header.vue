@@ -5,12 +5,12 @@
         <NavigationTab>
           <template #trigger>
             <button>
-              <img src="@/assets/img/menu.svg" alt="menu">
+              <img src="/img/menu.svg" alt="menu">
             </button>
           </template>
         </NavigationTab>
         <button>
-          <img src="@/assets/img/logo-bg__orange.svg" alt="logo">
+          <img src="/img/logo-bg__orange.svg" alt="logo">
         </button>
       </div>
       <div class="text-4xl leading-none">

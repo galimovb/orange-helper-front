@@ -55,7 +55,7 @@ const accordion = [
       <div class="receive__content flex lg:flex-row flex-col gap-6 justify-center mx-auto">
         <div class="receice__content-left flex flex-col items-center">
           <img
-            src="@/assets/img/receive-1.svg"
+            src="/img/receive-1.svg"
             alt="receive-1.svg"
           >
           <div class="flex flex-col gap-3">
@@ -69,13 +69,13 @@ const accordion = [
           </div>
         </div>
         <img
-          src="@/assets/img/plus.svg"
+          src="/img/plus.svg"
           alt="plus"
           class="hidden lg:block"
         >
         <div class="receive__content-right flex flex-col items-center">
           <img
-            src="@/assets/img/receive-2.svg"
+            src="/img/receive-2.svg"
             alt="receive-2.svg"
           >
           <div class="flex flex-col gap-3">
@@ -122,7 +122,7 @@ const accordion = [
               class="flex flex-col gap-2"
             >
               <img
-                src="@/assets/img/useful-articles-1.svg"
+                src="/img/useful-articles-1.svg"
                 alt="useful-articles-1.svg"
                 class="max-h-[374px]"
               >
@@ -138,7 +138,7 @@ const accordion = [
               class="flex flex-col gap-2"
             >
               <img
-                src="@/assets/img/useful-articles-2.svg"
+                src="/img/useful-articles-2.svg"
                 alt="useful-articles-2.svg"
                 class="max-h-[374px]"
               >
