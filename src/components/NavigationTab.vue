@@ -15,7 +15,7 @@ const route = useRoute()
 
 const navItems = [
   { name: 'О нас', path: '/' },
-  { name: 'Диагностика', path: '/diagnostics' },
+  { name: 'Диагностический инструментарий', path: '/diagnostics' },
   { name: 'Новости', path: '/news' },
   { name: 'Полезные материалы', path: '/useful-materials' },
   { name: 'Консультации', path: '/consultation' },

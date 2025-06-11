@@ -6,6 +6,7 @@ import InfoCard from "@/components/InfoCard.vue";
 import Input from "@/components/Input.vue";
 import Button from "@/components/Button.vue";
 import Circle from "@/components/Circle.vue";
+import SectionWithLines from "@/components/main-page/SectionWithLines.vue";
 
 const cards_1 = [
   {
@@ -71,6 +72,15 @@ const circleLabel = [
 
 ];
 
+const priceListPedagogic = [
+  {title: 'Первая консультация', prices: ['бесплатная']},
+  {title: 'Консультация с педагогом', prices: ['30 минут - 1500 руб', '60 минут - 2500 руб']},
+]
+
+const priceListPsychologic = [
+  {title: 'Первая консультация', prices: ['бесплатная']},
+  {title: 'Консультация с психологом', prices: ['30 минут - 1500 руб', '60 минут - 2500 руб']},
+]
 </script>
 
 <template>
@@ -81,9 +91,7 @@ const circleLabel = [
         Педагогическая консультация
       </h1>
       <p class="text-4xl leading-[100%]">
-        Педагогическая консультация — это возможность обсудить вопросы обучения, развития и воспитания ребёнка со
-        специалистом. Мы поможем вам разобраться в трудностях, связанных с обучением, мотивацией, поведением и
-        адаптацией ребёнка.
+        Онлайн-консультация с педагогом, где специалист проведет диагностику и поможет решить проблемы.
       </p>
     </div>
     <div class="flex justify-center">
@@ -91,6 +99,27 @@ const circleLabel = [
       <img src="@/assets/img/pedagogical-consultation_2.svg" alt="">
     </div>
   </section>
+  <SectionWithLines
+      title="Стоимость"
+  >
+    <div class="space-y-10">
+      <div
+          v-for="priceItem in priceListPedagogic"
+          class="flex items-center justify-between"
+      >
+            <span>
+              {{ priceItem.title }}
+            </span>
+        <div class="flex flex-col gap-2 text-orange-500">
+              <span
+                  v-for="price in priceItem.prices"
+              >
+              {{ price }}
+              </span>
+        </div>
+      </div>
+    </div>
+  </SectionWithLines>
   <section class="conditions flex flex-col gap-12 px-[55px] py-8 mb-[40px]">
     <div class="flex flex-col items-center gap-12">
       <h1 class="text-orange-500 text-[55px] leading-[100%]">
@@ -118,13 +147,24 @@ const circleLabel = [
         <div class="lg:grid lg:grid-cols-2 flex flex-col gap-5">
           <div class="flex flex-col gap-3">
             <label class="text-white text-3xl leading-[100%]">
-              ФИО родителя
+              ФИО взрослого
             </label>
             <Input
               type="name"
               placeholder="Прохова Ирина Ивановна "
             />
           </div>
+
+          <div class="flex flex-col gap-3">
+            <label class="text-white text-3xl leading-[100%]">
+              ФИО специалиста
+            </label>
+            <Input
+                type="name"
+                placeholder="Прохова Ирина Ивановна "
+            />
+          </div>
+
           <div class="flex flex-col gap-3">
             <label class="text-white text-3xl leading-[100%]">
               Дата
@@ -134,22 +174,24 @@ const circleLabel = [
               placeholder="04.05.2025"
             />
           </div>
-          <div class="flex flex-col gap-3">
-            <label class="text-white text-3xl leading-[100%]">
-              ФИО ребенка
-            </label>
-            <Input
-              type="name"
-              placeholder="Прохова Ирина Ивановна "
-            />
-          </div>
+
           <div class="flex flex-col gap-3">
             <label class="text-white text-3xl leading-[100%]">
               Желаемое время
             </label>
             <Input
-              type="time"
-              placeholder="15:00"
+                type="time"
+                placeholder="15:00"
+            />
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <label class="text-white text-3xl leading-[100%]">
+              ФИО ребенка(если консультация для ребенка)
+            </label>
+            <Input
+              type="name"
+              placeholder="Прохова Ирина Ивановна "
             />
           </div>
         </div>
@@ -181,9 +223,7 @@ const circleLabel = [
         Психологическая консультация
       </h1>
       <p class="text-4xl leading-[100%]">
-        Педагогическая консультация — это возможность обсудить вопросы обучения, развития и воспитания ребёнка со
-        специалистом. Мы поможем вам разобраться в трудностях, связанных с обучением, мотивацией, поведением и
-        адаптацией ребёнка.
+        Онлайн-консультация с психологом, где специалист проведет диагностику и поможет решить проблемы.
       </p>
     </div>
     <div class="flex flex-col items-center gap-12">
@@ -199,6 +239,28 @@ const circleLabel = [
         />
       </div>
     </div>
+    <SectionWithLines
+        title="Стоимость"
+        class="!mx-0"
+    >
+      <div class="space-y-10">
+        <div
+            v-for="priceItem in priceListPsychologic"
+            class="flex items-center justify-between"
+        >
+            <span>
+              {{ priceItem.title }}
+            </span>
+          <div class="flex flex-col gap-2 text-orange-500">
+              <span
+                  v-for="price in priceItem.prices"
+              >
+              {{ price }}
+              </span>
+          </div>
+        </div>
+      </div>
+    </SectionWithLines>
     <div class="flex flex-col gap-5">
       <h5 class="text-4xl leading-[100%]">
         Форма для записи
@@ -211,38 +273,51 @@ const circleLabel = [
         <div class="lg:grid lg:grid-cols-2 flex flex-col gap-5">
           <div class="flex flex-col gap-3">
             <label class="text-white text-3xl leading-[100%]">
-              ФИО родителя
+              ФИО взрослого
             </label>
             <Input
-              type="name"
-              placeholder="Прохова Ирина Ивановна "
+                type="name"
+                placeholder="Прохова Ирина Ивановна "
             />
           </div>
+
+          <div class="flex flex-col gap-3">
+            <label class="text-white text-3xl leading-[100%]">
+              ФИО специалиста
+            </label>
+            <Input
+                type="name"
+                placeholder="Прохова Ирина Ивановна "
+            />
+          </div>
+
           <div class="flex flex-col gap-3">
             <label class="text-white text-3xl leading-[100%]">
               Дата
             </label>
             <Input
-              type="date"
-              placeholder="04.05.2025"
+                type="date"
+                placeholder="04.05.2025"
             />
           </div>
-          <div class="flex flex-col gap-3">
-            <label class="text-white text-3xl leading-[100%]">
-              ФИО ребенка
-            </label>
-            <Input
-              type="name"
-              placeholder="Прохова Ирина Ивановна "
-            />
-          </div>
+
           <div class="flex flex-col gap-3">
             <label class="text-white text-3xl leading-[100%]">
               Желаемое время
             </label>
             <Input
-              type="time"
-              placeholder="15:00"
+                type="time"
+                placeholder="15:00"
+            />
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <label class="text-white text-3xl leading-[100%]">
+              ФИО ребенка(если консультация для ребенка)
+            </label>
+            <Input
+                type="name"
+                placeholder="Прохова Ирина Ивановна "
             />
           </div>
         </div>

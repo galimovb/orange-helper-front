@@ -6,18 +6,21 @@ import Input from "@/components/Input.vue";
 import Footer from "@/components/Footer.vue";
 
 const tabs = [
-  { name: 'Личные данные' },
+  { name: 'Личный кабинет' },
   { name: 'Расписание' },
   { name: 'История консультаций' },
-  { name: 'Команда специалистов' },
-  { name: 'Записаться' },
+  { name: 'Команда педагогов' },
+  { name: 'Команда психологов' },
+  { name: 'Подать заявку на консультацию' },
 ];
 
 const userInfo = ref({
   fullName: "Иванов Иван Иванович",
   email: "ivanov@mail.com",
   phone: "+71234567890",
-  childName: "Дмитрий Иванов"
+  childName: "Дмитрий Иванов",
+  age: 32,
+  childrenAge: 7,
 });
 
 const employees = [
@@ -28,7 +31,7 @@ const employees = [
     education: "ИпиО КФУ",
     specialization: "Подростковый возраст, самооценка",
     rating: "5,0",
-    avatar: "@/assets/img/elvira.png"
+    avatar: "/src/assets/img/elvira.png"
   },
   {
     fullName: "Ильина Ксения Алексеевна ",
@@ -37,7 +40,7 @@ const employees = [
     education: "ИпиО КФУ",
     specialization: "Подростковый возраст, самооценка",
     rating: "5,0",
-    avatar: "@/assets/img/ksusha.png"
+    avatar: "/src/assets/img/ksusha.png"
   },
   {
     fullName: "Иванова Алёна Кирилловна ",
@@ -46,56 +49,20 @@ const employees = [
     education: "ИпиО КФУ",
     specialization: "Подростковый возраст, самооценка",
     rating: "5,0",
-    avatar: "@/assets/img/alyona.png"
+    avatar: "/src/assets/img/alyona.png"
   },
 ]
 
 const tableHeaders = [
-  {label: 'Специалист'},
-  {label: 'Должность'},
-  {label: 'ПН'},
-  {label: 'ВТ'},
-  {label: 'СР'},
-  {label: 'ЧТ'},
-  {label: 'ПТ'},
-  {label: 'СБ'},
-  {label: 'ВС'},
+  {label: 'ФИО специалиста'},
+  {label: 'Квалификация'},
+  {label: 'День недели + время'},
 ]
 
 const scheduleList = [
-  {
-    teacher: 'Ильина К. В.', post: 'Преподаватель', schedule: [
-      '10:00-11:00',
-      '',
-      '',
-      '10:00-11:00',
-      '',
-      '',
-      '10:00-11:00'
-    ]
-  },
-  {
-    teacher: 'Сабирова Э. Г.', post: 'Преподаватель', schedule: [
-      '',
-      '10:00-11:00',
-      '',
-      '',
-      '10:00-11:00',
-      '',
-      ''
-    ]
-  },
-  {
-    teacher: 'Иванова А. К.', post: 'Преподаватель', schedule: [
-      '',
-      '',
-      '10:00-11:00',
-      '',
-      '',
-      '10:00-11:00',
-      ''
-    ]
-  }
+  {teacher: 'Ильина К. В.', post: 'Преподаватель', schedule: 'Понедельник 10:00-11:00'},
+  {teacher: 'Сабирова Э. Г.', post: 'Преподаватель', schedule: 'Вторник 10:00-11:00'},
+  {teacher: 'Иванова А. К.', post: 'Преподаватель', schedule: 'Среда 10:00-11:00'},
 ]
 
 const consultationHistory = [
@@ -155,31 +122,54 @@ const activeTab = ref(0);
             type="text"
           />
         </div>
+
         <div class="flex flex-col gap-3">
           <label class="text-2xl">
-            Ваш E-mail
+            Возраст
+          </label>
+          <Input
+              v-model="userInfo.fullName"
+              type="number"
+          />
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <label class="text-2xl">
+             Телефон
+          </label>
+          <Input
+              v-model="userInfo.phone"
+              type="text"
+          />
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <label class="text-2xl">
+            E-mail
           </label>
           <Input
             v-model="userInfo.email"
             type="text"
           />
         </div>
+
         <div class="flex flex-col gap-3">
           <label class="text-2xl">
-            Контактный номер
-          </label>
-          <Input
-            v-model="userInfo.phone"
-            type="text"
-          />
-        </div>
-        <div class="flex flex-col gap-3">
-          <label class="text-2xl">
-            Имя ребенка
+            ФИО ребенка
           </label>
           <Input
             v-model="userInfo.childName"
             type="text"
+          />
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <label class="text-2xl">
+            Возраст ребенка
+          </label>
+          <Input
+              v-model="userInfo.childrenAge"
+              type="number"
           />
         </div>
 
@@ -193,7 +183,7 @@ const activeTab = ref(0);
       <div v-show="activeTab === 1">
         <div class="lg:px-14 lg:py-11">
           <div class="w-full text-black bg-orange-500 rounded-sm">
-            <div class="bg-orange-500 grid grid-cols-9 border [&>*:not(:last-child)]:border-r border-gray-600">
+            <div class="bg-orange-500 grid grid-cols-3 border [&>*:not(:last-child)]:border-r border-gray-600">
               <div
                   v-for="head in tableHeaders"
                   class="px-3 py-2.5 text-base lg:text-xl border-gray-600 break-all"
@@ -204,7 +194,7 @@ const activeTab = ref(0);
             <div class="bg-gray-200  border-r border-l border-gray-600">
               <div
                   v-for="schedule in scheduleList"
-                  class="grid grid-cols-9 border-b border-gray-600  [&>*:not(:last-child)]:border-r"
+                  class="grid grid-cols-3 border-b border-gray-600  [&>*:not(:last-child)]:border-r"
               >
                 <div
                     class="px-3 py-2.5 text-base lg:text-xl break-all border-gray-600 "
@@ -217,10 +207,9 @@ const activeTab = ref(0);
                   {{ schedule.post }}
                 </div>
                 <div
-                    v-for="scheduleDay in schedule.schedule"
                     class="px-3 py-2.5 text-base lg:text-xl break-all border-gray-600 "
                 >
-                  {{ scheduleDay }}
+                  {{ schedule.schedule }}
                 </div>
               </div>
             </div>
@@ -307,6 +296,50 @@ const activeTab = ref(0);
       </div>
 
       <div v-show="activeTab === 4">
+        <div class="lg:grid lg:grid-cols-2 flex flex-col gap-[50px]">
+          <div
+              v-for="(employee, key) in employees"
+              :key=key
+              class="flex flex-col gap-12 border-2 border-[rgba(255,165,0,0.5)] rounded-[10px] p-[30px]"
+          >
+            <div class="flex items-center gap-8">
+              <img
+                  :src=employee.avatar
+                  alt="avatar"
+                  class="max-w-[150px] max-h-[150px] rounded-full"
+              >
+              <div class="flex flex-col gap-2 text-3xl">
+                <label>
+                  {{ employee.fullName }}
+                </label>
+                <label>
+                  {{employee.age}}
+                </label>
+              </div>
+            </div>
+            <div class="flex flex-col gap-5">
+              <div class="flex items-center gap-[10px] text-3xl">
+                <label>Стаж:</label>
+                <label>{{employee.experience}}</label>
+              </div>
+              <div class="flex items-center gap-[10px] text-3xl">
+                <label>Образование:</label>
+                <label>{{employee.education}}</label>
+              </div>
+              <div class="flex items-center gap-[10px] text-3xl">
+                <label>Специализация: </label>
+                <label>{{employee.specialization}}</label>
+              </div>
+              <div class="flex items-center gap-[10px] text-3xl">
+                <label>Отзывы:</label>
+                <label>{{ employee.rating }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div v-show="activeTab === 5">
         <div class="flex flex-col gap-5">
           <h5 class="text-4xl leading-[100%]">
             Форма для записи
@@ -319,16 +352,35 @@ const activeTab = ref(0);
             <div class="lg:grid lg:grid-cols-2 flex flex-col gap-5">
               <div class="flex flex-col gap-3">
                 <label class="text-white text-3xl leading-[100%]">
-                  ФИО родителя
+                  ФИО взрослого
                 </label>
                 <Input
                   type="name"
                   placeholder="Прохова Ирина Ивановна "
                 />
               </div>
+
               <div class="flex flex-col gap-3">
                 <label class="text-white text-3xl leading-[100%]">
-                  Желаемое время
+                  ФИО специалиста
+                </label>
+                <Input
+                    type="name"
+                    placeholder="Прохова Ирина Ивановна "
+                />
+              </div>
+              <div class="flex flex-col gap-3">
+                <label class="text-white text-3xl leading-[100%]">
+                  Дата
+                </label>
+                <Input
+                    type="date"
+                />
+              </div>
+
+              <div class="flex flex-col gap-3">
+                <label class="text-white text-3xl leading-[100%]">
+                  Время
                 </label>
                 <Input
                   type="time"
@@ -337,29 +389,21 @@ const activeTab = ref(0);
               </div>
               <div class="flex flex-col gap-3">
                 <label class="text-white text-3xl leading-[100%]">
-                  ФИО ребенка
+                  ФИО ребенка(если консультация для ребенка)
                 </label>
                 <Input
                   type="name"
                   placeholder="Прохова Ирина Ивановна "
                 />
               </div>
-              <div class="flex flex-col gap-3">
+
+              <div class="flex flex-col gap-3 justify-end">
                 <label class="text-white text-3xl leading-[100%]">
-                  Дата
+                  Возраст ребенка
                 </label>
                 <Input
-                  type="date"
-                  placeholder="04.05.2025"
-                />
-              </div>
-              <div class="flex flex-col gap-3">
-                <label class="text-white text-3xl leading-[100%]">
-                  Фамилия специалиста
-                </label>
-                <Input
-                  type="name"
-                  placeholder="Козлова"
+                  type="age"
+                  placeholder="18"
                 />
               </div>
             </div>
