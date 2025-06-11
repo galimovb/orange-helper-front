@@ -25,31 +25,31 @@ const userInfo = ref({
 
 const employees = [
   {
-    fullName: "Сабирова Эльвира Гильфановна ",
+    fullName: "Иванова Александра Федоровна ",
     age: "31 год",
     experience: "8 лет",
-    education: "ИпиО КФУ",
+    education: "КФУ",
     specialization: "Подростковый возраст, самооценка",
     rating: "5,0",
-    avatar: "/img/elvira.png"
+    avatar: "/img/none-photo.png"
   },
   {
-    fullName: "Ильина Ксения Алексеевна ",
+    fullName: "Дмитриенко Данил Александрович ",
     age: "23 года",
     experience: "2 года ",
     education: "ИпиО КФУ",
     specialization: "Подростковый возраст, самооценка",
     rating: "5,0",
-    avatar: "/img/ksusha.png"
+    avatar: "/img/none-photo.png"
   },
   {
-    fullName: "Иванова Алёна Кирилловна ",
+    fullName: "Анютина Татьяна Сергеевна",
     age: "23 года",
     experience: "2 года",
     education: "ИпиО КФУ",
     specialization: "Подростковый возраст, самооценка",
     rating: "5,0",
-    avatar: "/img/alyona.png"
+    avatar: "/img/none-photo.png"
   },
 ]
 

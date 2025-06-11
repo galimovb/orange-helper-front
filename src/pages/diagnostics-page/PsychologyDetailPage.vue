@@ -65,9 +65,6 @@ const currentCard = cards[cardId];
   <Header/>
   <div class="px-12 py-8 flex flex-col mb-11">
     <h1 class="text-orange-500 text-7xl  mb-6">
-      Диагностический инструментарий
-    </h1>
-    <h1 class="text-orange-500 text-7xl  mb-6">
       Поговорим о педагогике
     </h1>
     <h1 class="text-orange-500 text-[55px] mb-6 opacity-80">
