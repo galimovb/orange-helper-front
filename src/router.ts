@@ -10,12 +10,16 @@ import ConsultationPage from "@/pages/consultation-page/ConsultationPage.vue";
 import NotFoundPage from "@/pages/not-found-page/NotFoundPage.vue";
 import AccountPage from "@/pages/account-page/AccountPage.vue";
 import TestPage from "@/pages/test-page/TestPage.vue";
+import PedagogyDetailPage from "@/pages/diagnostics-page/PedagogyDetailPage.vue";
+import PsychologyDetailPage from "@/pages/diagnostics-page/PsychologyDetailPage.vue";
 
 const routes = [
   { path: "/", component: HomePage },
   { path: "/about", component: AboutView },
   { path: "/news", component: NewsPage },
   { path: "/diagnostics", component: DiagnosticsPage },
+  { path: "/diagnostics/pedagogy/:id", component: PedagogyDetailPage, props: true },
+  { path: "/diagnostics/psychology/:id", component: PsychologyDetailPage, props: true },
   { path: "/useful-materials", component: UsefulMaterialsPage },
   { path: "/consultation", component: ConsultationPage },
   { path: "/:pathMatch(.*)*", component: NotFoundPage },
