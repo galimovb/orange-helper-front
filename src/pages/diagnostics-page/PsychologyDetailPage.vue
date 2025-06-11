@@ -64,7 +64,11 @@ const currentCard = cards[cardId];
 <template>
   <Header/>
   <div class="px-12 py-8 flex flex-col mb-11">
-    <h1 class="text-orange-500 text-[55px] mb-6">
+    <h1 class="text-orange-500 text-7xl  mb-6">
+      Поговорим о педагогике
+    </h1>
+    <h1 class="text-orange-500 text-[55px] mb-6 opacity-80">
+      {{ currentCard.title }}
       {{ currentCard.title }}
     </h1>
     <p class="lg:text-xl text-4xl whitespace-pre-line">

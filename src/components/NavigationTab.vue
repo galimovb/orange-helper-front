@@ -55,7 +55,7 @@ function navigateTo(path: string) {
 
             <Button
                 color="white"
-                class="h-[72px] !text-orange-500 mt-10 !text-2xl !lg:text-6xl"
+                class="!text-orange-500 mt-10 !text-2xl !lg:text-6xl"
                 @click="navigateTo('/login')"
                 label="Вход и регистрация"
             />

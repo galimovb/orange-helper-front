@@ -10,6 +10,10 @@ defineProps({
     type: String,
     validator: (value) => ['large, medium, small'].includes(value),
     default: 'large'
+  },
+  hideDefaultStyles: {
+    type:Boolean,
+    default: true
   }
 });
 </script>
