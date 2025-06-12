@@ -7,19 +7,19 @@ import Footer from "@/components/Footer.vue";
 
 const cards = [
   {
-    title: "Когда режим дня — не мелочь",
+    title: "Режим дня и школьные трудности.",
     preview: "История Дениса, режим дня и его влияние на поведение и здоровье"
   },
   {
-    title: "Почему школьные трудности — это не всегда про лень",
+    title: "Нарушения режима и их последствия",
     preview: "Что происходит с детьми, уставшими от перегрузки и контроля"
   },
   {
-    title: "Ребёнок не устает? Или уже на пределе?",
+    title: "Режим дня Игоря и выявленные проблемы",
     preview: "Игорь кажется спокойным, но за этим кроется хроническое истощение"
   },
   {
-    title: "Что показывает анализ режима дня",
+    title: "Анализ режима дня школьников",
     preview: "Как анкета помогает выявить скрытые перегрузки у школьников"
   }
 ];
@@ -27,9 +27,6 @@ const cards = [
 const psychologyCards = [
   {
     title: "Что формирует наши чувства и поведение с детства"
-  },
-  {
-    title: "Печальный, Капризный и Счастливый Ребёнок",
   },
   {
     title: "Требующий и Карающий Судья",
@@ -43,27 +40,27 @@ const psychologyCards = [
 const cardsWithImage = [
   {
     title: "Опросник «Отношение педагога к родителям»",
-    image: "/src/assets/img/infoCard_1.svg"
+    image: "/public/img/infoCard_1.svg"
   },
   {
     title: "Опросник «Отношение педагога к детям»",
-    image: "/src/assets/img/infoCard_2.svg"
+    image: "/public/img/infoCard_2.svg"
   },
   {
     title: "«Учебная мотивация школьников»",
-    image: "/src/assets/img/infoCard_3.svg"
+    image: "/public/img/infoCard_3.svg"
   },
   {
     title: "«Уровень тревожности ребёнка»",
-    image: "/src/assets/img/infoCard_4.svg"
+    image: "/public/img/infoCard_4.svg"
   },
   {
     title: "«Родительское выгорание»",
-    image: "/src/assets/img/infoCard_5.svg"
+    image: "/public/img/infoCard_5.svg"
   },
   {
     title: "Диагностика детских страхов (по возрасту)",
-    image: "/src/assets/img/infoCard_6.svg"
+    image: "/public/img/infoCard_6.svg"
   }
 ];
 
@@ -159,6 +156,7 @@ const cardsWithImage = [
         v-for="(card, key) in cardsWithImage"
         :key="key"
         :to="`/test/${key+1}`"
+        target="_blank"
         class="cursor-pointer"
       >
         <InfoCard
