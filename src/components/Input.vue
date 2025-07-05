@@ -22,7 +22,7 @@ watch(localValue, (newValue) => {
     v-model="localValue"
     :type="props.type"
     :placeholder="props.placeholder"
-    class="input w-full lg:text-2xl text-4xl"
+    class="input w-full lg:text-2xl"
   />
 </template>
 

@@ -12,9 +12,13 @@ import AccountPage from "@/pages/account-page/AccountPage.vue";
 import TestPage from "@/pages/test-page/TestPage.vue";
 import PedagogyDetailPage from "@/pages/diagnostics-page/PedagogyDetailPage.vue";
 import PsychologyDetailPage from "@/pages/diagnostics-page/PsychologyDetailPage.vue";
+import RegistrationPage from "@/pages/register-page/RegistrationPage.vue";
+import LoginPage from "@/pages/login-page/LoginPage.vue";
 
 const routes = [
   { path: "/", component: HomePage },
+  { path: "/login", component: LoginPage },
+  { path: "/register", component: RegistrationPage },
   { path: "/about", component: AboutView },
   { path: "/news", component: NewsPage },
   { path: "/diagnostics", component: DiagnosticsPage },
