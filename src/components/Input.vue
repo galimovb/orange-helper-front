@@ -1,9 +1,13 @@
 <script setup>
 import { ref, watch } from 'vue';
+import { mask } from 'vue-the-mask';
 
 const props = defineProps({
   placeholder: String,
-  type: String,
+  type: {
+    type: String,
+    default: 'text' // по умолчанию обычный input
+  },
   modelValue: String
 });
 
@@ -17,12 +21,24 @@ watch(localValue, (newValue) => {
 </script>
 
 <template>
+  <!-- Маска для телефона -->
   <input
-    v-bind="$attrs"
-    v-model="localValue"
-    :type="props.type"
-    :placeholder="props.placeholder"
-    class="input w-full lg:text-2xl"
+      v-if="props.type === 'phone'"
+      v-mask="'+7 (###) ###-##-##'"
+      v-model="localValue"
+      :placeholder="props.placeholder"
+      class="input w-full lg:text-2xl"
+      v-bind="$attrs"
+  />
+
+  <!-- Обычный input -->
+  <input
+      v-else
+      v-model="localValue"
+      :type="props.type"
+      :placeholder="props.placeholder"
+      class="input w-full lg:text-2xl"
+      v-bind="$attrs"
   />
 </template>
 

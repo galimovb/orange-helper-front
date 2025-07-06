@@ -1,7 +1,17 @@
 // src/main.ts
-import { createApp } from "vue";
+import {createApp} from "vue";
 import App from "./App.vue";
-import { router } from "./router";
+import {router} from "./router";
 import "./assets/styles/main.css";
+import VueTheMask from 'vue-the-mask';
+import { createPinia } from 'pinia'
+import AxiosWrapper from '@/config/AxiosWrapper.js'
 
-createApp(App).use(router).mount("#app");
+const app = createApp(App);
+
+AxiosWrapper.initialize(router);
+
+app.use(createPinia())
+app.use(VueTheMask)
+app.use(router)
+app.mount("#app");

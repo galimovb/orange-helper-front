@@ -21,10 +21,9 @@
         <div>
           <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Телефон</label>
           <Input
-              v-model="formData.phone"
-              type="tel"
+              v-model="formData.phoneNumber"
+              type="phone"
               placeholder="+7 912 345 67 89"
-              pattern="\+7\s?[0-9]{3}\s?[0-9]{3}\s?[0-9]{2}\s?[0-9]{2}"
               class="w-full"
           />
         </div>
@@ -62,20 +61,47 @@
 </template>
 
 <script setup>
-import {ref} from 'vue';
+import {reactive, ref} from 'vue';
 import RegisterAndLoginLayout from "@/components/RegisterAndLoginLayout.vue";
 import Input from "@/components/Input.vue";
+import authApi from "@/config/api/authApi"
+import Button from "@/components/Button.vue";
+import axios from "axios";
 
-const formData = ref({
-  fullName: '',
-  age: '',
-  phone: '',
-  email: '',
+const formData = reactive({
+  phoneNumber: '',
   password: ''
 });
 
-const handleSubmit = () => {
-  console.log('Форма отправлена:', formData.value);
-  // Логика отправки формы
+const handleSubmit = async () => {
+  try {
+    // Оставляем только цифры и плюс
+    let cleanedPhone = formData.phoneNumber.replace(/[^\d+]/g, '');
+
+    // Гарантируем, что номер начинается с +7
+    if (!cleanedPhone.startsWith('+')) {
+      cleanedPhone = '+7' + cleanedPhone.replace(/^[78]?/, '');
+    } else if (cleanedPhone.startsWith('+') && !cleanedPhone.startsWith('+7')) {
+      cleanedPhone = '+7' + cleanedPhone.slice(1).replace(/\D/g, '');
+    }
+
+    // Удаляем возможные дубли плюсов
+    cleanedPhone = cleanedPhone.replace(/\++/g, '+');
+
+    // Проверяем минимальную длину (например, +79123456789 - 12 символов)
+    if (cleanedPhone.length < 12) {
+      throw new Error('Номер телефона слишком короткий');
+    }
+
+    const requestData = {
+      ...formData,
+      phoneNumber: cleanedPhone
+    };
+
+    await authApi.login(requestData);
+  } catch (err) {
+    console.error('Ошибка:', err.message);
+    // Показываем ошибку пользователю
+  }
 };
 </script>

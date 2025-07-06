@@ -44,9 +44,8 @@
             <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Телефон</label>
             <Input
                 v-model="formData.phone"
-                type="tel"
+                type="phone"
                 placeholder="+7 912 345 67 89"
-                pattern="\+7\s?[0-9]{3}\s?[0-9]{3}\s?[0-9]{2}\s?[0-9]{2}"
                 class="w-full"
             />
           </div>
@@ -91,6 +90,11 @@
           Войти
         </router-link>
       </div>
+      <Button @click="AxiosWrapper.get('https://orangehelper.ru/api/employees', {
+  withCredentials: true
+});
+">ee
+      </Button>
     </div>
   </RegisterAndLoginLayout>
 </template>
@@ -99,6 +103,9 @@
 import {ref} from 'vue';
 import RegisterAndLoginLayout from "@/components/RegisterAndLoginLayout.vue";
 import Input from "@/components/Input.vue";
+import axios from "axios";
+import Button from "@/components/Button.vue";
+import AxiosWrapper from "@/config/AxiosWrapper";
 
 const formData = ref({
   fullName: '',
