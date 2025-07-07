@@ -1,8 +1,9 @@
 import axios from "axios";
+import {BASE_API_URL} from "@/config/apiConfig";
 
 export default class AxiosWrapper {
     static axiosInstance = axios.create({
-        baseURL: '', // потом задашь
+        baseURL: BASE_API_URL,
         withCredentials: true
     });
 

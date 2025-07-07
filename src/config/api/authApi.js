@@ -13,4 +13,8 @@ export default class AuthApi extends AxiosWrapper{
         return this.get('/logout');
     }
 
+    static authCheck() {
+        return this.get('/auth/check')
+    }
+
 }
