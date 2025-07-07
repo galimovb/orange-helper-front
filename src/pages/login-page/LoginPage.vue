@@ -61,12 +61,14 @@
 </template>
 
 <script setup>
-import {reactive, ref} from 'vue';
+import {reactive} from 'vue';
 import RegisterAndLoginLayout from "@/components/RegisterAndLoginLayout.vue";
 import Input from "@/components/Input.vue";
 import authApi from "@/config/api/authApi"
 import Button from "@/components/Button.vue";
-import axios from "axios";
+import {useAuthStore} from "@/stores/auth";
+import {router} from "@/router";
+const authStore = useAuthStore();
 
 const formData = reactive({
   phoneNumber: '',
@@ -98,10 +100,19 @@ const handleSubmit = async () => {
       phoneNumber: cleanedPhone
     };
 
+    // 1. Выполняем запрос на авторизацию
     await authApi.login(requestData);
+
+    // 2. Проверяем авторизацию
+    await authStore.check();
+
+    // 3. Получаем URL для редиректа из query параметров
+    const redirectPath = route.query.redirect || '/';
+
+    // 4. Выполняем переход
+    await router.push(redirectPath);
   } catch (err) {
     console.error('Ошибка:', err.message);
-    // Показываем ошибку пользователю
   }
 };
 </script>

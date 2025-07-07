@@ -43,14 +43,20 @@ router.beforeEach(async (to, from, next) => {
     await authStore.check();
   }
 
-  // Если требуется авторизация и пользователь не авторизован — редирект на login
+  // Если требуется авторизация и пользователь не авторизован
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    return next({ name: 'login' });
+    // Сохраняем исходный маршрут в query параметре 'redirect'
+    return next({
+      name: 'login',
+      query: { redirect: to.fullPath }
+    });
   }
 
   // Если пользователь уже авторизован, не пускать на /login
   if (to.name === 'login' && authStore.isAuthenticated) {
-    return next('/account');
+    // Если есть redirect параметр - идём туда, иначе на главную
+    const redirectPath = from.query.redirect || '/';
+    return next(redirectPath);
   }
 
   next();
