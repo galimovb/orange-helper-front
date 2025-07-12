@@ -6,6 +6,6 @@ export const registerRaw = (data) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        withCredentials: false // ВАЖНО: не отправляем куки
+        withCredentials: false
     });
 };
