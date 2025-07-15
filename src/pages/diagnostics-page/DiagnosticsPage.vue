@@ -1,4 +1,7 @@
 <script setup>
+import { onMounted } from 'vue';
+import { useTestStore } from '@/stores/testStore';
+
 import Header from "@/components/Header.vue";
 import InfoCard from "@/components/InfoCard.vue";
 import Button from "@/components/Button.vue";
@@ -36,38 +39,20 @@ const psychologyCards = [
   }
 ];
 
+const testStore = useTestStore();
 
-const cardsWithImage = [
-  {
-    title: "Опросник «Отношение педагога к родителям»",
-    image: "/img/infoCard_1.svg"
-  },
-  {
-    title: "Опросник «Отношение педагога к детям»",
-    image: "/img/infoCard_2.svg"
-  },
-  {
-    title: "«Проверьте развитие ребенка»",
-    image: "/img/infoCard_6.svg"
-  },
-  {
-    title: "«Учебная мотивация школьников»",
-    image: "/img/infoCard_3.svg"
-  },
-  {
-    title: "«Уровень тревожности ребёнка»",
-    image: "/img/infoCard_4.svg"
-  },
-  {
-    title: "«Родительское выгорание»",
-    image: "/img/infoCard_5.svg"
-  },
-  {
-    title: "Диагностика детских страхов (по возрасту)",
-    image: "/img/infoCard_6.svg"
-  }
+const images = [
+  "/img/infoCard_1.svg",
+  "/img/infoCard_2.svg",
+  "/img/infoCard_3.svg",
+  "/img/infoCard_4.svg",
+  "/img/infoCard_5.svg",
+  "/img/infoCard_6.svg"
 ];
 
+onMounted(async () => {
+  await testStore.fetchAllTests();
+});
 </script>
 
 <template>
@@ -158,16 +143,16 @@ const cardsWithImage = [
     </div>
     <div class="grid lg:grid-cols-3 grid-cols-2 gap-[30px] px-[72px]">
       <router-link
-          v-for="(card, key) in cardsWithImage"
+          v-for="(test, key) in testStore.tests"
           :key="key"
           :to="`/test/${key+1}`"
           target="_blank"
           class="cursor-pointer"
       >
         <InfoCard
-            :title="card.title"
-            :image="card.image"
-            class="px-3 py-[26px] text-white text-center"
+            :title="test.title"
+            :image="images[key % images.length]"
+            class="px-3 py-[26px] text-white text-center cursor-pointer transition-transform transform hover:scale-105 hover:shadow-lg"
         />
       </router-link>
     </div>

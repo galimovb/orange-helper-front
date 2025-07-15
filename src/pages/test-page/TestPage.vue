@@ -1,105 +1,23 @@
 <script setup>
+import {ref, onMounted} from "vue";
+import {useRoute} from "vue-router";
+import {useTestStore} from '@/stores/testStore'; // Подключаем хранилище для тестов
+
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import {ref} from "vue";
-import {useRoute} from "vue-router";
-
-const tests = {
-  1: {
-    title: "Опросник «Отношение педагога к родителям»",
-    source: `Психологическая диагностика детского развития (руководство пользователя и
-карточный инструментарий). Под ред. Р.И. Суннатовой. - Москва-Ташкент: ИТД «СМИ-
-АЗИЯ»-Издательство журнала «San\`at», 2008 - 160 С.`,
-    description: "Направлен на выявление особенностей отношения воспитателей, учителей, родителей к детям.",
-    questions: [
-      {
-        question: "Считаю, что воспитатель или учитель должны знать все, что думает ребенок.",
-        correctAnswer: "+",
-        scale: "Принятие-отвержение"
-      },
-      {
-        question: "Обычно педагогам не всегда удается в своих действиях проявлять уважение к личности ребенка.",
-        correctAnswer: "+",
-        scale: "Принятие-отвержение"
-      },
-      {question: "Довольно часто педагоги раздражаются из-за детей.", correctAnswer: "-", scale: "Принятие-отвержение"},
-      {
-        question: "Иногда учителя и педагоги относятся к детям, как начальник к подчиненным.",
-        correctAnswer: "+",
-        scale: "Авторитарная гиперсоциализация"
-      },
-      {
-        question: "Бывает, что педагог испытывает досаду по отношению к своему классу или к ребенку.",
-        correctAnswer: "+",
-        scale: "Маленький неудачник"
-      },
-      {
-        question: "Иногда мне кажется, что мои воспитанники ведут себя плохо специально, чтобы досадить мне.",
-        correctAnswer: "+",
-        scale: "Маленький неудачник"
-      },
-      {
-        question: "Мои воспитанники впитывают в себя дурное как губка.",
-        correctAnswer: "+",
-        scale: "Маленький неудачник"
-      },
-      {
-        question: "Ребенка следует держать в жестких рамках тогда из него вырастет порядочный человек.",
-        correctAnswer: "+",
-        scale: "Авторитарная гиперсоциализация"
-      }
-    ]
-  },
-  2: {
-    title: "Опросник «Отношение педагога к детям»",
-    source: `Психологическая диагностика детского развития (руководство пользователя и
-карточный инструментарий). Под ред. Р.И. Суннатовой. - Москва-Ташкент: ИТД «СМИ-
-АЗИЯ»-Издательство журнала «San\`at», 2008 - 160 С.`,
-    questions: [
-      {
-        question: "Считаю, что воспитатель или учитель должны знать все, что думает ребенок.",
-        correctAnswer: "+",
-        scale: "Принятие-отвержение"
-      },
-      {
-        question: "Обычно педагогам не всегда удается в своих действиях проявлять уважение к личности ребенка.",
-        correctAnswer: "-",
-        scale: "Принятие-отвержение"
-      },
-      {question: "Довольно часто педагоги раздражаются из-за детей.", correctAnswer: "+", scale: "Принятие-отвержение"},
-      {
-        question: "Иногда учителя и педагоги относятся к детям, как начальник к подчиненным.",
-        correctAnswer: "+",
-        scale: "Авторитарная гиперсоциализация"
-      },
-      {
-        question: "Мои воспитанники нравятся мне такими, какие они есть.",
-        correctAnswer: "+",
-        scale: "Принятие-отвержение"
-      }
-    ]
-  },
-  3: {
-    title: "Проверьте развитие ребенка",
-    source: `Проверьте развитие ребенка: 105 психологических тестов. - Спб.: Речь, 2007. - 304 с.`,
-  }
-};
 
 const route = useRoute();
 const testId = route.params.id;
-const test = ref(tests[testId] || {title: "", description: "", questions: []});
+const testStore = useTestStore();
 
 const isDescriptionVisible = ref(true);
 const currentQuestionIndex = ref(0);
+
 const answers = ref({});
-const result = ref({
-  totalScore: 0,
-  scoreBreakdown: {
-    "Принятие-отвержение": 0,
-    "Кооперация": 0,
-    "Авторитарная гиперсоциализация": 0,
-    "Маленький неудачник": 0
-  }
+const result = ref(null);
+
+onMounted(async () => {
+  await testStore.fetchTestById(testId);
 });
 
 const prevQuestion = () => {
@@ -113,15 +31,11 @@ const prevQuestion = () => {
 const nextQuestion = () => {
   if (isDescriptionVisible.value) {
     isDescriptionVisible.value = false;
-  } else if (currentQuestionIndex.value < test.value.questions.length - 1) {
+  } else if (currentQuestionIndex.value < testStore.currentTest.questions.length - 1) {
     currentQuestionIndex.value++;
   } else {
     showResult();
   }
-};
-
-const selectAnswer = (answer) => {
-  answers.value[currentQuestionIndex.value] = answer;
 };
 
 const showResult = () => {
@@ -132,9 +46,11 @@ const showResult = () => {
     "Маленький неудачник": 0
   };
 
-  test.value.questions.forEach((question, index) => {
+  testStore.currentTest.questions.forEach((question, index) => {
     const userAnswer = answers.value[index];
-    const isCorrect = userAnswer === question.correctAnswer;
+
+    const isCorrect = (userAnswer === "+" && question.correctAnswer === true) || (userAnswer === "-" && question.correctAnswer === false);
+
     if (isCorrect) {
       scoreBreakdown[question.scale]++;
     }
@@ -153,57 +69,99 @@ const showResult = () => {
   <Header/>
   <section class="test-page px-[55px] py-8">
     <div
-        v-if="Number(testId) !==3"
-        class="bg-orange-500 flex flex-col gap-8 text-white lg:max-w-[90%] lg:min-h-[650px] lg:h-[70vh] mx-auto p-8 overflow-y-auto">
+        v-if="testStore.currentTest"
+        class="bg-orange-500 flex flex-col gap-8 text-white lg:max-w-[90%] lg:min-h-[650px] lg:h-[70vh] mx-auto p-8 overflow-y-auto"
+    >
       <h1 class="lg:text-[32px] text-4xl">
-        {{ test.title }}
+        {{ testStore.currentTest.title }}
       </h1>
-      <div
-          v-if="isDescriptionVisible"
-          class="flex flex-col gap-6 lg:text-2xl text-[32px]"
-      >
+      <div v-if="isDescriptionVisible" class="flex flex-col gap-6 lg:text-2xl text-[32px]">
         <b>
-          {{ test.source }}
+          {{ testStore.currentTest.source }}
         </b>
         <p>
-          {{ test.description }}
+          {{ testStore.currentTest.description }}
         </p>
         <div class="lg:text-2xl text-[32px]">
           <b>
             Опросник состоит из четырех шкал:
           </b>
           <ol>
-            <li>1. Принятие – отвержение. Отражает целостное эмоциональное отношение к детям.</li>
-            <li>2. Кооперация. Социально желательный образ профессионального отношения взрослого к детям.</li>
-            <li>3. Авторитарная гиперсоциализация (требования не соответствуют возрасту). Отражает форму и направление
-              контроля за поведением ребенка.
-            </li>
-            <li>4. Маленький неудачник. Отражает особенности восприятия и понимания взрослыми детьми.</li>
+            <li>1. Принятие – отвержение.</li>
+            <li>2. Кооперация.</li>
+            <li>3. Авторитарная гиперсоциализация.</li>
+            <li>4. Маленький неудачник.</li>
           </ol>
         </div>
         <p>
           <b>
             Инструкция:
           </b>
-          Внимательно прочитайте каждое утверждение. Если Вы согласны с утверждением, поставьте в листе
-          ответов знак «+», если не согласны знак «-». Старайтесь отвечать искренне. Правильных или неправильных ответов
-          не бывает.
+          Внимательно прочитайте каждое утверждение. Если Вы согласны с утверждением, поставьте в листе ответов знак
+          «+», если не согласны знак «-».
         </p>
       </div>
-
-      <div v-else-if="result.totalScore !== 0" class="flex flex-col gap-4">
-        <h2 class="lg:text-3xl text-4xl">Результаты теста:</h2>
-        <div class="lg:text-2xl text-[32px]">
-          <p><b>Общий балл:</b> {{ result.totalScore }}</p>
+      <div
+          v-else-if="result === null"
+          class="test-question-container flex flex-col gap-4"
+      >
+        <h2 class="lg:text-3xl text-4xl">
+          {{ testStore.currentTest.questions[currentQuestionIndex].question }}
+        </h2>
+        <div class="flex flex-col lg:gap-4 gap-8">
+          <div class="flex items-center gap-2">
+            <input
+                type="radio"
+                v-model="answers[currentQuestionIndex]"
+                value="+"
+                class="lg:w-[25px] lg:h-[25px] w-[50px] h-[50px]"
+            />
+            <label class="lg:text-2xl text-4xl leading-[100%]">
+              +
+            </label>
+          </div>
+          <div class="flex items-center gap-2">
+            <input
+                type="radio"
+                v-model="answers[currentQuestionIndex]"
+                value="-"
+                class="lg:w-[25px] lg:h-[25px] w-[50px] h-[50px]"
+            />
+            <label class="lg:text-2xl text-4xl leading-[100%]">
+              -
+            </label>
+          </div>
+        </div>
+      </div>
+      <div v-else class="test-results flex flex-col gap-4">
+        <h2 class="lg:text-3xl text-4xl">
+          Результаты теста:
+        </h2>
+        <div class="text-xl">
+          <p>
+            <b>Общий балл:</b>
+            {{ result.totalScore }}
+          </p>
           <ul>
-            <li><b>Принятие-отвержение:</b> {{ result.scoreBreakdown["Принятие-отвержение"] }}</li>
-            <li><b>Кооперация:</b> {{ result.scoreBreakdown["Кооперация"] }}</li>
-            <li><b>Авторитарная гиперсоциализация:</b> {{ result.scoreBreakdown["Авторитарная гиперсоциализация"] }}
+            <li>
+              <b>Принятие-отвержение:</b>
+              {{ result.scoreBreakdown["Принятие-отвержение"] }}
             </li>
-            <li><b>Маленький неудачник:</b> {{ result.scoreBreakdown["Маленький неудачник"] }}</li>
+            <li>
+              <b>Кооперация:</b>
+              {{ result.scoreBreakdown["Кооперация"] }}
+            </li>
+            <li>
+              <b>Авторитарная гиперсоциализация:</b>
+              {{ result.scoreBreakdown["Авторитарная гиперсоциализация"] }}
+            </li>
+            <li>
+              <b>Маленький неудачник:</b>
+              {{ result.scoreBreakdown["Маленький неудачник"] }}
+            </li>
           </ul>
         </div>
-        <p class="lg:text-2xl text-[32px]">
+        <p class="text-xl ">
           Шкала «принятие — отвержение» — максимальная сумма составляет 13 баллов.
           <br>
           Если взрослый набирает от 0 до 4 баллов, то это говорит о том, что взрослому (педагогу или родителю) нравятся
@@ -247,43 +205,7 @@ const showResult = () => {
           эмоциональное отношение взрослого к возрастным и индивидуальным возможностям детей.
         </p>
       </div>
-
-      <div
-          v-else
-          class="flex flex-col lg:gap-4 gap-8"
-      >
-        <div class="lg:text-2xl text-[32px]">
-          <p>{{ test.questions[currentQuestionIndex].question }}</p>
-        </div>
-        <div class="flex flex-col lg:gap-4 gap-8">
-          <div class="flex items-center gap-2">
-            <input
-                type="radio"
-                v-model="answers[currentQuestionIndex]"
-                value="+"
-                class="lg:w-[25px] lg:h-[25px] w-[50px] h-[50px]"
-            />
-            <label class="lg:text-2xl text-4xl leading-[100%]">
-              +
-            </label>
-          </div>
-          <div class="flex items-center gap-2">
-            <input
-                type="radio"
-                v-model="answers[currentQuestionIndex]"
-                value="-"
-                class="lg:w-[25px] lg:h-[25px] w-[50px] h-[50px]"
-            />
-            <label class="lg:text-2xl text-4xl leading-[100%]">
-              -
-            </label>
-          </div>
-        </div>
-      </div>
-      <div
-          v-if="result.totalScore === 0"
-          class="flex gap-6 mt-auto justify-end"
-      >
+      <div class="flex gap-6 mt-auto justify-end">
         <button
             @click="prevQuestion"
             class="transform rotate-90 border-2 border-white p-2 rounded-full"
@@ -305,48 +227,9 @@ const showResult = () => {
       </div>
 
     </div>
-    <div
-        v-else
-        class="bg-orange-500 flex flex-col gap-8 text-white lg:max-w-[90%] lg:min-h-[650px] lg:h-[70vh] mx-auto p-8 overflow-y-auto"
-    >
-      <h1 class="lg:text-[32px] text-4xl">
-        {{ test.title }}
-      </h1>
-
-      <div
-          class="flex flex-col gap-6 lg:text-2xl text-[32px]"
-      >
-        <b>
-          {{ test.source }}
-        </b>
-        <p>
-          Например:
-          <br/>
-          Тест «Найди одинаковые фигуры». Для детей 6-7ми лет. Опредление способностей зрительного различения форм.
-          <br/>
-          Ребенку предлагается блан с различными геометическими фигурами, всего 4 вида: трапеция, квадрат, параллелограмм и прямоугольник (рис.4). Для выполнения задания необходимо найти и пометить на бланке одинаковые фигуры одинаковыми знаками (крестиками, кружочками, галочкой, плюсом) или поставить на одинаковых фигурах одинаковые цифры: 1, 2, 3, и т.д.
-        </p>
-
-        <img src="/img/test-3.png"/>
-
-        <p>
-          Оценка результатов:
-          <br>
-          1.Очень высокий результат. Ребенок не только безошибочно выполнил адание, но назвал отличия фигур или дал им общепринятые названия.
-          <br>
-          2.Высокий результат. Задание выполнено верно, но без словесного анализа, или анализ дан, но с ошибкой.
-          <br>
-          3.Средний результат. Допущены 1-2 ошибки, сделан частиный анализ.
-          <br>
-          4.Низкий результат. Допущены 3 и более ошибки.
-
-        </p>
-      </div>
-    </div>
   </section>
   <Footer/>
 </template>
 
 <style scoped>
-
 </style>
