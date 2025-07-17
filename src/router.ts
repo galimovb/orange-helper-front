@@ -12,6 +12,7 @@ import PedagogyDetailPage from "@/pages/diagnostics-page/PedagogyDetailPage.vue"
 import PsychologyDetailPage from "@/pages/diagnostics-page/PsychologyDetailPage.vue";
 import RegistrationPage from "@/pages/register-page/RegistrationPage.vue";
 import LoginPage from "@/pages/login-page/LoginPage.vue";
+import QuilPage from "@/pages/quil-page/QuilPage.vue";
 import { useAuthStore } from '@/stores/auth.js'
 
 const routes = [
@@ -28,6 +29,9 @@ const routes = [
   { path: "/account", component: AccountPage, meta: { requiresAuth: true } },
   { path: "/test/:id", component: TestPage, props: true, meta: { requiresAuth: true } },
   { path: "/:pathMatch(.*)*", component: NotFoundPage },
+
+  { path: "/quil", component: QuilPage },
+
 ];
 
 export const router = createRouter({
