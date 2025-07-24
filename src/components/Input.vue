@@ -6,7 +6,7 @@ const props = defineProps({
   placeholder: String,
   type: {
     type: String,
-    default: 'text' // по умолчанию обычный input
+    default: 'text',
   },
   modelValue: String
 });
@@ -21,7 +21,6 @@ watch(localValue, (newValue) => {
 </script>
 
 <template>
-  <!-- Маска для телефона -->
   <input
       v-if="props.type === 'phone'"
       v-mask="'+7 (###) ###-##-##'"
@@ -31,7 +30,6 @@ watch(localValue, (newValue) => {
       v-bind="$attrs"
   />
 
-  <!-- Обычный input -->
   <input
       v-else
       v-model="localValue"

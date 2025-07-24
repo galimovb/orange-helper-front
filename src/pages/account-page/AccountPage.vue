@@ -1,57 +1,24 @@
 <script setup>
-import { ref } from 'vue';
+import {ref, onMounted} from 'vue';
+import {useEmployeeStore} from '@/stores/employeeStore';
+import {useProfileStore} from '@/stores/profileStore';
+
 import Header from "@/components/Header.vue";
 import Button from "@/components/Button.vue";
 import Input from "@/components/Input.vue";
 import Footer from "@/components/Footer.vue";
 
+import { mask } from 'vue-the-mask';
+
 const tabs = [
-  { name: 'Личный кабинет' },
-  { name: 'Расписание' },
-  { name: 'История консультаций' },
-  { name: 'Команда педагогов' },
-  { name: 'Команда психологов' },
-  { name: 'Подать заявку на консультацию' },
+  {name: 'Личный кабинет'},
+  {name: 'Расписание'},
+  {name: 'История консультаций'},
+  {name: 'Команда педагогов'},
+  {name: 'Команда психологов'},
+  {name: 'Подать заявку на консультацию'},
 ];
 
-const userInfo = ref({
-  fullName: "Иванов Иван Иванович",
-  email: "ivanov@mail.com",
-  phone: "+71234567890",
-  childName: "Дмитрий Иванов",
-  age: 32,
-  childrenAge: 7,
-});
-
-const employees = [
-  {
-    fullName: "Иванова Александра Федоровна ",
-    age: "31 год",
-    experience: "8 лет",
-    education: "КФУ",
-    specialization: "Подростковый возраст, самооценка",
-    rating: "5,0",
-    avatar: "/img/none-photo.png"
-  },
-  {
-    fullName: "Дмитриенко Данил Александрович ",
-    age: "23 года",
-    experience: "2 года ",
-    education: "ИпиО КФУ",
-    specialization: "Подростковый возраст, самооценка",
-    rating: "5,0",
-    avatar: "/img/none-photo.png"
-  },
-  {
-    fullName: "Анютина Татьяна Сергеевна",
-    age: "23 года",
-    experience: "2 года",
-    education: "ИпиО КФУ",
-    specialization: "Подростковый возраст, самооценка",
-    rating: "5,0",
-    avatar: "/img/none-photo.png"
-  },
-]
 
 const tableHeaders = [
   {label: 'ФИО специалиста'},
@@ -82,8 +49,57 @@ const consultationHistory = [
         'подходов к диалогу. Выработана стратегия взаимодействия и предложены упражнения на эмоциональную саморегуляцию.',
   }
 ]
-
 const activeTab = ref(0);
+
+const employeeStore = useEmployeeStore();
+const profileStore = useProfileStore();
+
+const teachers = ref([]);
+const psychologists = ref([]);
+
+const saveProfile = async () => {
+  try {
+    const currentPhone = profileStore.userInfo.phone || '';
+    const originalPhone = profileStore.originalPhone || '';
+
+    let cleanedPhone = currentPhone;
+
+    // Только если пользователь изменил номер телефона — форматируем и валидируем
+    if (currentPhone !== originalPhone) {
+      cleanedPhone = cleanedPhone.replace(/[^\d+]/g, '');
+
+      if (!cleanedPhone.startsWith('+')) {
+        cleanedPhone = '+7' + cleanedPhone.replace(/^[78]?/, '');
+      } else if (!cleanedPhone.startsWith('+7')) {
+        cleanedPhone = '+7' + cleanedPhone.slice(1).replace(/\D/g, '');
+      }
+      cleanedPhone = cleanedPhone.replace(/\++/g, '+');
+
+      if (!/^\+7\d{10}$/.test(cleanedPhone)) {
+        throw new Error('Номер телефона должен быть в формате +7XXXXXXXXXX');
+      }
+    }
+
+    await profileStore.saveProfile({
+      ...profileStore.userInfo,
+      phone: cleanedPhone
+    });
+
+    await profileStore.fetchProfile();
+    alert('Профиль успешно обновлен!');
+  } catch (error) {
+    console.error('Ошибка при обновлении профиля:', error);
+  }
+};
+
+
+onMounted(() => {
+  employeeStore.fetchEmployees();
+  teachers.value = employeeStore.teachers;
+  psychologists.value = employeeStore.psychologists;
+
+  profileStore.fetchProfile();
+});
 </script>
 
 <template>
@@ -91,17 +107,17 @@ const activeTab = ref(0);
   <section class="personal-page flex flex-col gap-12 px-[55px] py-8 mb-[50px]">
     <div class="flex flex-wrap justify-center gap-[30px] mx-auto">
       <button
-        v-for="(tab, index) in tabs"
-        :key="tab.name"
-        @click="activeTab = index"
-        :class="[
+          v-for="(tab, index) in tabs"
+          :key="tab.name"
+          @click="activeTab = index"
+          :class="[
           'text-3xl',
           activeTab === index ? 'text-black' : 'text-gray-300'
         ]"
       >
         {{ tab.name }}
         <div
-          :class="[
+            :class="[
             'h-[10px] rounded-[10px] mt-3',
             activeTab === index ? 'bg-orange-500 ' : 'bg-gray-300'
           ]"
@@ -109,17 +125,15 @@ const activeTab = ref(0);
       </button>
     </div>
     <div class="personal-content">
-      <div
-        v-show="activeTab === 0"
-        class="flex flex-col gap-8 lg:w-1/2 w-full"
-      >
+      <div v-show="activeTab === 0" class="grid grid-cols-2 gap-8 ">
         <div class="flex flex-col gap-3">
           <label class="text-2xl">
             ФИО
           </label>
-          <Input
-            v-model="userInfo.fullName"
-            type="text"
+          <input
+              v-model="profileStore.userInfo.fullName"
+              type="text"
+              class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
           />
         </div>
 
@@ -127,29 +141,34 @@ const activeTab = ref(0);
           <label class="text-2xl">
             Возраст
           </label>
-          <Input
-              v-model="userInfo.fullName"
+          <input
+              v-model="profileStore.userInfo.age"
               type="number"
+              class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
           />
         </div>
 
         <div class="flex flex-col gap-3">
-          <label class="text-2xl">
-             Телефон
-          </label>
-          <Input
-              v-model="userInfo.phone"
-              type="text"
+          <label class="text-2xl">Телефон</label>
+          <input
+              v-model="profileStore.userInfo.phone"
+              v-mask="'+7 (###) ###-##-##'"
+              type="tel"
+              placeholder="+7 (___) ___-__-__"
+              class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
+              required
           />
         </div>
+
 
         <div class="flex flex-col gap-3">
           <label class="text-2xl">
             E-mail
           </label>
-          <Input
-            v-model="userInfo.email"
-            type="text"
+          <input
+              v-model="profileStore.userInfo.email"
+              type="text"
+              class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
           />
         </div>
 
@@ -157,9 +176,10 @@ const activeTab = ref(0);
           <label class="text-2xl">
             ФИО ребенка
           </label>
-          <Input
-            v-model="userInfo.childName"
-            type="text"
+          <input
+              v-model="profileStore.userInfo.childName"
+              type="text"
+              class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
           />
         </div>
 
@@ -167,18 +187,17 @@ const activeTab = ref(0);
           <label class="text-2xl">
             Возраст ребенка
           </label>
-          <Input
-              v-model="userInfo.childrenAge"
+          <input
+              v-model="profileStore.userInfo.childrenAge"
               type="number"
+              min="1"
+              max="120"
+              class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
           />
         </div>
-
-        <Button
-          label="Сохранить"
-          color="orange"
-        >
-        </Button>
+        <Button label="Сохранить" color="orange" @click="saveProfile"/>
       </div>
+
 
       <div v-show="activeTab === 1">
         <div class="lg:px-14 lg:py-11">
@@ -228,16 +247,16 @@ const activeTab = ref(0);
             >
               <div class="flex items-center justify-between">
                 <div class="space-y-1.5">
-                  <div class="text-2xl font-bold">{{consultation.teacher}}</div>
-                  <div class="text-xl">{{consultation.post}}</div>
+                  <div class="text-2xl font-bold">{{ consultation.teacher }}</div>
+                  <div class="text-xl">{{ consultation.post }}</div>
                 </div>
                 <div class="space-y-1.5">
-                  <div class="text-2xl text-right">{{consultation.date}}</div>
-                  <div class="text-2xl text-right">{{consultation.problem}}</div>
+                  <div class="text-2xl text-right">{{ consultation.date }}</div>
+                  <div class="text-2xl text-right">{{ consultation.problem }}</div>
                 </div>
               </div>
               <div class="text-2xl">
-                {{consultation.description}}
+                {{ consultation.description }}
               </div>
               <Button
                   class="mt-auto !text-2xl"
@@ -254,41 +273,41 @@ const activeTab = ref(0);
       <div v-show="activeTab === 3">
         <div class="lg:grid lg:grid-cols-2 flex flex-col gap-[50px]">
           <div
-            v-for="(employee, key) in employees"
-            :key=key
-            class="flex flex-col gap-12 border-2 border-[rgba(255,165,0,0.5)] rounded-[10px] p-[30px]"
+              v-for="(teacher, key) in teachers"
+              :key=key
+              class="flex flex-col gap-12 border-2 border-[rgba(255,165,0,0.5)] rounded-[10px] p-[30px]"
           >
             <div class="flex items-center gap-8">
               <img
-                :src=employee.avatar
-                alt="avatar"
-                class="max-w-[150px] max-h-[150px] rounded-full"
+                  :src=teacher.avatar
+                  alt="avatar"
+                  class="max-w-[150px] max-h-[150px] rounded-full"
               >
               <div class="flex flex-col gap-2 text-3xl">
                 <label>
-                  {{ employee.fullName }}
+                  {{ teacher.fullName }}
                 </label>
                 <label>
-                  {{employee.age}}
+                  Возраст: {{ teacher.age }}
                 </label>
               </div>
             </div>
             <div class="flex flex-col gap-5">
               <div class="flex items-center gap-[10px] text-3xl">
                 <label>Стаж:</label>
-                <label>{{employee.experience}}</label>
+                <label>{{ teacher.experience }}</label>
               </div>
               <div class="flex items-center gap-[10px] text-3xl">
                 <label>Образование:</label>
-                <label>{{employee.education}}</label>
+                <label>{{ teacher.education }}</label>
               </div>
               <div class="flex items-center gap-[10px] text-3xl">
                 <label>Специализация: </label>
-                <label>{{employee.specialization}}</label>
+                <label>{{ teacher.specialization }}</label>
               </div>
               <div class="flex items-center gap-[10px] text-3xl">
                 <label>Отзывы:</label>
-                <label>{{ employee.rating }}</label>
+                <label>{{ teacher.rating }}</label>
               </div>
             </div>
           </div>
@@ -298,41 +317,41 @@ const activeTab = ref(0);
       <div v-show="activeTab === 4">
         <div class="lg:grid lg:grid-cols-2 flex flex-col gap-[50px]">
           <div
-              v-for="(employee, key) in employees"
+              v-for="(psychologist, key) in psychologists"
               :key=key
               class="flex flex-col gap-12 border-2 border-[rgba(255,165,0,0.5)] rounded-[10px] p-[30px]"
           >
             <div class="flex items-center gap-8">
               <img
-                  :src=employee.avatar
+                  :src=psychologist.avatar
                   alt="avatar"
                   class="max-w-[150px] max-h-[150px] rounded-full"
               >
               <div class="flex flex-col gap-2 text-3xl">
                 <label>
-                  {{ employee.fullName }}
+                  {{ psychologist.fullName }}
                 </label>
                 <label>
-                  {{employee.age}}
+                  Возраст: {{ psychologist.age }}
                 </label>
               </div>
             </div>
             <div class="flex flex-col gap-5">
               <div class="flex items-center gap-[10px] text-3xl">
                 <label>Стаж:</label>
-                <label>{{employee.experience}}</label>
+                <label>{{ psychologist.experience }}</label>
               </div>
               <div class="flex items-center gap-[10px] text-3xl">
                 <label>Образование:</label>
-                <label>{{employee.education}}</label>
+                <label>{{ psychologist.education }}</label>
               </div>
               <div class="flex items-center gap-[10px] text-3xl">
                 <label>Специализация: </label>
-                <label>{{employee.specialization}}</label>
+                <label>{{ psychologist.specialization }}</label>
               </div>
               <div class="flex items-center gap-[10px] text-3xl">
                 <label>Отзывы:</label>
-                <label>{{ employee.rating }}</label>
+                <label>{{ psychologist.rating }}</label>
               </div>
             </div>
           </div>
@@ -345,9 +364,9 @@ const activeTab = ref(0);
             Форма для записи
           </h5>
           <form
-            action=""
-            method="post"
-            class="bg-orange-500 flex flex-col gap-5 p-[30px] rounded-[10px]"
+              action=""
+              method="post"
+              class="bg-orange-500 flex flex-col gap-5 p-[30px] rounded-[10px]"
           >
             <div class="lg:grid lg:grid-cols-2 flex flex-col gap-5">
               <div class="flex flex-col gap-3">
@@ -355,8 +374,8 @@ const activeTab = ref(0);
                   ФИО взрослого
                 </label>
                 <Input
-                  type="name"
-                  placeholder="Прохова Ирина Ивановна "
+                    type="name"
+                    placeholder="Прохова Ирина Ивановна "
                 />
               </div>
 
@@ -383,8 +402,8 @@ const activeTab = ref(0);
                   Время
                 </label>
                 <Input
-                  type="time"
-                  placeholder="15:00"
+                    type="time"
+                    placeholder="15:00"
                 />
               </div>
               <div class="flex flex-col gap-3">
@@ -392,8 +411,8 @@ const activeTab = ref(0);
                   ФИО ребенка(если консультация для ребенка)
                 </label>
                 <Input
-                  type="name"
-                  placeholder="Прохова Ирина Ивановна "
+                    type="name"
+                    placeholder="Прохова Ирина Ивановна "
                 />
               </div>
 
@@ -402,28 +421,28 @@ const activeTab = ref(0);
                   Возраст ребенка
                 </label>
                 <Input
-                  type="age"
-                  placeholder="18"
+                    type="age"
+                    placeholder="18"
                 />
               </div>
             </div>
             <div class="flex items-center gap-2">
               <input
-                type="checkbox"
-                id="consent"
-                name="consent"
-                value="yes"
-                required
-                class="lg:w-[25px] lg:h-[25px] w-[50px] h-[50px]"
+                  type="checkbox"
+                  id="consent"
+                  name="consent"
+                  value="yes"
+                  required
+                  class="lg:w-[25px] lg:h-[25px] w-[50px] h-[50px]"
               >
               <label for="consent" class="lg:text-2xl text-3xl leading-[100%]">
                 Я ознакомлен(-а) с Политикой конфиденциальности
               </label>
             </div>
             <Button
-              label="Записаться"
-              color="black"
-              size="large"
+                label="Записаться"
+                color="black"
+                size="large"
             />
           </form>
         </div>

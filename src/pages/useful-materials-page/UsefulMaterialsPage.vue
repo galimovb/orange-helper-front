@@ -1,42 +1,22 @@
 <script setup lang="ts">
+import {onMounted, ref} from "vue";
+import {useMaterialStore} from '@/stores/materialStore';
 
+import MediaCard from '@/components/MediaCard.vue';
 import Header from "@/components/Header.vue";
 import InfoCard from "@/components/InfoCard.vue";
-import Circle from "@/components/Circle.vue";
 import Footer from "@/components/Footer.vue";
 
-const cards = [
-  {
-    text: "«Сказки, которые лечат» — подборка рассказов, помогающих справиться с тревогами и страхами»",
-    showButton: "true"
-  },
-  {
-    text: "«Маленький принц» как повод поговорить о чувствах»",
-    showButton: "true"
-  },
-  {
-    text: "«Стихи А. Барто, С. Михалкова и современных авторов для чтения перед сном",
-    showButton: "true"
-  }
-];
-const cardsWorkshop = [
-  {
-    text: "«Моя семья в рисунках»  Задание для детей: нарисовать свою семью и рассказать о каждом. Помогает раскрыть внутренние переживания ребёнка и укрепить связь с близкими.»",
-    showButton: "true"
-  },
-  {
-    text: "Творческий альбом «Я — это я» Распечатка с заданиями: нарисуй себя, свои мечты, любимое занятие. Упражнение на самоосознание.",
-    showButton: "true"
-  },
-  {
-    text: "Аппликация из бумаги: «Дерево настроений» Дети создают дерево, где каждый листик — это их сегодняшнее чувство. Развивает эмоциональную осознанность.",
-    showButton: "true"
-  }
-];
+const materialStore = useMaterialStore();
+
+onMounted(async () => {
+  await materialStore.fetchAllMaterials();
+})
+
 </script>
 
 <template>
-  <Header />
+  <Header/>
   <section class="literary-column px-[55px] py-8">
     <div class="flex flex-col gap-[50px]">
       <div class="flex flex-col gap-[30px] text-center">
@@ -48,21 +28,23 @@ const cardsWorkshop = [
           развивает читательский интерес.
         </p>
       </div>
-      <div class="flex lg:flex-row flex-col items-center justify-center gap-[50px]  ">
-        <template v-for="(card, key) in cards">
+      <div class="flex lg:grid lg:grid-cols-3 flex-col items-center justify-center mx-auto gap-y-[50px] gap-x-[150px]">
+        <router-link
+            v-for="(material, index) in materialStore.materials && Array.isArray(materialStore.materials) ? materialStore.materials.filter(item => item.section === 'LITERARY_COLUMN') : []"
+            :key="index"
+            :to="`/useful-materials/literary-column/${material.id}`"
+            target="_blank"
+        >
           <InfoCard
-            :text="card.text"
-            :showButton="card.showButton"
-            class="lg:max-w-[273px] lg:h-[426px] h-[350px]   p-[20px] "
+              :title="material.name"
+              :showButton="true"
+              class="lg:max-w-[273px] lg:h-[426px] h-[350px]   p-[20px] "
           />
-          <Circle
-            v-if="key < cards.length - 1"
-          />
-        </template>
+        </router-link>
       </div>
     </div>
   </section>
-  <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]" />
+  <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]"/>
   <section class="workshop flex flex-col lg:gap-5 gap-12 px-[55px] py-8">
     <div class="flex flex-col gap-[30px]">
       <h1 class="text-orange-500 text-[55px] leading-[100%]">
@@ -75,13 +57,18 @@ const cardsWorkshop = [
     </div>
     <div class="flex lg:flex-row flex-col gap-[20px]">
       <div class="flex flex-col lg:gap-5 gap-12">
-        <InfoCard
-          v-for="(card, key) in cardsWorkshop"
-          :key="key"
-          :text="card.text"
-          :showButton="card.showButton"
-          class="gap-12  p-[20px] "
-        />
+        <router-link
+            v-for="(material, index) in materialStore.materials && Array.isArray(materialStore.materials) ? materialStore.materials.filter(item => item.section === 'CREATIVE_WORKSHOP') : []"
+            :key="index"
+            :to="`/useful-materials/creative-workshop/${material.id}`"
+            target="_blank"
+        >
+          <InfoCard
+              :title="material.name"
+              :showButton="true"
+              class="gap-12 p-[20px]"
+          />
+        </router-link>
       </div>
       <img src="/img/workshop.svg" alt="workshop">
     </div>
@@ -91,38 +78,14 @@ const cardsWorkshop = [
       Музыкальная волна
     </h1>
     <div class="lg:flex grid grid-cols-2 justify-center lg:gap-[133px] gap-[50px]">
-      <!--Заглушка-->
-      <div class="flex flex-col  items-center gap-3 ">
-        <img
-          src="/img/music_1.svg"
-          alt="music"
-          class="max-w-[319px] max-h-[319px]"
-        >
-        <label class="text-3xl leading-[100%] text-center">
-          Плейлист «Музыка на ночь»
-        </label>
-      </div>
-      <div class="flex flex-col items-center gap-3">
-        <img
-          src="/img/music_2.svg"
-          alt="music"
-          class="max-w-[319px] max-h-[319px]"
-        >
-        <label class="text-3xl leading-[100%] text-center">
-          «Угадай инструмент»
-        </label>
-      </div>
-      <div class="flex flex-col items-center gap-3">
-        <img
-          src="/img/music_3.svg"
-          alt="music"
-          class="max-w-[319px] max-h-[319px]"
-
-        >
-        <label class="text-3xl leading-[100%] text-center">
-          Песенка «Про дружбу»
-        </label>
-      </div>
+      <MediaCard
+          v-for="(material, index) in materialStore.materials.filter(item => item.section === 'MUSICAL_WAVE')"
+          :key="index"
+          :src="material.materialUrl"
+          :name="material.name"
+          :index="index"
+          type="audio"
+      />
     </div>
     <p class="text-3xl leading-[100%] text-center">
       Музыка помогает расслабиться, радоваться и познавать мир звуков. В этом разделе — звуковые инструменты развития.
@@ -138,41 +101,18 @@ const cardsWorkshop = [
         родителя.
       </p>
     </div>
-    <!--Заглушка-->
     <div class="flex lg:flex-row flex-col justify-center lg:gap-[133px] gap-[50px]">
-      <div class="flex flex-col lg:items-center gap-3 ">
-        <img
-          src="/img/video_1.svg"
-          alt="music"
-          class="lg:max-w-[319px] lg:max-h-[190px]"
-        >
-        <label class="lg:text-3xl text-4xl leading-[100%]  text-center">
-          «Как справляться с эмоциями» (мультфильм)
-        </label>
-      </div>
-      <div class="flex flex-col lg:items-center gap-3 ">
-        <img
-          src="/img/video_2.svg"
-          alt="music"
-          class="lg:max-w-[319px] lg:max-h-[190px]"
-        >
-        <label class="lg:text-3xl text-4xl leading-[100%]  text-center">
-          Видеоинструкция: «Пальчиковый массаж»
-        </label>
-      </div>
-      <div class="flex flex-col lg:items-center gap-3 ">
-        <img
-          src="/img/video_3.svg"
-          alt="music"
-          class="lg:max-w-[319px] lg:max-h-[190px]"
-        >
-        <label class="lg:text-3xl text-4xl leading-[100%] text-center">
-          Мини-лекция: «Как говорить, чтобы ребёнок слушал»
-        </label>
-      </div>
+      <MediaCard
+          v-for="(material, index) in materialStore.materials.filter(item => item.section === 'VIDEO_LIBRARY')"
+          :key="index"
+          :src="material.materialUrl"
+          :name="material.name"
+          :index="index"
+          type="video"
+      />
     </div>
   </section>
-  <Footer />
+  <Footer/>
 </template>
 
 <style scoped>

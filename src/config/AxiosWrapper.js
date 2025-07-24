@@ -16,6 +16,13 @@ export default class AxiosWrapper {
             response => response,
             error => {
                 if (error.response?.status === 401) {
+                    localStorage.removeItem('auth_token');
+
+                    document.cookie.split(";").forEach((c) => {
+                        document.cookie = c
+                            .replace(/^ +/, "")
+                            .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+                    });
                     if (this.router) {
                         this.router.push({ name: 'login' }); // редирект на роут с именем 'login'
                     } else {

@@ -1,7 +1,6 @@
 <template>
   <div
     class="info-card bg-orange-500 rounded-[10px] shadow-[8px_14px_16px_1px_rgba(0,0,0,0.25)] flex flex-col justify-between"
-    @click="openPopup"
   >
     <div class="text-white flex flex-col items-center gap-6 w-full">
       <div

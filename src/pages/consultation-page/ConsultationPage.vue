@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import AxiosWrapper from '@/config/AxiosWrapper';
 
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
@@ -7,6 +9,46 @@ import Input from "@/components/Input.vue";
 import Button from "@/components/Button.vue";
 import Circle from "@/components/Circle.vue";
 import SectionWithLines from "@/components/main-page/SectionWithLines.vue";
+
+const formData = ref({
+  fullName: '',
+  age: '',
+  education: '',
+  workPlace: '',
+  beenWorkingYears: '',
+  employeeSphera: '', // или 'PSYCHOLOGY' PEDAGOGY
+  phone: ''
+});
+
+const handleJobSubmit = async () => {
+  try {
+    let cleanedPhone = formData.value.phone.replace(/[^\d+]/g, '');
+
+    if (!cleanedPhone.startsWith('+')) {
+      cleanedPhone = '+7' + cleanedPhone.replace(/^[78]?/, '');
+    } else if (cleanedPhone.startsWith('+') && !cleanedPhone.startsWith('+7')) {
+      cleanedPhone = '+7' + cleanedPhone.slice(1).replace(/\D/g, '');
+    }
+
+    cleanedPhone = cleanedPhone.replace(/\++/g, '+');
+
+    if (cleanedPhone.length < 12) {
+      throw new Error('Номер телефона слишком короткий');
+    }
+
+    const payload = {
+      ...formData.value,
+      phone: cleanedPhone
+    };
+
+    await AxiosWrapper.post('/job/request', payload);
+    alert('Заявка успешно отправлена!');
+  } catch (err: any) {
+    console.error('Ошибка при отправке заявки:', err.response?.data || err.message);
+    alert('Ошибка при отправке формы: ' + (err.response?.data?.message || err.message));
+  }
+};
+
 
 const cards_1 = [
   {
@@ -397,6 +439,7 @@ const priceListPsychologic = [
     <form
       action=""
       method="post"
+      @submit.prevent="handleJobSubmit"
       class="flex flex-col gap-5 p-[30px] rounded-[10px]"
     >
       <div class="lg:grid lg:grid-cols-2 flex flex-col gap-5">
@@ -407,6 +450,7 @@ const priceListPsychologic = [
           <Input
               type="name"
               placeholder="Иванов Иван Иванович"
+              v-model="formData.fullName"
           />
         </div>
         <div class="flex flex-col gap-3">
@@ -416,6 +460,7 @@ const priceListPsychologic = [
           <Input
             type="number"
             placeholder="18"
+            v-model="formData.age"
           />
         </div>
         <div class="flex flex-col gap-3">
@@ -425,6 +470,7 @@ const priceListPsychologic = [
           <Input
               type="text"
               placeholder="КФУ"
+              v-model="formData.education"
           />
         </div>
         <div class="flex flex-col gap-3">
@@ -434,6 +480,7 @@ const priceListPsychologic = [
           <Input
             type="text"
             placeholder="1 год"
+            v-model="formData.workPlace"
           />
         </div>
         <div class="flex flex-col gap-3">
@@ -443,37 +490,44 @@ const priceListPsychologic = [
           <Input
               type="text"
               placeholder="1 год"
+              v-model="formData.beenWorkingYears"
           />
         </div>
         <div class="flex flex-col gap-3">
           <label class="text-3xl leading-[100%]">
             Квалификация
           </label>
-          <Input
-            type="name"
-            placeholder="Психолог/преподаватель"
-          />
+          <select
+              v-model="formData.employeeSphera"
+              class="w-full lg:text-2xl border border-[rgba(0,0,0,0.4)] rounded-[10px] p-[10px]"
+          >
+            <option disabled value="">Выберите квалификацию</option>
+            <option value="PSYCHOLOGY">Психолог</option>
+            <option value="PEDAGOGY">Педагог</option>
+          </select>
+
         </div>
         <div class="flex flex-col gap-3">
           <label class="text-3xl leading-[100%]">
             Контактные данные
           </label>
           <Input
-            type="number"
+            type="phone"
             placeholder="+7 951 234 45 99"
+            v-model="formData.phone"
           />
         </div>
       </div>
       <div class="flex items-center gap-2">
         <input
           type="checkbox"
-          id="consent"
+          id="consent-job"
           name="consent"
           value="yes"
           required
           class="lg:w-[25px] lg:h-[25px] w-[50px] h-[50px]"
         >
-        <label for="consent" class="lg:text-2xl text-3xl leading-[100%]">
+        <label for="consent-job" class="lg:text-2xl text-3xl leading-[100%]">
           Я ознакомлен(-а) с Политикой конфиденциальности
         </label>
       </div>
