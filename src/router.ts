@@ -8,8 +8,7 @@ import ConsultationPage from "@/pages/consultation-page/ConsultationPage.vue";
 import NotFoundPage from "@/pages/not-found-page/NotFoundPage.vue";
 import AccountPage from "@/pages/account-page/AccountPage.vue";
 import TestPage from "@/pages/test-page/TestPage.vue";
-import PedagogyDetailPage from "@/pages/diagnostics-page/PedagogyDetailPage.vue";
-import PsychologyDetailPage from "@/pages/diagnostics-page/PsychologyDetailPage.vue";
+import DetailPage from "@/components/DetailPage.vue";
 import RegistrationPage from "@/pages/register-page/RegistrationPage.vue";
 import LoginPage from "@/pages/login-page/LoginPage.vue";
 import { useAuthStore } from '@/stores/auth.js'
@@ -21,9 +20,11 @@ const routes = [
   { path: "/about", component: AboutView },
   { path: "/news", component: NewsPage },
   { path: "/diagnostics", component: DiagnosticsPage },
-  { path: "/diagnostics/pedagogy/:id", component: PedagogyDetailPage, props: true },
-  { path: "/diagnostics/psychology/:id", component: PsychologyDetailPage, props: true },
+  { path: "/diagnostics/pedagogy/:id", component: DetailPage, props: true },
+  { path: "/diagnostics/psychology/:id", component: DetailPage, props: true },
   { path: "/useful-materials", component: UsefulMaterialsPage },
+  { path: "/useful-materials/literary-column/:id", component: DetailPage, props: true },
+  { path: "/useful-materials/creative-workshop/:id", component: DetailPage, props: true },
   { path: "/consultation", component: ConsultationPage },
   { path: "/account", component: AccountPage, meta: { requiresAuth: true } },
   { path: "/test/:id", component: TestPage, props: true, meta: { requiresAuth: true } },
