@@ -1,44 +1,14 @@
 <script setup>
-import { onMounted } from 'vue';
-import { useTestStore } from '@/stores/testStore';
+import {onMounted} from 'vue';
+import {useTestStore} from '@/stores/testStore';
+import {useMaterialStore} from '@/stores/materialStore';
 
 import Header from "@/components/Header.vue";
 import InfoCard from "@/components/InfoCard.vue";
 import Button from "@/components/Button.vue";
 import Footer from "@/components/Footer.vue";
 
-
-const cards = [
-  {
-    title: "Режим дня и школьные трудности.",
-    preview: "История Дениса, режим дня и его влияние на поведение и здоровье"
-  },
-  {
-    title: "Нарушения режима и их последствия",
-    preview: "Что происходит с детьми, уставшими от перегрузки и контроля"
-  },
-  {
-    title: "Режим дня Игоря и выявленные проблемы",
-    preview: "Игорь кажется спокойным, но за этим кроется хроническое истощение"
-  },
-  {
-    title: "Анализ режима дня школьников",
-    preview: "Как анкета помогает выявить скрытые перегрузки у школьников"
-  }
-];
-
-const psychologyCards = [
-  {
-    title: "Что формирует наши чувства и поведение с детства"
-  },
-  {
-    title: "Требующий и Карающий Судья",
-  },
-  {
-    title: "Детские стратегии преодоления: как мы защищались и что с этим делать"
-  }
-];
-
+const materialStore = useMaterialStore();
 const testStore = useTestStore();
 
 const images = [
@@ -51,6 +21,7 @@ const images = [
 ];
 
 onMounted(async () => {
+  await materialStore.fetchAllMaterials();
   await testStore.fetchAllTests();
 });
 </script>
@@ -65,7 +36,7 @@ onMounted(async () => {
         </h1>
         <p class="text-4xl leading-[100%]">
           Данный раздел посвящен психологическому и педагогическому материалу, включающий в себя адаптированную
-          литературу, а также тестирования.педагогами и психологами.
+          литературу, а также тестирования педагогами и психологами.
         </p>
       </div>
       <img
@@ -77,7 +48,7 @@ onMounted(async () => {
   <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]"/>
   <section class="pedagogy px-[55px] py-8">
     <div class="flex flex-col gap-[50px]">
-      <div class="flex flex-col items-center text-center gap-6 ">
+      <div class="flex flex-col items-center text-center gap-6">
         <h2 class="text-orange-500 text-[55px] leading-[100%]">
           Поговорим о педагогике
         </h2>
@@ -93,14 +64,13 @@ onMounted(async () => {
         >
         <div class="grid grid-cols-2 gap-[41px] lg:max-w-[535px]">
           <router-link
-              v-for="(card, index) in cards"
+              v-for="(material, index) in materialStore.materials && Array.isArray(materialStore.materials) ? materialStore.materials.filter(item => item.section === 'PEDAGOGY_TALK') : []"
               :key="index"
-              :to="`/diagnostics/pedagogy/${index}`"
+              :to="`/diagnostics/pedagogy/${material.id}`"
               target="_blank"
           >
             <InfoCard
-                :title="card.title"
-                :text="card.preview"
+                :title="material.name"
                 class="p-3 lg:h-full text-center cursor-pointer transition-transform transform hover:scale-105 hover:shadow-lg"
             />
           </router-link>
@@ -120,13 +90,15 @@ onMounted(async () => {
     </div>
     <div class="flex flex-col gap-8">
       <router-link
-          v-for="(card, key) in psychologyCards"
+          v-for="(material, key) in materialStore.materials && Array.isArray(materialStore.materials) ? materialStore.materials.filter(item => item.section === 'PSYCHOLOGY_TALK') : []"
           :key="key"
-          :to="`/diagnostics/psychology/${key}`"
+          :to="`/diagnostics/psychology/${material.id}`"
           target="_blank"
           class="bg-white lg:text-2xl text-4xl text-left rounded-[5px] px-[30px] py-[18px] cursor-pointer hover:bg-orange-50 transition"
       >
-        <p>{{ card.title }}</p>
+        <p>
+          {{ material.name }}
+        </p>
       </router-link>
     </div>
   </section>
@@ -145,7 +117,7 @@ onMounted(async () => {
       <router-link
           v-for="(test, key) in testStore.tests"
           :key="key"
-          :to="`/test/${key+1}`"
+          :to="`/test/${test.id}`"
           target="_blank"
           class="cursor-pointer"
       >
