@@ -1,7 +1,6 @@
 <template>
   <RegisterAndLoginLayout :max-width="680" :min-width="320">
     <div class="px-5 py-3 space-y-6 w-full">
-
       <div class="flex items-center flex-col">
         <img
             src="/img/logo-bg__orange.svg"
@@ -68,6 +67,7 @@ import authApi from "@/config/api/authApi"
 import Button from "@/components/Button.vue";
 import {useAuthStore} from "@/stores/auth";
 import {router} from "@/router";
+
 const authStore = useAuthStore();
 
 const formData = reactive({
@@ -107,7 +107,7 @@ const handleSubmit = async () => {
     await authStore.check();
 
     // 3. Получаем URL для редиректа из query параметров
-    const redirectPath = route.query.redirect || '/';
+    const redirectPath = router.currentRoute.value.query.redirect || '/';
 
     // 4. Выполняем переход
     await router.push(redirectPath);

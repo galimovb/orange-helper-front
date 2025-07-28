@@ -1,14 +1,14 @@
-// src/services/employeeService.js
 import AxiosWrapper from '@/config/AxiosWrapper';
-
-const API_URL = '/employees';
 
 export const getEmployees = async () => {
     try {
-        const response = await AxiosWrapper.get(API_URL);
-        return response.data;
+        const response = await AxiosWrapper.get('/employees');
+        const teachers = response.data.teachers || [];
+        const psychologists = response.data.psychologists || [];
+
+        return { teachers, psychologists };
     } catch (error) {
-        console.error('Ошибка при получении данных о сотрудниках:', error);
+        console.error('Ошибка при получении сотрудников:', error);
         throw error;
     }
 };

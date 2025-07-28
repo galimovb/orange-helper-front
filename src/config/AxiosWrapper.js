@@ -15,7 +15,10 @@ export default class AxiosWrapper {
         this.axiosInstance.interceptors.response.use(
             response => response,
             error => {
-                if (error.response?.status === 401) {
+                // Проверяем, является ли текущий маршрут защищённым
+                const requiresAuth = this.router.currentRoute.value.meta.requiresAuth;
+
+                if (error.response?.status === 401 && requiresAuth) {
                     localStorage.removeItem('auth_token');
 
                     document.cookie.split(";").forEach((c) => {
@@ -33,6 +36,7 @@ export default class AxiosWrapper {
             }
         );
     }
+
 
     static get(url, config = {}) {
         return this.axiosInstance.get(url, {

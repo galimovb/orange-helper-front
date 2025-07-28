@@ -4,6 +4,7 @@ import { getProfile, updateProfile } from '@/services/profileService';
 
 export const useProfileStore = defineStore('profile', () => {
     const userInfo = ref({
+        id: null,
         fullName: '',
         email: '',
         phone: '',
@@ -19,6 +20,7 @@ export const useProfileStore = defineStore('profile', () => {
             const data = await getProfile();
             console.log('Полученные данные профиля:', data);
 
+            userInfo.value.id = data.id;
             userInfo.value.fullName = `${data.firstName || ''} ${data.lastName || ''} ${data.secondName || ''}`;
             userInfo.value.phone = data.phoneNumber || '';
             userInfo.value.age = data.age || '';

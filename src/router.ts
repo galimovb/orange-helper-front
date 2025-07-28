@@ -11,7 +11,7 @@ import TestPage from "@/pages/test-page/TestPage.vue";
 import DetailPage from "@/components/DetailPage.vue";
 import RegistrationPage from "@/pages/register-page/RegistrationPage.vue";
 import LoginPage from "@/pages/login-page/LoginPage.vue";
-import { useAuthStore } from '@/stores/auth.js'
+import { useAuthStore } from '@/stores/auth.js';
 
 const routes = [
   { path: "/", component: HomePage },
@@ -27,7 +27,7 @@ const routes = [
   { path: "/useful-materials/creative-workshop/:id", component: DetailPage, props: true },
   { path: "/consultation", component: ConsultationPage },
   { path: "/account", component: AccountPage, meta: { requiresAuth: true } },
-  { path: "/test/:id", component: TestPage, props: true, meta: { requiresAuth: true } },
+  { path: "/test/:id", component: TestPage, props: true,  meta: { requiresAuth: true }},
   { path: "/:pathMatch(.*)*", component: NotFoundPage },
 ];
 
@@ -62,3 +62,5 @@ router.beforeEach(async (to, from, next) => {
 
   next();
 });
+
+export default router;

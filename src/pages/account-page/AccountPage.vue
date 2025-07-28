@@ -1,14 +1,18 @@
 <script setup>
 import {ref, onMounted} from 'vue';
-import {useEmployeeStore} from '@/stores/employeeStore';
 import {useProfileStore} from '@/stores/profileStore';
+import {useEmployeeStore} from '@/stores/employeeStore';
+import Multiselect from 'vue-multiselect';
+import { useToast } from 'vue-toastification';
+import AxiosWrapper from "@/config/AxiosWrapper";
 
 import Header from "@/components/Header.vue";
 import Button from "@/components/Button.vue";
 import Input from "@/components/Input.vue";
 import Footer from "@/components/Footer.vue";
+import defaultAvatarImg from '/public/img/empty-photo.jpg';
 
-import { mask } from 'vue-the-mask';
+import {mask} from 'vue-the-mask';
 
 const tabs = [
   {name: 'Личный кабинет'},
@@ -19,18 +23,17 @@ const tabs = [
   {name: 'Подать заявку на консультацию'},
 ];
 
-
 const tableHeaders = [
   {label: 'ФИО специалиста'},
   {label: 'Квалификация'},
   {label: 'День недели + время'},
-]
+];
 
 const scheduleList = [
   {teacher: 'Ильина К. В.', post: 'Преподаватель', schedule: 'Понедельник 10:00-11:00'},
   {teacher: 'Сабирова Э. Г.', post: 'Преподаватель', schedule: 'Вторник 10:00-11:00'},
   {teacher: 'Иванова А. К.', post: 'Преподаватель', schedule: 'Среда 10:00-11:00'},
-]
+];
 
 const consultationHistory = [
   {
@@ -48,14 +51,43 @@ const consultationHistory = [
     description: 'Консультация была направлена на определение причин, обсуждение особенностей подросткового возраста, ' +
         'подходов к диалогу. Выработана стратегия взаимодействия и предложены упражнения на эмоциональную саморегуляцию.',
   }
-]
-const activeTab = ref(0);
+];
 
+
+const toast = useToast();
 const employeeStore = useEmployeeStore();
 const profileStore = useProfileStore();
 
-const teachers = ref([]);
-const psychologists = ref([]);
+const activeTab = ref(0);
+const defaultAvatar = defaultAvatarImg;
+const selectedConsultant = ref(null);
+const consultationType = ref('');
+const selectedDate = ref('');
+const selectedTime = ref('');
+
+const submitForm = async () => {
+  try {
+    const requestData = {
+      consultationType: consultationType.value,
+      consultantId: selectedConsultant.value.id,
+      userId: profileStore.userInfo.id,
+      requestDate: selectedDate.value,
+      requestTime: selectedTime.value,
+      childrenFullName: profileStore.userInfo.childName,
+      childrenAge: profileStore.userInfo.childrenAge
+    };
+
+    const response = await AxiosWrapper.post('/consultation-requests', requestData);
+
+    if (response.status === 201) {
+      toast.success('Заявка на консультацию успешно отправлена!');
+    }
+  } catch (error) {
+    console.error('Ошибка при отправке заявки:', error);
+    toast.error('Произошла ошибка при отправке заявки.');
+  }
+};
+
 
 const saveProfile = async () => {
   try {
@@ -64,7 +96,6 @@ const saveProfile = async () => {
 
     let cleanedPhone = currentPhone;
 
-    // Только если пользователь изменил номер телефона — форматируем и валидируем
     if (currentPhone !== originalPhone) {
       cleanedPhone = cleanedPhone.replace(/[^\d+]/g, '');
 
@@ -86,18 +117,14 @@ const saveProfile = async () => {
     });
 
     await profileStore.fetchProfile();
-    alert('Профиль успешно обновлен!');
+    toast.success('Профиль обновлен');
   } catch (error) {
     console.error('Ошибка при обновлении профиля:', error);
   }
 };
 
-
 onMounted(() => {
   employeeStore.fetchEmployees();
-  teachers.value = employeeStore.teachers;
-  psychologists.value = employeeStore.psychologists;
-
   profileStore.fetchProfile();
 });
 </script>
@@ -160,7 +187,6 @@ onMounted(() => {
           />
         </div>
 
-
         <div class="flex flex-col gap-3">
           <label class="text-2xl">
             E-mail
@@ -197,7 +223,6 @@ onMounted(() => {
         </div>
         <Button label="Сохранить" color="orange" @click="saveProfile"/>
       </div>
-
 
       <div v-show="activeTab === 1">
         <div class="lg:px-14 lg:py-11">
@@ -247,12 +272,20 @@ onMounted(() => {
             >
               <div class="flex items-center justify-between">
                 <div class="space-y-1.5">
-                  <div class="text-2xl font-bold">{{ consultation.teacher }}</div>
-                  <div class="text-xl">{{ consultation.post }}</div>
+                  <div class="text-2xl font-bold">
+                    {{ consultation.teacher }}
+                  </div>
+                  <div class="text-xl">
+                    {{ consultation.post }}
+                  </div>
                 </div>
                 <div class="space-y-1.5">
-                  <div class="text-2xl text-right">{{ consultation.date }}</div>
-                  <div class="text-2xl text-right">{{ consultation.problem }}</div>
+                  <div class="text-2xl text-right">
+                    {{ consultation.date }}
+                  </div>
+                  <div class="text-2xl text-right">
+                    {{ consultation.problem }}
+                  </div>
                 </div>
               </div>
               <div class="text-2xl">
@@ -273,16 +306,15 @@ onMounted(() => {
       <div v-show="activeTab === 3">
         <div class="lg:grid lg:grid-cols-2 flex flex-col gap-[50px]">
           <div
-              v-for="(teacher, key) in teachers"
-              :key=key
-              class="flex flex-col gap-12 border-2 border-[rgba(255,165,0,0.5)] rounded-[10px] p-[30px]"
+              v-for="(teacher, key) in employeeStore.teachers"
+              :key="key" class="flex flex-col gap-12 border-2 border-[rgba(255,165,0,0.5)] rounded-[10px] p-[30px]"
           >
             <div class="flex items-center gap-8">
               <img
-                  :src=teacher.avatar
+                  :src="teacher.photoUrl ? `https://orangehelper.ru${teacher.photoUrl}` : defaultAvatar"
                   alt="avatar"
                   class="max-w-[150px] max-h-[150px] rounded-full"
-              >
+              />
               <div class="flex flex-col gap-2 text-3xl">
                 <label>
                   {{ teacher.fullName }}
@@ -294,39 +326,55 @@ onMounted(() => {
             </div>
             <div class="flex flex-col gap-5">
               <div class="flex items-center gap-[10px] text-3xl">
-                <label>Стаж:</label>
-                <label>{{ teacher.experience }}</label>
+                <label>
+                  Стаж:
+                </label>
+                <label>
+                  {{ teacher.experience }}
+                </label>
               </div>
               <div class="flex items-center gap-[10px] text-3xl">
-                <label>Образование:</label>
-                <label>{{ teacher.education }}</label>
+                <label>
+                  Образование:
+                </label>
+                <label>
+                  {{ teacher.education }}
+                </label>
               </div>
               <div class="flex items-center gap-[10px] text-3xl">
-                <label>Специализация: </label>
-                <label>{{ teacher.specialization }}</label>
+                <label>
+                  Специализация:
+                </label>
+                <label>
+                  {{ teacher.specialization }}
+                </label>
               </div>
               <div class="flex items-center gap-[10px] text-3xl">
-                <label>Отзывы:</label>
-                <label>{{ teacher.rating }}</label>
+                <label>
+                  Отзывы:
+                </label>
+                <label>
+                  {{ teacher.rating }}
+                </label>
               </div>
             </div>
           </div>
         </div>
       </div>
-
       <div v-show="activeTab === 4">
         <div class="lg:grid lg:grid-cols-2 flex flex-col gap-[50px]">
           <div
-              v-for="(psychologist, key) in psychologists"
-              :key=key
-              class="flex flex-col gap-12 border-2 border-[rgba(255,165,0,0.5)] rounded-[10px] p-[30px]"
+              v-for="(psychologist, key) in employeeStore.psychologists"
+              :key="key" class="flex flex-col gap-12 border-2 border-[rgba(255,165,0,0.5)] rounded-[10px] p-[30px]"
           >
             <div class="flex items-center gap-8">
-              <img
-                  :src=psychologist.avatar
-                  alt="avatar"
-                  class="max-w-[150px] max-h-[150px] rounded-full"
-              >
+              <div class="w-40 h-40 mx-auto">
+                <img
+                    :src="psychologist.photoUrl ? `https://orangehelper.ru${psychologist.photoUrl}` : '/default-avatar.jpg'"
+                    alt="avatar"
+                    class="rounded-full border-gray-400 border-[2px] w-full h-full object-cover"
+                />
+              </div>
               <div class="flex flex-col gap-2 text-3xl">
                 <label>
                   {{ psychologist.fullName }}
@@ -338,26 +386,41 @@ onMounted(() => {
             </div>
             <div class="flex flex-col gap-5">
               <div class="flex items-center gap-[10px] text-3xl">
-                <label>Стаж:</label>
-                <label>{{ psychologist.experience }}</label>
+                <label>
+                  Стаж:
+                </label>
+                <label>
+                  {{ psychologist.experience }}
+                </label>
               </div>
               <div class="flex items-center gap-[10px] text-3xl">
-                <label>Образование:</label>
-                <label>{{ psychologist.education }}</label>
+                <label>
+                  Образование:
+                </label>
+                <label>
+                  {{ psychologist.education || 'Не указано' }}
+                </label>
               </div>
               <div class="flex items-center gap-[10px] text-3xl">
-                <label>Специализация: </label>
-                <label>{{ psychologist.specialization }}</label>
+                <label>
+                  Специализация:
+                </label>
+                <label>
+                  {{ psychologist.specialization || 'Не указано' }}
+                </label>
               </div>
               <div class="flex items-center gap-[10px] text-3xl">
-                <label>Отзывы:</label>
-                <label>{{ psychologist.rating }}</label>
+                <label>
+                  Отзывы:
+                </label>
+                <label>
+                  {{ psychologist.rating }}
+                </label>
               </div>
             </div>
           </div>
         </div>
       </div>
-
       <div v-show="activeTab === 5">
         <div class="flex flex-col gap-5">
           <h5 class="text-4xl leading-[100%]">
@@ -366,65 +429,80 @@ onMounted(() => {
           <form
               action=""
               method="post"
+              @submit.prevent="submitForm"
               class="bg-orange-500 flex flex-col gap-5 p-[30px] rounded-[10px]"
           >
-            <div class="lg:grid lg:grid-cols-2 flex flex-col gap-5">
-              <div class="flex flex-col gap-3">
-                <label class="text-white text-3xl leading-[100%]">
-                  ФИО взрослого
-                </label>
-                <Input
-                    type="name"
-                    placeholder="Прохова Ирина Ивановна "
-                />
-              </div>
-
-              <div class="flex flex-col gap-3">
-                <label class="text-white text-3xl leading-[100%]">
-                  ФИО специалиста
-                </label>
-                <Input
-                    type="name"
-                    placeholder="Прохова Ирина Ивановна "
-                />
-              </div>
-              <div class="flex flex-col gap-3">
-                <label class="text-white text-3xl leading-[100%]">
-                  Дата
-                </label>
-                <Input
-                    type="date"
-                />
-              </div>
-
-              <div class="flex flex-col gap-3">
-                <label class="text-white text-3xl leading-[100%]">
-                  Время
-                </label>
-                <Input
-                    type="time"
-                    placeholder="15:00"
-                />
-              </div>
-              <div class="flex flex-col gap-3">
-                <label class="text-white text-3xl leading-[100%]">
-                  ФИО ребенка(если консультация для ребенка)
-                </label>
-                <Input
-                    type="name"
-                    placeholder="Прохова Ирина Ивановна "
-                />
-              </div>
-
-              <div class="flex flex-col gap-3 justify-end">
-                <label class="text-white text-3xl leading-[100%]">
-                  Возраст ребенка
-                </label>
-                <Input
-                    type="age"
-                    placeholder="18"
-                />
-              </div>
+            <div class="flex flex-col gap-3">
+              <label class="text-white text-3xl leading-[100%]">
+                ФИО взрослого
+              </label>
+              <input
+                  v-model="profileStore.userInfo.fullName"
+                  type="text"
+                  readonly
+                  class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
+              />
+            </div>
+            <div class="flex flex-col gap-3">
+              <label class="text-white text-3xl leading-[100%]">
+                ФИО специалиста
+              </label>
+              <multiselect
+                  v-model="selectedConsultant"
+                  :options="employeeStore.allEmployees"
+                  :searchable="true"
+                  :closeOnSelect="true"
+                  track-by="id"
+                  label="fullName"
+                  placeholder="Выберите специалистов"
+                  class="custom-multiselect "
+              />
+            </div>
+            <div class="flex flex-col gap-3">
+              <label class="text-white text-3xl leading-[100%]">
+                Тип консультации
+              </label>
+              <select v-model="consultationType" class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3">
+                <option value="psychological">
+                  Психологическая
+                </option>
+                <option value="pedagogical">
+                  Педагогическая
+                </option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-3">
+              <label class="text-white text-3xl leading-[100%]">
+                Дата
+              </label>
+              <input
+                  v-model="selectedDate"
+                  type="date"
+                  class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
+              />
+            </div>
+            <div class="flex flex-col gap-3">
+              <label class="text-white text-3xl leading-[100%]">
+                Время
+              </label>
+              <input
+                  v-model="selectedTime"
+                  type="time"
+                  class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
+                  placeholder="15:00"
+              />
+            </div>
+            <div class="flex flex-col gap-3">
+              <label class="text-white text-3xl leading-[100%]">
+                ФИО ребенка (если консультация для ребенка)
+              </label>
+              <input
+                  v-model="profileStore.userInfo.childName"
+                  type="text"
+                  placeholder="Иванов Иван Иванович"
+                  required
+                  class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
+              />
             </div>
             <div class="flex items-center gap-2">
               <input
@@ -434,7 +512,7 @@ onMounted(() => {
                   value="yes"
                   required
                   class="lg:w-[25px] lg:h-[25px] w-[50px] h-[50px]"
-              >
+              />
               <label for="consent" class="lg:text-2xl text-3xl leading-[100%]">
                 Я ознакомлен(-а) с Политикой конфиденциальности
               </label>
@@ -443,21 +521,35 @@ onMounted(() => {
                 label="Записаться"
                 color="black"
                 size="large"
+                type="submit"
             />
           </form>
         </div>
-
       </div>
     </div>
   </section>
   <Footer/>
 </template>
 
-
 <style scoped>
+@media (min-width: 1024px) {
+  .custom-multiselect {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
 
 button {
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-multiselect {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  background-color: white;
+  cursor: pointer;
 }
 </style>
