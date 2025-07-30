@@ -2,94 +2,112 @@
   <RegisterAndLoginLayout :max-width="916" :min-width="300">
     <div class="px-5 py-3 space-y-6 w-full">
       <div class="flex items-center flex-col">
-        <img src="/img/logo-bg__orange.svg" class="w-[60px] md:w-[80px]"/>
+        <img src="/img/logo-bg__orange.svg" class="w-[60px] md:w-[80px]" />
         <h1 class="text-3xl md:text-[32px] text-orange-500 font-medium">Регистрация</h1>
       </div>
 
-      <form class="space-y-7" @submit.prevent="handleSubmit">
+      <form @submit.prevent="handleSubmit" class="space-y-7">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <!-- Фамилия -->
           <div>
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">
-              Фамилия
-            </label>
+            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Фамилия</label>
             <Input
                 v-model="formData.lastName"
                 type="text"
-                placeholder="Иванов" required class="w-full"
+                placeholder="Иванов"
+                @blur="validateField('lastName')"
+                :class="{ '!border-red-500 !border-[2px]': errors.lastName }"
             />
+            <span v-if="errors.lastName" class="text-red-500 text-sm">{{ errors.lastName }}</span>
           </div>
 
+          <!-- Имя -->
           <div>
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">
-              Имя
-            </label>
+            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Имя</label>
             <Input
                 v-model="formData.firstName"
                 type="text"
                 placeholder="Иван"
-                required class="w-full"
+                @blur="validateField('firstName')"
+                :class="{ '!border-red-500 !border-[2px]': errors.firstName }"
             />
+            <span v-if="errors.firstName" class="text-red-500 text-sm">{{ errors.firstName }}</span>
           </div>
 
+          <!-- Отчество -->
           <div>
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">
-              Отчество
-            </label>
+            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Отчество</label>
             <Input
                 v-model="formData.secondName"
                 type="text"
                 placeholder="Иванович"
-                required
-                class="w-full"
+                @blur="validateField('secondName')"
+                :class="{ '!border-red-500 !border-[2px]': errors.secondName }"
             />
+            <span v-if="errors.secondName" class="text-red-500 text-sm">{{ errors.secondName }}</span>
           </div>
 
+          <!-- Возраст -->
           <div>
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">
-              Возраст
-            </label>
+            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Возраст</label>
             <Input
                 v-model="formData.age"
                 type="number"
                 placeholder="29"
                 min="1"
                 max="120"
-                required
-                class="w-full"
+                @blur="validateField('age')"
+                :class="{ '!border-red-500 !border-[2px]': errors.age }"
             />
+            <span v-if="errors.age" class="text-red-500 text-sm">{{ errors.age }}</span>
           </div>
 
+          <!-- Email -->
           <div>
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">
-              Телефон
-            </label>
+            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Email</label>
+            <Input
+                v-model="formData.email"
+                type="email"
+                placeholder="example@mail.ru"
+                @blur="validateField('email')"
+                :class="{ '!border-red-500 !border-[2px]': errors.email }"
+            />
+            <span v-if="errors.email" class="text-red-500 text-sm">{{ errors.email }}</span>
+          </div>
+
+          <!-- Телефон -->
+          <div>
+            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Телефон</label>
             <Input
                 v-model="formData.phoneNumber"
-                type="phone"
+                type="tel"
                 placeholder="+7 912 345 67 89"
-                required
-                class="w-full"
+                @blur="validateField('phoneNumber')"
+                :class="{ '!border-red-500 !border-[2px]': errors.phoneNumber }"
             />
+            <span v-if="errors.phoneNumber" class="text-red-500 text-sm">{{ errors.phoneNumber }}</span>
           </div>
 
+          <!-- Пароль -->
           <div>
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">
-              Пароль
-            </label>
+            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Пароль</label>
             <Input
                 v-model="formData.password"
                 type="password"
                 placeholder="Введите пароль"
-                required
-                class="w-full"
+                @blur="validateField('password')"
+                :class="{ '!border-red-500 !border-[2px]': errors.password }"
             />
+            <span v-if="errors.password" class="text-red-500 text-sm">{{ errors.password }}</span>
           </div>
         </div>
 
         <button
             type="submit"
-            class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200 text-lg md:text-xl">
-          Зарегистрироваться
+            class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200 text-lg md:text-xl"
+            :disabled="isSubmitting"
+        >
+          <span v-if="!isSubmitting">Зарегистрироваться</span>
         </button>
       </form>
 
@@ -102,56 +120,140 @@
 </template>
 
 <script setup>
-import {reactive, ref} from 'vue';
-import {useRouter} from 'vue-router';
+import {onBeforeUnmount, onMounted, reactive, ref} from 'vue';
+import { useRouter } from 'vue-router';
+import * as yup from 'yup';
 import RegisterAndLoginLayout from '@/components/RegisterAndLoginLayout.vue';
-import {registerRaw} from '@/config/api/registerRaw';
 import Input from '@/components/Input.vue';
-import authApi from '@/config/api/authApi';
+import { registerRaw } from '@/config/api/registerRaw';
+import {useToast} from "vue-toastification";
 
 const router = useRouter();
-const errorMessage = ref('');
+const isSubmitting = ref(false);
 
+const toast = useToast();
+
+// Данные формы
 const formData = reactive({
   firstName: '',
   lastName: '',
   secondName: '',
   age: null,
+  email: '',
   phoneNumber: '',
   password: ''
 });
 
-const handleSubmit = async () => {
+// Ошибки валидации
+const errors = reactive({
+  firstName: '',
+  lastName: '',
+  secondName: '',
+  age: '',
+  email: '',
+  phoneNumber: '',
+  password: ''
+});
+
+// Схема валидации Yup
+const schema = yup.object().shape({
+  firstName: yup
+      .string()
+      .required('Имя обязательно'),
+  lastName: yup
+      .string()
+      .required('Фамилия обязательна'),
+  secondName: yup
+      .string(),
+  age: yup
+      .number()
+      .required('Возраст обязателен')
+      .min(18, 'Минимальный возраст: 18 лет'),
+  email: yup
+      .string()
+      .required('Email обязателен')
+      .email('Некорректный email'),
+  phoneNumber: yup
+      .string()
+      .required('Телефон обязателен')
+      .matches(/^\+7\d{10}$/, 'Формат: +7XXXXXXXXXX'),
+  password: yup
+      .string()
+      .required('Пароль обязателен')
+      .min(6, 'Минимум 6 символов')
+      .matches(
+          /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*$/,
+          'Пароль должен содержать только английские буквы и символы'
+      )
+});
+
+// Валидация одного поля
+const validateField = async (field) => {
   try {
-    let cleanedPhone = formData.phoneNumber.replace(/[^\d+]/g, '');
-    if (!cleanedPhone.startsWith('+')) {
-      cleanedPhone = '+7' + cleanedPhone.replace(/^[78]?/, '');
-    } else if (!cleanedPhone.startsWith('+7')) {
-      cleanedPhone = '+7' + cleanedPhone.slice(1).replace(/\D/g, '');
-    }
-    cleanedPhone = cleanedPhone.replace(/\++/g, '+');
-
-    if (!/^\+7\d{10}$/.test(cleanedPhone)) {
-      throw new Error('Номер телефона должен быть в формате +7XXXXXXXXXX');
-    }
-
-    const requestData = {
-      ...formData,
-      phoneNumber: cleanedPhone
-    };
-
-    const response = await registerRaw(requestData);
-    const token = response.data.token;
-    localStorage.setItem('auth_token', token);
-
-    console.log('Отправляем:', requestData);
-
-    router.push('/account');
+    await schema.validateAt(field, formData);
+    errors[field] = '';
   } catch (err) {
-    console.error('Ошибка входа:', err);
+    errors[field] = err.message;
   }
 };
 
+// Отправка формы
+const handleSubmit = async () => {
+  try {
+    // Валидация всей формы
+    await schema.validate(formData, { abortEarly: false });
+    isSubmitting.value = true;
 
+    // Нормализация телефона
+    const cleanedPhone = formData.phoneNumber.replace(/[^\d+]/g, '');
+
+    // Подготовка данных для отправки
+    const payload = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      secondName: formData.secondName,
+      age: formData.age,
+      email: formData.email,
+      phoneNumber: cleanedPhone,
+      password: formData.password
+    };
+
+    // Отправка на сервер
+    const response = await registerRaw(payload);
+
+    router.push('/login')
+  } catch (err) {
+    toast.error(err?.response.data.error.message);
+  } finally {
+    isSubmitting.value = false;
+  }
+};
+
+let injectedMeta = null;
+
+onMounted(() => {
+  // Проверим, есть ли уже такой meta-тег
+  const existing = document.querySelector('meta[name="viewport"]');
+
+  // Если он есть — ничего не делаем
+  if (existing) return;
+
+  // Создаём и настраиваем новый
+  const meta = document.createElement('meta');
+  meta.name = 'viewport';
+  meta.content = 'width=device-width, initial-scale=1.0';
+
+  // Сохраняем ссылку для удаления
+  injectedMeta = meta;
+
+  document.head.appendChild(meta);
+});
+
+onBeforeUnmount(() => {
+  // Удалим только тот тег, который мы сами создали
+  if (injectedMeta && document.head.contains(injectedMeta)) {
+    document.head.removeChild(injectedMeta);
+    injectedMeta = null;
+  }
+});
 </script>
-

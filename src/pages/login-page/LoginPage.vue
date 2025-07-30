@@ -60,13 +60,15 @@
 </template>
 
 <script setup>
-import {reactive} from 'vue';
+import {onBeforeUnmount, onMounted, reactive} from 'vue';
 import RegisterAndLoginLayout from "@/components/RegisterAndLoginLayout.vue";
 import Input from "@/components/Input.vue";
 import authApi from "@/config/api/authApi"
 import Button from "@/components/Button.vue";
 import {useAuthStore} from "@/stores/auth";
 import {router} from "@/router";
+import {useToast} from "vue-toastification";
+const toast = useToast();
 
 const authStore = useAuthStore();
 
@@ -113,6 +115,34 @@ const handleSubmit = async () => {
     await router.push(redirectPath);
   } catch (err) {
     console.error('Ошибка:', err.message);
+    toast.error('Ошибка входа',err?.response.data.error.message);
   }
 };
+let injectedMeta = null;
+
+onMounted(() => {
+  // Проверим, есть ли уже такой meta-тег
+  const existing = document.querySelector('meta[name="viewport"]');
+
+  // Если он есть — ничего не делаем
+  if (existing) return;
+
+  // Создаём и настраиваем новый
+  const meta = document.createElement('meta');
+  meta.name = 'viewport';
+  meta.content = 'width=device-width, initial-scale=1.0';
+
+  // Сохраняем ссылку для удаления
+  injectedMeta = meta;
+
+  document.head.appendChild(meta);
+});
+
+onBeforeUnmount(() => {
+  // Удалим только тот тег, который мы сами создали
+  if (injectedMeta && document.head.contains(injectedMeta)) {
+    document.head.removeChild(injectedMeta);
+    injectedMeta = null;
+  }
+});
 </script>

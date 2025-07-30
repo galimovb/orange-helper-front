@@ -6,6 +6,8 @@ import "./assets/styles/main.css";
 import VueTheMask from 'vue-the-mask';
 import { createPinia } from 'pinia'
 import AxiosWrapper from '@/config/AxiosWrapper.js'
+import Toast from 'vue-toastification'
+import 'vue-toastification/dist/index.css'
 
 const app = createApp(App);
 
@@ -14,4 +16,5 @@ AxiosWrapper.initialize(router);
 app.use(createPinia())
 app.use(VueTheMask)
 app.use(router)
+app.use(Toast)
 app.mount("#app");
