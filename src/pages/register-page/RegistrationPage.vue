@@ -229,31 +229,26 @@ const handleSubmit = async () => {
   }
 };
 
-let injectedMeta = null;
-
 onMounted(() => {
-  // Проверим, есть ли уже такой meta-тег
-  const existing = document.querySelector('meta[name="viewport"]');
+  // Удаляем все существующие viewport мета-теги
+  const metas = document.querySelectorAll('meta[name="viewport"]');
+  metas.forEach(meta => document.head.removeChild(meta));
 
-  // Если он есть — ничего не делаем
-  if (existing) return;
-
-  // Создаём и настраиваем новый
-  const meta = document.createElement('meta');
-  meta.name = 'viewport';
-  meta.content = 'width=device-width, initial-scale=1.0';
-
-  // Сохраняем ссылку для удаления
-  injectedMeta = meta;
-
-  document.head.appendChild(meta);
+  // Создаём и вставляем свой
+  const newMeta = document.createElement('meta');
+  newMeta.name = 'viewport';
+  newMeta.content = 'width=device-width, initial-scale=1.0';
+  document.head.appendChild(newMeta);
 });
 
 onBeforeUnmount(() => {
-  // Удалим только тот тег, который мы сами создали
-  if (injectedMeta && document.head.contains(injectedMeta)) {
-    document.head.removeChild(injectedMeta);
-    injectedMeta = null;
-  }
+  // Удаляем все viewport мета-теги (включая наш)
+  const metas = document.querySelectorAll('meta[name="viewport"]');
+  metas.forEach(meta => {
+    if (document.head.contains(meta)) {
+      document.head.removeChild(meta);
+    }
+  });
 });
+
 </script>
