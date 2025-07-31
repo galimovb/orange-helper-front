@@ -7,7 +7,9 @@ import Header from "@/components/Header.vue";
 import InfoCard from "@/components/InfoCard.vue";
 import Button from "@/components/Button.vue";
 import Footer from "@/components/Footer.vue";
+import {useRouter} from "vue-router";
 
+const router = useRouter();
 const materialStore = useMaterialStore();
 const testStore = useTestStore();
 
@@ -143,6 +145,7 @@ onMounted(async () => {
           label="Записаться на консультацию"
           color="white"
           size="large"
+          @click="router.push('/consultation')"
       />
     </div>
   </section>

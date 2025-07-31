@@ -1,5 +1,6 @@
 <template>
   <RegisterAndLoginLayout :max-width="680" :min-width="320">
+    {{error}}
     <div class="px-5 py-3 space-y-6 w-full">
       <div class="flex items-center flex-col">
         <img
@@ -60,13 +61,17 @@
 </template>
 
 <script setup>
-import {reactive} from 'vue';
+import {onBeforeUnmount, onMounted, reactive, ref} from 'vue';
 import RegisterAndLoginLayout from "@/components/RegisterAndLoginLayout.vue";
 import Input from "@/components/Input.vue";
 import authApi from "@/config/api/authApi"
 import Button from "@/components/Button.vue";
 import {useAuthStore} from "@/stores/auth";
 import {router} from "@/router";
+import {useToast} from "vue-toastification";
+const toast = useToast();
+
+const error = ref('')
 
 const authStore = useAuthStore();
 
@@ -113,6 +118,31 @@ const handleSubmit = async () => {
     await router.push(redirectPath);
   } catch (err) {
     console.error('Ошибка:', err.message);
+    toast.error(`Ошибка входа: ${err?.response.data.error.message}`);
+    error.value = err.response.status || err?.response.data.error.message
   }
 };
+
+onMounted(() => {
+  // Удаляем все существующие viewport мета-теги
+  const metas = document.querySelectorAll('meta[name="viewport"]');
+  metas.forEach(meta => document.head.removeChild(meta));
+
+  // Создаём и вставляем свой
+  const newMeta = document.createElement('meta');
+  newMeta.name = 'viewport';
+  newMeta.content = 'width=device-width, initial-scale=1.0';
+  document.head.appendChild(newMeta);
+});
+
+onBeforeUnmount(() => {
+  // Удаляем все viewport мета-теги (включая наш)
+  const metas = document.querySelectorAll('meta[name="viewport"]');
+  metas.forEach(meta => {
+    if (document.head.contains(meta)) {
+      document.head.removeChild(meta);
+    }
+  });
+});
+
 </script>
