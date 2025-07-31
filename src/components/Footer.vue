@@ -5,7 +5,7 @@
 <template>
   <footer class="footer pl-9 md:pl-11 lg:pl-[55px]">
     <div class="bg-white flex justify-between gap-3 md:gap-[56px] lg:gap-[100px]">
-      <div class="footer__content flex gap-9 pb-7">
+      <div class="footer__content flex gap-2 md:gap-5 lg:gap-9 pb-7">
         <div class="footer-menu leading-[100%]">
           <div class="flex flex-col gap-1 md:gap-4 lg:gap-8">
             <h1 class="footer__title text-base md:text-2xl lg:text-4xl">
@@ -80,7 +80,7 @@
           </div>
         </div>
       </div>
-      <div class="footer__logo bg-orange-500  lg:block">
+      <div class="footer__logo bg-orange-500 hidden lg:block">
         <div class="py-3 px-5">
           <h1 class="text-white text-xs md:text-3xl lg:text-[55px] leading-[100%]">
             Оранжевый помощник

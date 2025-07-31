@@ -8,11 +8,10 @@
       <div class="line-right bg-orange-500 h-[5px] inline-block flex-grow"></div>
     </div>
     <div class="section-with-lines__content max-w-[1024px] mx-auto px-[10px] py-[22px]">
-      <p class="text-4xl leading-[100%]">
+      <p class="text-base md:text-3xl lg:text-4xl leading-[100%]">
         <slot></slot>
       </p>
     </div>
-    <div class="line-bottom bg-orange-500 h-[5px] inline-block w-full mt-3.5 mb-[80px]"></div>
   </section>
 </template>
 
