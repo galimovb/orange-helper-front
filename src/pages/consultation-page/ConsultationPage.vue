@@ -3,10 +3,10 @@ import {onMounted, ref} from 'vue';
 import AxiosWrapper from '@/config/AxiosWrapper';
 import {useProfileStore} from '@/stores/profileStore';
 import {useEmployeeStore} from '@/stores/employeeStore';
-import { useAuthStore } from "@/stores/auth.js";
+import {useAuthStore} from "@/stores/auth.js";
 import Multiselect from "vue-multiselect";
 import {useToast} from 'vue-toastification';
-import { useRouter } from "vue-router";
+import {useRouter} from "vue-router";
 
 
 import Header from "@/components/Header.vue";
@@ -21,7 +21,7 @@ const router = useRouter();
 
 const checkAuth = () => {
   if (!authStore.isAuthenticated) {
-    router.push({ name: "login", query: { redirect: router.currentRoute.value.fullPath } });
+    router.push({name: "login", query: {redirect: router.currentRoute.value.fullPath}});
   }
 };
 
@@ -34,7 +34,6 @@ const selectedDatePedagogical = ref('');
 const selectedTimePedagogical = ref('');
 const consultationTypePedagogical = ref('Педагогическая')
 
-// Для Психологической консультации
 const selectedConsultantPsychological = ref(null);
 const selectedDatePsychological = ref('');
 const selectedTimePsychological = ref('');
@@ -42,50 +41,86 @@ const consultationTypePsychological = ref('Психологическая')
 
 const submitFormPedagogical = async () => {
   try {
+
+    const localDate = new Date(selectedDatePedagogical.value + ' ' + selectedTimePedagogical.value);
+
+    // Получаем смещение времени в минутах относительно UTC
+    const timezoneOffset = localDate.getTimezoneOffset();
+
+    // Преобразуем локальное время в UTC
+    const utcDate = new Date(localDate.getTime() - timezoneOffset * 60000);
+
+    // Преобразуем время в нужный формат ISO с часовым поясом (+00:00)
+    const formattedDate = utcDate.toISOString().replace('.000Z', '+00:00');
+    const formattedTime = `1970-01-01T${selectedTimePedagogical.value}:00+00:00`;
+
     const requestData = {
       consultationType: 'pedagogical',
       consultantId: selectedConsultantPedagogical.value.id,
       userId: profileStore.userInfo.id,
-      requestDate: selectedDatePedagogical.value,
-      requestTime: selectedTimePedagogical.value,
-      childrenFullName: profileStore.userInfo.childName,
-      childrenAge: profileStore.userInfo.childrenAge,
+      requestDate: formattedDate,
+      requestTime: formattedTime,
+      childrenFullName: profileStore.userInfo.childName || null,
+      childrenAge: profileStore.userInfo.childrenAge  || null,
     };
 
     const response = await AxiosWrapper.post('/consultation-requests', requestData);
 
     if (response.status === 201) {
       toast.success('Заявка на педагогическую консультацию успешно отправлена!');
+
+      selectedTimePedagogical.value = null;
+      selectedDatePedagogical.value = '';
+      selectedTimePedagogical.value = '';
+      profileStore.userInfo.childName = null;
     }
   } catch (error) {
     console.error('Ошибка при отправке заявки:', error);
-    toast.error('Произошла ошибка при отправке заявки.');
+    toast.error('Произошла ошибка при отправке заявки.', error);
   }
 };
 
 const submitFormPsychological = async () => {
   try {
+
+    const localDate = new Date(selectedDatePsychological.value + ' ' + selectedTimePsychological.value);
+
+    // Получаем смещение времени в минутах относительно UTC
+    const timezoneOffset = localDate.getTimezoneOffset();
+
+    // Преобразуем локальное время в UTC
+    const utcDate = new Date(localDate.getTime() - timezoneOffset * 60000);
+
+    // Преобразуем время в нужный формат ISO с часовым поясом (+00:00)
+    const formattedDate = utcDate.toISOString().replace('.000Z', '+00:00');
+    const formattedTime = `1970-01-01T${selectedTimePsychological.value}:00+00:00`;
+
     const requestData = {
       consultationType: 'psychological',
       consultantId: selectedConsultantPsychological.value.id,
       userId: profileStore.userInfo.id,
-      requestDate: selectedDatePsychological.value,
-      requestTime: selectedTimePsychological.value,
-      childrenFullName: profileStore.userInfo.childName,
-      childrenAge: profileStore.userInfo.childrenAge,
+      requestDate: formattedDate,
+      requestTime: formattedTime,
+      childrenFullName: profileStore.userInfo.childName || null,
+      childrenAge: profileStore.userInfo.childrenAge || null,
     };
 
     const response = await AxiosWrapper.post('/consultation-requests', requestData);
 
     if (response.status === 201) {
       toast.success('Заявка на психологическую консультацию успешно отправлена!');
+
+      selectedConsultantPsychological.value = null;
+      selectedDatePsychological.value = '';
+      selectedTimePsychological.value = '';
+      profileStore.userInfo.childName = null;
     }
+
   } catch (error) {
     console.error('Ошибка при отправке заявки:', error);
     toast.error('Произошла ошибка при отправке заявки.');
   }
 };
-
 
 
 const formData = ref({
@@ -234,6 +269,7 @@ onMounted(() => {
                 label="fullName"
                 placeholder="Выберите специалистов"
                 class="custom-multiselect "
+                required
                 @focus="checkAuth"
             />
           </div>
@@ -247,6 +283,7 @@ onMounted(() => {
                 readonly
                 class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
                 value="Педагогическая"
+                required
                 @focus="checkAuth"
 
             />
@@ -259,8 +296,8 @@ onMounted(() => {
                 v-model="selectedDatePedagogical"
                 type="date"
                 class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
+                required
                 @focus="checkAuth"
-
             />
           </div>
 
@@ -273,6 +310,7 @@ onMounted(() => {
                 type="time"
                 class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
                 placeholder="15:00"
+                required
                 @focus="checkAuth"
             />
           </div>
@@ -285,7 +323,6 @@ onMounted(() => {
                 v-model="profileStore.userInfo.childName"
                 type="text"
                 placeholder="Иванов Иван Иванович"
-                required
                 class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
                 @focus="checkAuth"
             />
@@ -365,8 +402,8 @@ onMounted(() => {
                 placeholder="Булат Галимов Сайдашеви"
                 readonly
                 class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
+                required
                 @focus="checkAuth"
-
             />
           </div>
 
@@ -398,8 +435,8 @@ onMounted(() => {
                 readonly
                 class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
                 value="Психологическая"
+                required
                 @focus="checkAuth"
-
             />
           </div>
           <div class="flex flex-col gap-3">
@@ -440,8 +477,8 @@ onMounted(() => {
                 type="text"
                 placeholder="Иванов Иван Иванович"
                 class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
+                required
                 @focus="checkAuth"
-
             />
           </div>
         </div>
@@ -621,12 +658,4 @@ button {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.custom-multiselect {
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 0.5rem;
-  padding: 0.75rem;
-  background-color: white;
-  cursor: pointer;
-}
 </style>

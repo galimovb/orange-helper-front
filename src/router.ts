@@ -26,7 +26,7 @@ const routes = [
   { path: "/useful-materials/literary-column/:id", component: DetailPage, props: true },
   { path: "/useful-materials/creative-workshop/:id", component: DetailPage, props: true },
   { path: "/consultation", component: ConsultationPage },
-  { path: "/account", component: AccountPage, meta: { requiresAuth: true } },
+  { path: "/account", component: AccountPage,  },
   { path: "/test/:id", component: TestPage, props: true,  meta: { requiresAuth: true }},
   { path: "/:pathMatch(.*)*", component: NotFoundPage },
 ];
