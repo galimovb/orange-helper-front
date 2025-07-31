@@ -13,7 +13,7 @@
       </div>
       <div
         v-if="text"
-        class="text-base md:text-2xl lg:text-4xl leading-[100%]"
+        class="text-base md:text-2xl lg:text-4xl leading-[100%] truncate"
       >
         <p>
           {{ text }}
@@ -29,18 +29,16 @@
       </div>
     </div>
 
-    <Button
+    <button
         v-if="showButton"
-        label="Подробнее"
-        color="white"
-        size="medium"
-      />
+        class="bg-white text-orange-500 rounded-[10px] px-4 py-2.5 text-base md:text-xl lg:text-2xl"
+    >
+      Подробнее
+    </button>
   </div>
 </template>
 
 <script setup>
-import Button from "@/components/Button.vue";
-
 defineProps({
   title: String,
   text: String,
