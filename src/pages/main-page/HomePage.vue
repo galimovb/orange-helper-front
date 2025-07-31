@@ -62,22 +62,22 @@ const priceList = [
       <div class="main-content flex flex-wrap xl:flex-nowrap justify-between px-[55px]">
         <div>
           <div class="relative z-20 xl:mt-[100px] mt-[50px]">
-            <h1 class="xl:text-white text-black leading-[100%] text-[96px] z-30">
+            <h1 class="xl:text-white text-black leading-[100%] text-2xl md:text-[60px] lg:text-[96px] z-30">
               Оранжевый <br> помощник
             </h1>
           </div>
-          <p class="leading-[100%] text-4xl mt-[60px]">
+          <p class="leading-[100%] text-base lg:text-4xl mt-2.5 md:mt-9 lg:mt-[60px]">
             проект для улучшения взаимоотношений родителей и детей.
           </p>
         </div>
         <img src="/img/main-illustration.svg" alt="main-illustration" class="z-20">
       </div>
     </section>
-    <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]"/>
+    <div class="content-rectangle h-[30px] md:h-[45px] lg:h-[60px] bg-orange-500 md:mb-7 lg:mb-[50px]"/>
     <section class="partners-info bg-white flex justify-center mb-[50px] px-[55px]">
       <div class=" flex flex-col gap-[30px]">
         <div class="partners-info__title p-[10px] max-w-[1024px]">
-          <h1 class="text-center leading-none text-4xl">
+          <h1 class="text-center leading-none text-base md:text-2xl lg:text-4xl">
             Проект создан при поддержке Федерального государственного бюджетного учреждения
             "Фонд содействия развитию малых форм предприятий в научно-технической сфере в рамках программы "Студенческий
             стартап"
@@ -99,12 +99,12 @@ const priceList = [
         </div>
       </div>
     </section>
-    <section class="project-info bg-orange-500 text-white py-8 px-[55px]" id="about-project">
-      <div class="project-info__content max-w-[1024px] mx-auto">
-        <h1 class="text-center leading-none text-[96px] mb-[30px]">
+    <section class="project-info bg-orange-500 text-white px-8 md:px-10 lg:px-[55px]" id="about-project">
+      <div class="project-info__content max-w-[1024px] mx-auto py-2">
+        <h1 class="text-center leading-none text-xl md:text-[56px] lg:text-[96px] md:mb-4 lg:mb-[30px]">
           О проекте
         </h1>
-        <p class="text-center leading-none text-4xl p-[10px]">
+        <p class="text-center leading-none text-base md:text-2xl lg:text-4xl p-[10px]">
           «Оранжевый помощник» это образовательный интернет-сайт, созданный для психолого-педагогической поддержки и
           сопровождения детско-родительских отношений. Мы объединяем усилия педагогов и психологов, чтобы помочь
           родителям и детям выстроить максимально гармоничные взаимоотношения.
@@ -120,12 +120,12 @@ const priceList = [
           >
         </div>
         <div class="project-goals__content max-w-[800px] leading-[100%] text-4xl text-left">
-          <h2 class="text-[55px] text-orange-500 mb-8">
-            Цели и задачи проекта
+          <h2 class="text-base md:text-4xl lg:text-[55px] text-orange-500 mb-6 lg:mb-8">
+            Цели и задачи проекта:
           </h2>
-          <div class="project-goals__goals">
+          <div class="project-goals__goals text-base md:text-2xl lg:text-4xl">
             <h3>
-              Цель:
+              Цели:
             </h3>
             <ul class="list-disc pl-10">
               <li>
@@ -133,7 +133,7 @@ const priceList = [
               </li>
             </ul>
           </div>
-          <div class="project-goals__tasks">
+          <div class="project-goals__tasks text-base md:text-2xl lg:text-4xl">
             <h3>
               Задачи:
             </h3>
@@ -152,7 +152,7 @@ const priceList = [
         </div>
       </div>
     </section>
-    <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]"/>
+    <div class="content-rectangle h-[30px] md:h-[45px] lg:h-[60px] bg-orange-500 md:mb-7 lg:mb-[50px]"/>
     <section class="key-concept bg-white p-8 px-[55px]">
       <SectionWithLines
           title="Ключевая концепция"
@@ -216,7 +216,7 @@ const priceList = [
         </div>
       </div>
     </section>
-    <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]"/>
+    <div class="content-rectangle h-[30px] md:h-[45px] lg:h-[60px] bg-orange-500 md:mb-7 lg:mb-[50px]"/>
     <section class="financing bg-white p-8 px-[55px]">
       <SectionWithLines
           title="Финансовая выгода"
@@ -283,7 +283,7 @@ const priceList = [
         />
       </div>
     </section>
-    <div class="content-rectangle h-[2px] bg-orange-500 mb-[50px]"/>
+    <div class="content-rectangle h-[2px] bg-orange-500 mb-2 md:mb-7 lg:mb-[50px]"/>
     <Footer/>
   </div>
 </template>
