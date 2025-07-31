@@ -5,15 +5,15 @@
     <div class="text-white flex flex-col items-center gap-6 w-full">
       <div
         v-if="title"
-        class="lg:text-2xl text-4xl leading-[100%] lg:min-h-[128px] min-h-[160px]"
+        class="leading-[100%] min-h-[100px] lg:min-h-[128px] "
       >
-        <h2 :class="titleSize">
+        <h2 :class="titleSize" class="text-base md:text-2xl lg:text-4xl">
           {{ title }}
         </h2>
       </div>
       <div
         v-if="text"
-        class="lg:text-2xl text-4xl leading-[100%]"
+        class="text-base md:text-2xl lg:text-4xl leading-[100%]"
       >
         <p>
           {{ text }}
@@ -24,7 +24,7 @@
           v-if="image"
           :src="image"
           alt="image"
-          class="bg-white max-w-[241px] min-h-[202px] rounded-[5px] "
+          class="bg-white rounded-[5px] "
         />
       </div>
     </div>

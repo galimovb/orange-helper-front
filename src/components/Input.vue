@@ -26,7 +26,7 @@ watch(localValue, (newValue) => {
       v-mask="'+7 (###) ###-##-##'"
       v-model="localValue"
       :placeholder="props.placeholder"
-      class="input w-full lg:text-2xl"
+      class="input w-full text-base md:text-xl lg:text-2xl"
       v-bind="$attrs"
   />
 
@@ -35,7 +35,7 @@ watch(localValue, (newValue) => {
       v-model="localValue"
       :type="props.type"
       :placeholder="props.placeholder"
-      class="input w-full lg:text-2xl"
+      class="input w-full text-base md:text-xl lg:text-2x"
       v-bind="$attrs"
   />
 </template>

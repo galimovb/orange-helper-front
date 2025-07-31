@@ -5,6 +5,9 @@ import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
 import Circle from "@/components/Circle.vue";
 import Button from "@/components/Button.vue";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
 
 const teamMembers = [
   {
@@ -268,7 +271,7 @@ const priceList = [
         <h6 class="text-xl md:text-4xl lg:text-[55px] px-8">
           Путь на платформе
         </h6>
-        <div class="grid grid-cols-5 gap-2 md:gap-6 lg:gap-10 mb-[50px]">
+        <div class="grid grid-cols-5 gap-2 md:gap-6 lg:gap-10 mb-5 lg:mb-[50px]">
           <Circle
               v-for="circle in circleLabel"
               :label="circle.label"
@@ -276,11 +279,12 @@ const priceList = [
         </div>
       </div>
       <div class="flex justify-center mb-[50px]">
-        <Button
-            label="Записаться на консультацию"
-            color="orange"
-            size="large"
-        />
+        <button
+            class="bg-orange-500 text-white rounded-[10px] px-1 py-1 md:px-10 md:py-4 lg:px-4 lg:py-7 text-base ld:text-4xl md:text-2xl"
+            @click="router.push('/consultation')"
+        >
+         Записаться на консультацию
+        </button>
       </div>
     </section>
     <div class="content-rectangle h-[2px] bg-orange-500 mb-2 md:mb-7 lg:mb-[50px]"/>
