@@ -1,6 +1,6 @@
 <template>
   <section class="section-with-lines mx-auto text-center">
-    <div class="section-with-lines__title mb-[20px] flex justify-center items-center">
+    <div class="section-with-lines__title mb-2 md:mb-3.5 lg:mb-[20px] flex justify-center items-center">
       <div class="line-left bg-orange-500 h-[5px] inline-block flex-grow"></div>
       <h2 class="bg-orange-500 text-white inline-block px-2.5 py-2 md:px-[30px] lg:px-[50px] lg:py-2 text-xl md:text-3xl lg:text-4xl rounded-[10px]">
         {{ title }}

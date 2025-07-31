@@ -108,7 +108,7 @@ onMounted(async () => {
         родителя.
       </p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-x-12 md:gap-y-8 lg:gap-x-[70px] lg:gap-y-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-3 gap-y-4 md:gap-x-12 md:gap-y-8 lg:gap-x-[70px] lg:gap-y-10">
       <MediaCard
           v-for="(material, index) in materialStore.materials.filter(item => item.section === 'VIDEO_LIBRARY')"
           :key="index"
