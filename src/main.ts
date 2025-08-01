@@ -8,6 +8,7 @@ import { createPinia } from 'pinia'
 import AxiosWrapper from '@/config/AxiosWrapper.js'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
+import 'vue-multiselect/dist/vue-multiselect.css';
 
 const app = createApp(App);
 

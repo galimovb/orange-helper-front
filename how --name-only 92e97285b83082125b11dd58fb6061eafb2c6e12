@@ -1,0 +1,170 @@
+[33mcommit 92e97285b83082125b11dd58fb6061eafb2c6e12[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Thu Jul 31 10:45:32 2025 +0700
+
+    API. AccountPage.vue, ConsultationPage.vue. отправка даты и времени
+
+[1mdiff --git a/dist/index.html b/dist/index.html[m
+[1mindex d1d462a..584160a 100644[m
+[1m--- a/dist/index.html[m
+[1m+++ b/dist/index.html[m
+[36m@@ -1,13 +1,13 @@[m
+[31m-<!doctype html>[m
+[31m-<html lang="en">[m
+[31m-<head>[m
+[31m-    <meta charset="UTF-8"/>[m
+[31m-    <link rel="icon" type="image/svg+xml" href="/assets/helper-logo--9PRKLIT.jpg" />[m
+[31m-    <title>Оранжевый помощник</title>[m
+[31m-  <script type="module" crossorigin src="/assets/index-CfqhuCrf.js"></script>[m
+[31m-  <link rel="stylesheet" crossorigin href="/assets/index-DpaUW6Kz.css">[m
+[31m-</head>[m
+[31m-<body>[m
+[31m-<div id="app"></div>[m
+[31m-</body>[m
+[31m-</html>[m
+[32m+[m[32m<!doctype html>[m[41m[m
+[32m+[m[32m<html lang="en">[m[41m[m
+[32m+[m[32m<head>[m[41m[m
+[32m+[m[32m    <meta charset="UTF-8"/>[m[41m[m
+[32m+[m[32m    <link rel="icon" type="image/svg+xml" href="/assets/helper-logo--9PRKLIT.jpg" />[m[41m[m
+[32m+[m[32m    <title>Оранжевый помощник</title>[m[41m[m
+[32m+[m[32m  <script type="module" crossorigin src="/assets/index-CX4mLU1M.js"></script>[m
+[32m+[m[32m  <link rel="stylesheet" crossorigin href="/assets/index-Cx7OcR_7.css">[m
+[32m+[m[32m</head>[m[41m[m
+[32m+[m[32m<body>[m[41m[m
+[32m+[m[32m<div id="app"></div>[m[41m[m
+[32m+[m[32m</body>[m[41m[m
+[32m+[m[32m</html>[m[41m[m
+[1mdiff --git a/src/main.ts b/src/main.ts[m
+[1mindex a6782ae..4ab6ea5 100644[m
+[1m--- a/src/main.ts[m
+[1m+++ b/src/main.ts[m
+[36m@@ -6,6 +6,9 @@[m [mimport "./assets/styles/main.css";[m
+ import VueTheMask from 'vue-the-mask';[m
+ import { createPinia } from 'pinia'[m
+ import AxiosWrapper from '@/config/AxiosWrapper.js'[m
+[32m+[m[32mimport 'vue-multiselect/dist/vue-multiselect.css'[m
+[32m+[m[32mimport 'vue-toastification/dist/index.css'[m
+[32m+[m[32mimport Toast from 'vue-toastification'[m
+ [m
+ const app = createApp(App);[m
+ [m
+[36m@@ -13,5 +16,6 @@[m [mAxiosWrapper.initialize(router);[m
+ [m
+ app.use(createPinia())[m
+ app.use(VueTheMask)[m
+[32m+[m[32mapp.use(Toast)[m
+ app.use(router)[m
+ app.mount("#app");[m
+[1mdiff --git a/src/pages/account-page/AccountPage.vue b/src/pages/account-page/AccountPage.vue[m
+[1mindex 7242fdf..5b3384d 100644[m
+[1m--- a/src/pages/account-page/AccountPage.vue[m
+[1m+++ b/src/pages/account-page/AccountPage.vue[m
+[36m@@ -67,14 +67,27 @@[m [mconst selectedTime = ref('');[m
+ [m
+ const submitForm = async () => {[m
+   try {[m
+[32m+[m
+[32m+[m[32m    const localDate = new Date(selectedDate.value + ' ' + selectedTime.value);[m
+[32m+[m
+[32m+[m[32m    // Получаем смещение времени в минутах относительно UTC[m
+[32m+[m[32m    const timezoneOffset = localDate.getTimezoneOffset();[m
+[32m+[m
+[32m+[m[32m    // Преобразуем локальное время в UTC[m
+[32m+[m[32m    const utcDate = new Date(localDate.getTime() - timezoneOffset * 60000);[m
+[32m+[m
+[32m+[m[32m    // Преобразуем дату в нужный формат ISO с часовым поясом (+00:00)[m
+[32m+[m[32m    const formattedDate = utcDate.toISOString().replace('.000Z', '+00:00');[m
+[32m+[m[32m    const formattedTime = `1970-01-01T${selectedTime.value}:00+00:00`; // Формат времени с искусственной датой[m
+[32m+[m
+     const requestData = {[m
+       consultationType: consultationType.value,[m
+       consultantId: selectedConsultant.value.id,[m
+       userId: profileStore.userInfo.id,[m
+[31m-      requestDate: selectedDate.value,[m
+[31m-      requestTime: selectedTime.value,[m
+[31m-      childrenFullName: profileStore.userInfo.childName,[m
+[31m-      childrenAge: profileStore.userInfo.childrenAge[m
+[32m+[m[32m      requestDate: formattedDate,  // Отправляем дату в формате UTC с часовым поясом[m
+[32m+[m[32m      requestTime: formattedTime,  // Отправляем время с часовым поясом[m
+[32m+[m[32m      childrenFullName: profileStore.userInfo.childName || null,[m
+[32m+[m[32m      childrenAge: profileStore.userInfo.childrenAge || null[m
+     };[m
+ [m
+     const response = await AxiosWrapper.post('/consultation-requests', requestData);[m
+[36m@@ -500,7 +513,6 @@[m [monMounted(() => {[m
+                   v-model="profileStore.userInfo.childName"[m
+                   type="text"[m
+                   placeholder="Иванов Иван Иванович"[m
+[31m-                  required[m
+                   class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"[m
+               />[m
+             </div>[m
+[36m@@ -544,12 +556,4 @@[m [mbutton {[m
+   transition: background-color 0.3s, color 0.3s;[m
+ }[m
+ [m
+[31m-.custom-multiselect {[m
+[31m-  width: 100%;[m
+[31m-  border: 1px solid #ddd;[m
+[31m-  border-radius: 0.5rem;[m
+[31m-  padding: 0.75rem;[m
+[31m-  background-color: white;[m
+[31m-  cursor: pointer;[m
+[31m-}[m
+ </style>[m
+\ No newline at end of file[m
+[1mdiff --git a/src/pages/consultation-page/ConsultationPage.vue b/src/pages/consultation-page/ConsultationPage.vue[m
+[1mindex 512ff4a..f342ec4 100644[m
+[1m--- a/src/pages/consultation-page/ConsultationPage.vue[m
+[1m+++ b/src/pages/consultation-page/ConsultationPage.vue[m
+[36m@@ -3,10 +3,10 @@[m [mimport {onMounted, ref} from 'vue';[m
+ import AxiosWrapper from '@/config/AxiosWrapper';[m
+ import {useProfileStore} from '@/stores/profileStore';[m
+ import {useEmployeeStore} from '@/stores/employeeStore';[m
+[31m-import { useAuthStore } from "@/stores/auth.js";[m
+[32m+[m[32mimport {useAuthStore} from "@/stores/auth.js";[m
+ import Multiselect from "vue-multiselect";[m
+ import {useToast} from 'vue-toastification';[m
+[31m-import { useRouter } from "vue-router";[m
+[32m+[m[32mimport {useRouter} from "vue-router";[m
+ [m
+ [m
+ import Header from "@/components/Header.vue";[m
+[36m@@ -21,7 +21,7 @@[m [mconst router = useRouter();[m
+ [m
+ const checkAuth = () => {[m
+   if (!authStore.isAuthenticated) {[m
+[31m-    router.push({ name: "login", query: { redirect: router.currentRoute.value.fullPath } });[m
+[32m+[m[32m    router.push({name: "login", query: {redirect: router.currentRoute.value.fullPath}});[m
+   }[m
+ };[m
+ [m
+[36m@@ -34,7 +34,6 @@[m [mconst selectedDatePedagogical = ref('');[m
+ const selectedTimePedagogical = ref('');[m
+ const consultationTypePedagogical = ref('Педагогическая')[m
+ [m
+[31m-// Для Психологической консультации[m
+ const selectedConsultantPsychological = ref(null);[m
+ const selectedDatePsychological = ref('');[m
+ const selectedTimePsychological = ref('');[m
+[36m@@ -42,44 +41,81 @@[m [mconst consultationTypePsychological = ref('Психологическая')[m
+ [m
+ const submitFormPedagogical = async () => {[m
+   try {[m
+[32m+[m
+[32m+[m[32m    const localDate = new Date(selectedDatePedagogical.value + ' ' + selectedTimePedagogical.value);[m
+[32m+[m
+[32m+[m[32m    // Получаем смещение времени в минутах относительно UTC[m
+[32m+[m[32m    const timezoneOffset = localDate.getTimezoneOffset();[m
+[32m+[m
+[32m+[m[32m    // Преобразуем локальное время в UTC[m
+[32m+[m[32m    const utcDate = new Date(localDate.getTime() - timezoneOffset * 60000);[m
+[32m+[m
+[32m+[m[32m    // Преобразуем время в нужный формат ISO с часовым поясом (+00:00)[m
+[32m+[m[32m    const formattedDate = utcDate.toISOString().replace('.000Z', '+00:00');[m
+[32m+[m[32m    const formattedTime = `1970-01-01T${selectedTimePedagogical.value}:00+00:00`;[m
+[32m+[m
+     const requestData = {[m
+       consultationType: 'pedagogical',[m
+       consultantI

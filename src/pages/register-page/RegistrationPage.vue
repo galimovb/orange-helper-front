@@ -229,26 +229,6 @@ const handleSubmit = async () => {
   }
 };
 
-onMounted(() => {
-  // Удаляем все существующие viewport мета-теги
-  const metas = document.querySelectorAll('meta[name="viewport"]');
-  metas.forEach(meta => document.head.removeChild(meta));
 
-  // Создаём и вставляем свой
-  const newMeta = document.createElement('meta');
-  newMeta.name = 'viewport';
-  newMeta.content = 'width=device-width, initial-scale=1.0';
-  document.head.appendChild(newMeta);
-});
-
-onBeforeUnmount(() => {
-  // Удаляем все viewport мета-теги (включая наш)
-  const metas = document.querySelectorAll('meta[name="viewport"]');
-  metas.forEach(meta => {
-    if (document.head.contains(meta)) {
-      document.head.removeChild(meta);
-    }
-  });
-});
 
 </script>

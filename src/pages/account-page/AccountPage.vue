@@ -14,6 +14,8 @@ import defaultAvatarImg from '/public/img/empty-photo.jpg';
 
 import {mask} from 'vue-the-mask';
 
+
+
 const tabs = [
   {name: 'Личный кабинет'},
   {name: 'Расписание'},
@@ -53,6 +55,47 @@ const consultationHistory = [
   }
 ];
 
+const scheduleData = ref([]);
+const weekStart = ref('2025-08-01'); // Можно изменить на динамическую дату
+const loading = ref(false);
+const openEmployeeId = ref(null); // Идентификатор сотрудника для открытия/закрытия
+
+const fetchSchedule = async () => {
+  loading.value = true;
+  try {
+    const response = await AxiosWrapper.get(`/schedule/availability?week_start=${weekStart.value}`);
+    scheduleData.value = response.data;
+  } catch (error) {
+    toast.error('Ошибка при загрузке данных');
+  } finally {
+    loading.value = false;
+  }
+};
+
+const toggleEmployeeSlots = (employeeId) => {
+  // Переключаем открытие/закрытие слотов для сотрудника
+  openEmployeeId.value = openEmployeeId.value === employeeId ? null : employeeId;
+};
+
+const groupByDate = (data) => {
+  const grouped = {};
+
+  data.forEach((employee) => {
+    employee.available_slots.forEach((slot) => {
+      if (!grouped[slot.date]) {
+        grouped[slot.date] = [];
+      }
+      grouped[slot.date].push({
+        employeeId: employee.employee_id,
+        name: `${employee.firstName} ${employee.lastName}`,
+        start_time: slot.start_time,
+        end_time: slot.end_time
+      });
+    });
+  });
+
+  return grouped;
+};
 
 const toast = useToast();
 const employeeStore = useEmployeeStore();
@@ -139,6 +182,7 @@ const saveProfile = async () => {
 onMounted(() => {
   employeeStore.fetchEmployees();
   profileStore.fetchProfile();
+  fetchSchedule();
 });
 </script>
 
@@ -237,36 +281,66 @@ onMounted(() => {
         <Button label="Сохранить" color="orange" @click="saveProfile"/>
       </div>
 
-      <div v-show="activeTab === 1">
-        <div class="lg:px-14 lg:py-11">
-          <div class="w-full text-black bg-orange-500 rounded-sm">
-            <div class="bg-orange-500 grid grid-cols-3 border [&>*:not(:last-child)]:border-r border-gray-600">
-              <div
-                  v-for="head in tableHeaders"
-                  class="px-3 py-2.5 text-base lg:text-xl border-gray-600 break-all"
-              >
-                {{ head.label }}
-              </div>
+      <div v-show="activeTab === 1" class="container mx-auto py-8 px-4">
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="text-center mb-6">
+            <h2 class="text-3xl font-semibold text-gray-900">Расписание сотрудников на неделю</h2>
+            <p class="text-lg text-gray-500 mt-2">Выберите дату, чтобы посмотреть доступные слоты</p>
+          </div>
+
+          <div class="flex justify-center mb-6">
+            <input
+                v-model="weekStart"
+                type="date"
+                class="border-2 border-gray-300 rounded-md py-2 px-4"
+                @change="fetchSchedule"
+            />
+          </div>
+
+          <div v-if="loading" class="flex justify-center items-center text-lg text-gray-500">
+            <span>Загрузка данных...</span>
+          </div>
+
+          <div v-else>
+            <div v-if="scheduleData.length === 0" class="text-center text-xl text-gray-500">
+              Нет доступных слотов на выбранную неделю.
             </div>
-            <div class="bg-gray-200  border-r border-l border-gray-600">
-              <div
-                  v-for="schedule in scheduleList"
-                  class="grid grid-cols-3 border-b border-gray-600  [&>*:not(:last-child)]:border-r"
-              >
-                <div
-                    class="px-3 py-2.5 text-base lg:text-xl break-all border-gray-600 "
-                >
-                  {{ schedule.teacher }}
+
+            <div v-else class="space-y-4">
+              <div v-for="employee in scheduleData" :key="employee.employee_id" class="bg-gray-50 rounded-lg shadow-sm p-4">
+                <!-- Имя сотрудника с кнопкой раскрытия -->
+                <div @click="toggleEmployeeSlots(employee.employee_id)" class="cursor-pointer flex justify-between text-sm text-gray-700">
+                  <span class="text-lg font-medium text-gray-800">{{ employee.firstName }} {{ employee.lastName }}</span>
+                  <span :class="openEmployeeId === employee.employee_id ? 'text-indigo-600' : 'text-gray-500'">
+                {{ openEmployeeId === employee.employee_id ? 'Скрыть' : 'Показать' }}
+              </span>
                 </div>
-                <div
-                    class="px-3 py-2.5 text-base lg:text-xl break-all border-gray-600 "
-                >
-                  {{ schedule.post }}
-                </div>
-                <div
-                    class="px-3 py-2.5 text-base lg:text-xl break-all border-gray-600 "
-                >
-                  {{ schedule.schedule }}
+
+                <!-- Таблица слотов, раскрывается при клике на имя сотрудника -->
+                <div v-if="openEmployeeId === employee.employee_id" class="mt-4 overflow-x-auto">
+                  <table class="min-w-full table-auto border-collapse">
+                    <thead>
+                    <tr class="bg-orange-500 text-white">
+                      <!-- Выводим уникальные даты -->
+                      <th v-for="(date, index) in Object.keys(groupByDate([employee]))" :key="index" class="px-6 py-3  text-center border-r border-gray-600">
+                        {{ date }}
+                      </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Единственная строка с датами и временными слотами для каждого дня -->
+                    <tr>
+                      <td v-for="date in Object.keys(groupByDate([employee]))" :key="date" class="content-start bg-gray-200 px-6 py-3 text-sm border-r border-gray-600">
+                        <!-- Используем Tailwind Grid для выравнивания слотов по одному уровню -->
+                        <div class="grid grid-cols-1 gap-6">
+                          <div v-for="slot in groupByDate([employee])[date]" :key="slot.start_time" class="text-center rounded px-1 md:px-2 py-1 text-[10px] md:text-sm lg:text-lg space-y-1 md:space-y-2 bg-orange-100">
+                            {{ slot.start_time }} - {{ slot.end_time }}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -544,16 +618,12 @@ onMounted(() => {
 </template>
 
 <style scoped>
-@media (min-width: 1024px) {
-  .custom-multiselect {
-    font-size: 1.5rem;
-    line-height: 2rem;
-  }
-}
 
 button {
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
+
+
 
 </style>

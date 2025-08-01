@@ -764,12 +764,4 @@ button {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.custom-multiselect {
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 0.5rem;
-  padding: 0.75rem;
-  background-color: white;
-  cursor: pointer;
-}
 </style>

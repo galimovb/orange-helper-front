@@ -1,0 +1,250 @@
+[33mcommit 2ce9970ed95cae17e36bb895deafc6afa577d467[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Merge: 92e9728 123e440
+Author: L1llong <longma2003@mail.ru>
+Date:   Thu Jul 31 18:29:41 2025 +0700
+
+    resolve merge
+
+[33mcommit 92e97285b83082125b11dd58fb6061eafb2c6e12[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Thu Jul 31 10:45:32 2025 +0700
+
+    API. AccountPage.vue, ConsultationPage.vue. отправка даты и времени
+
+[33mcommit 123e440209b44f3e6de2b43b4b2c2ec809047a7f[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Булат Галимов <b.galimov@bambit.ru>
+Date:   Thu Jul 31 00:53:24 2025 +0300
+
+    Поменял путь апи и мелкие правки
+
+[33mcommit c3f38a617f8eadfe02add6b7e53cf1bc331b34ad[m
+Author: Булат Галимов <b.galimov@bambit.ru>
+Date:   Wed Jul 30 23:24:05 2025 +0300
+
+    Добавил валидацию в некоторые места и сделал подстраивание логина и регистрации под размер экрана
+
+[33mcommit dd81a44209cd53214605219e326dddec66bbc760[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Mon Jul 28 14:48:43 2025 +0700
+
+    API. AccountPage.vue, ConsultationPage.vue. И редирект туда где были после авторизации
+
+[33mcommit 04780279ce697dd3f58eac3dc3983b0bd0f0bb25[m
+Merge: 81e74bb f01d3e9
+Author: Булат Галимов <b.galimov@bambit.ru>
+Date:   Thu Jul 24 22:27:30 2025 +0300
+
+    Исправил конфликты
+
+[33mcommit f01d3e91cc714fd8fdf8ca0f2063eb42b3ad6073[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Fri Jul 25 00:32:03 2025 +0700
+
+    API. UsefulMaterialsPage.vue
+
+[33mcommit 6d153ae12f6c403f4218ed7a73fded1f1b461f6c[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Thu Jul 24 16:12:07 2025 +0700
+
+    API. DiagnosticsPage.vue
+
+[33mcommit df07dda27021c7d97bfd9813788b2582b847e423[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Tue Jul 15 22:27:41 2025 +0700
+
+    API. Страница с тестами
+
+[33mcommit 59ea7da87db887782fe7591703713f5b0a3c0f05[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Sat Jul 12 20:58:31 2025 +0700
+
+    API. Изменил верстку и поправил логику изменения данных  пользователя
+
+[33mcommit 27a4928439e610e43f6cafbd126e4d789901055c[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Sat Jul 12 18:37:35 2025 +0700
+
+    API. Форма записи на работу
+
+[33mcommit d94993c754880664e8f0da0921765a4142dfa7e4[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Sat Jul 12 17:49:27 2025 +0700
+
+    API. Список работников и регистрация
+
+[33mcommit 81e74bb765c69c092ce0b18bd5efa30e0aaf8f59[m
+Author: Булат Галимов <b.galimov@bambit.ru>
+Date:   Mon Jul 7 20:23:49 2025 +0300
+
+    Логика редиректа на логин, если не авторизован
+
+[33mcommit c702958581fb75f9bb41d441c1544543b72169f9[m
+Author: Булат Галимов <b.galimov@bambit.ru>
+Date:   Mon Jul 7 11:43:57 2025 +0300
+
+    Чутка настроил защиту роутов
+
+[33mcommit bdfd3d722a8e0d0ee7c519c0cfef38205fb0fe7b[m
+Author: Булат Галимов <b.galimov@bambit.ru>
+Date:   Mon Jul 7 00:31:48 2025 +0300
+
+    Настроил авторизацию
+
+[33mcommit 111a03772835e6f584d8e58cce5f902e6a3cd44b[m
+Author: Булат Галимов <b.galimov@bambit.ru>
+Date:   Sat Jul 5 23:37:15 2025 +0300
+
+    Добавил: страницы регистр-авторизации, но без валидации
+
+[33mcommit 688893990a10fafed5d36249d293372bfe79d893[m
+Author: Булат Галимов <b.galimov@bambit.ru>
+Date:   Fri Jul 4 21:44:14 2025 +0300
+
+    Конфиг вайта
+
+[33mcommit f0c4907261f146c01624f0c1e56db2b6ba352363[m
+Author: Булат Галимов <b.galimov@bambit.ru>
+Date:   Thu Jun 12 19:27:03 2025 +0300
+
+    3 тест
+
+[33mcommit 3516a840b8ee16e4b3ea4117519049acf90a96e0[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Thu Jun 12 17:05:29 2025 +0300
+
+    Добавил больше инфы в погружение
+
+[33mcommit 0e3911ac7ba095b4b1622a2b066435c23f3805b7[m
+Author: Булат Галимов <b.galimov@bambit.ru>
+Date:   Thu Jun 12 01:16:45 2025 +0300
+
+    Ошибка в тексте
+
+[33mcommit 5870ede644a8ac8431417d6fb6f10ef26ce2ed0d[m
+Author: Булат Галимов <b.galimov@bambit.ru>
+Date:   Thu Jun 12 01:11:15 2025 +0300
+
+    Пустые аватары и подменные имена
+
+[33mcommit 7e6eb93ecefa2ab7385a4f49f242617060342757[m
+Author: Булат Галимов <b.galimov@bambit.ru>
+Date:   Thu Jun 12 00:51:04 2025 +0300
+
+    Правка путей фото
+
+[33mcommit 6ff965918b29700896f38e678f0bdd79cd3ded4a[m
+Author: Булат Галимов <b.galimov@bambit.ru>
+Date:   Thu Jun 12 00:07:51 2025 +0300
+
+    Диагностика
+
+[33mcommit 3ed24a198e878a00d8afbf5f4b1fb8a38f6ae183[m
+Author: Булат Галимов <b.galimov@bambit.ru>
+Date:   Wed Jun 11 23:41:51 2025 +0300
+
+    Наполнение сайта
+
+[33mcommit bed1720b5f029369c45e82d86d443165385a2d60[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Wed Jun 11 22:27:41 2025 +0300
+
+    Исправил DiagnosticsPage
+
+[33mcommit ab48343c63c890d18f70a2adde4fa41d6dff6b19[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Wed Jun 11 22:21:57 2025 +0300
+
+    Исправил DiagnosticsPage
+
+[33mcommit 242707f40db40ea0a2084c9c05684541bc917c47[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Sat Jun 7 16:49:21 2025 +0300
+
+    Исправил шрифт заголовка
+
+[33mcommit 37d8f0b6f1f669452da124404d61dadeeedda936[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Sat Jun 7 16:42:06 2025 +0300
+
+    Страница тестов.
+
+[33mcommit a7308009c797e8194ced692319bd02f19d9509e3[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Thu Jun 5 14:57:32 2025 +0300
+
+    PopUp
+
+[33mcommit 1da34d385d2443f2813b0e0046a59a83a82ffac0[m
+Author: Bulat <bulat.galimov.80@mail.ru>
+Date:   Tue Jun 3 23:38:09 2025 +0300
+
+    Размер текста у кнопки
+
+[33mcommit 401b95b136969b5bdf115654bdd19fb5c2043c24[m
+Author: Bulat <bulat.galimov.80@mail.ru>
+Date:   Tue Jun 3 23:33:03 2025 +0300
+
+    Исправленные пути
+
+[33mcommit 1097f5a889627c0f8ef098f3b39cc56a1ceed2af[m
+Merge: bd7961d fca7838
+Author: Bulat <bulat.galimov.80@mail.ru>
+Date:   Tue Jun 3 23:30:15 2025 +0300
+
+    Несколько вкладок
+
+[33mcommit bd7961db757bcef8f77fb009ece9d532fa0d5ec7[m
+Author: Bulat <bulat.galimov.80@mail.ru>
+Date:   Tue Jun 3 23:14:38 2025 +0300
+
+    Несколько разделов ЛК
+
+[33mcommit fca7838f9f1930e5c198e6fa0bc97a2a5b227450[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Tue Jun 3 22:28:18 2025 +0300
+
+    блок "Команда специалистов"
+
+[33mcommit 05db42a5e2c78b70c1e427b74c89e3719c21d2e9[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Tue Jun 3 19:16:04 2025 +0300
+
+    Personal-account
+
+[33mcommit e9c0df8864df8921f97c387d0657ee4eb51ed2b4[m
+Author: Bulat <bulat.galimov.80@mail.ru>
+Date:   Mon Jun 2 22:07:41 2025 +0300
+
+    404 страница
+
+[33mcommit dc1c7a867c919ef2a39fda4ff78c6a456528e222[m
+Author: Bulat <bulat.galimov.80@mail.ru>
+Date:   Mon Jun 2 20:53:59 2025 +0300
+
+    Навигация
+
+[33mcommit f11e13010090e7367582c6ae26de240f7420416b[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Mon May 26 22:07:44 2025 +0300
+
+     изменение в ветке ConsultationPage
+
+[33mcommit 9b24284f1f454fc5748caaa9b496bd01d43610d0[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Wed May 21 19:48:02 2025 +0300
+
+    DiagnosticsPage
+
+[33mcommit f83f32be53da1328410bc2c2228966ba927d201b[m[33m ([m[1;31morigin/NewsPage[m[33m)[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Sat Apr 26 18:49:07 2025 +0300
+
+    NewsPage. Ответы на популярные вопросы
+
+[33mcommit c2db8bdd2a7a1cf33bb0bb7cf2ec960f25dcd5e7[m
+Author: L1llong <longma2003@mail.ru>
+Date:   Fri Apr 25 17:00:31 2025 +0300
+
+    HomePage and NewsPage
+
+[33mcommit 39cfdb8075d87c245333267e7d3bc8a5615309ee[m[33m ([m[1;31
