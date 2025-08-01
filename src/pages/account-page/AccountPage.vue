@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted, computed} from 'vue';
+import {ref, onMounted, computed, watch} from 'vue';
 import {useProfileStore} from '@/stores/profileStore';
 import {useEmployeeStore} from '@/stores/employeeStore';
 import Multiselect from 'vue-multiselect';
@@ -59,6 +59,19 @@ const loading = ref(false);
 const openEmployeeId = ref(null);
 const searchQuery = ref('');
 
+const filteredConsultants = computed(() => {
+  if (!consultationType.value) return [];
+
+  return consultationType.value === 'psychological'
+      ? employeeStore.psychologists
+      : employeeStore.teachers;
+});
+
+// Следим за изменением типа консультации
+watch(consultationType, (newVal) => {
+  // Сбрасываем выбранного консультанта при изменении типа
+  selectedConsultant.value = null;
+});
 
 const fetchSchedule = async () => {
   loading.value = true;
@@ -597,21 +610,6 @@ onMounted(() => {
             </div>
             <div class="flex flex-col gap-3">
               <label class="text-white text-sm md:text-xl lg:text-2xl leading-[100%]">
-                ФИО специалиста
-              </label>
-              <multiselect
-                  v-model="selectedConsultant"
-                  :options="employeeStore.allEmployees"
-                  :searchable="true"
-                  :closeOnSelect="true"
-                  track-by="id"
-                  label="fullName"
-                  placeholder="Выберите специалистов"
-                  class="custom-multiselect "
-              />
-            </div>
-            <div class="flex flex-col gap-3">
-              <label class="text-white text-sm md:text-xl lg:text-2xl leading-[100%]">
                 Тип консультации
               </label>
               <select v-model="consultationType" class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3">
@@ -622,6 +620,29 @@ onMounted(() => {
                   Педагогическая
                 </option>
               </select>
+            </div>
+
+            <div class="flex flex-col gap-3">
+              <label class="text-white text-sm md:text-xl lg:text-2xl leading-[100%]">
+                ФИО специалиста
+              </label>
+              <multiselect
+                  v-model="selectedConsultant"
+                  :options="filteredConsultants"
+                  :searchable="true"
+                  :closeOnSelect="true"
+                  :disabled="!consultationType"
+                  track-by="id"
+                  label="fullName"
+                  placeholder="Выберите специалиста"
+                  class="custom-multiselect"
+                  :class="{ 'opacity-50 cursor-not-allowed': !consultationType }"
+                  required
+              >
+                <template #noOptions>
+                  {{ consultationType ? 'Нет доступных специалистов' : 'Сначала выберите тип консультации' }}
+                </template>
+              </multiselect>
             </div>
             <div class="flex flex-col gap-3">
               <label class="text-white text-sm md:text-xl lg:text-2xl leading-[100%]">
