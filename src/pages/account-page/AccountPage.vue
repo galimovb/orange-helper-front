@@ -1,9 +1,9 @@
 <script setup>
-import {ref, onMounted} from 'vue';
+import {ref, onMounted, computed} from 'vue';
 import {useProfileStore} from '@/stores/profileStore';
 import {useEmployeeStore} from '@/stores/employeeStore';
 import Multiselect from 'vue-multiselect';
-import { useToast } from 'vue-toastification';
+import {useToast} from 'vue-toastification';
 import AxiosWrapper from "@/config/AxiosWrapper";
 
 import Header from "@/components/Header.vue";
@@ -15,7 +15,6 @@ import defaultAvatarImg from '/public/img/empty-photo.jpg';
 import {mask} from 'vue-the-mask';
 
 
-
 const tabs = [
   {name: 'Личный кабинет'},
   {name: 'Расписание'},
@@ -23,18 +22,6 @@ const tabs = [
   {name: 'Команда педагогов'},
   {name: 'Команда психологов'},
   {name: 'Подать заявку на консультацию'},
-];
-
-const tableHeaders = [
-  {label: 'ФИО специалиста'},
-  {label: 'Квалификация'},
-  {label: 'День недели + время'},
-];
-
-const scheduleList = [
-  {teacher: 'Ильина К. В.', post: 'Преподаватель', schedule: 'Понедельник 10:00-11:00'},
-  {teacher: 'Сабирова Э. Г.', post: 'Преподаватель', schedule: 'Вторник 10:00-11:00'},
-  {teacher: 'Иванова А. К.', post: 'Преподаватель', schedule: 'Среда 10:00-11:00'},
 ];
 
 const consultationHistory = [
@@ -55,10 +42,22 @@ const consultationHistory = [
   }
 ];
 
+const toast = useToast();
+const employeeStore = useEmployeeStore();
+const profileStore = useProfileStore();
+
+const activeTab = ref(0);
+const defaultAvatar = defaultAvatarImg;
+const selectedConsultant = ref(null);
+const consultationType = ref('');
+const selectedDate = ref('');
+const selectedTime = ref('');
+
 const scheduleData = ref([]);
-const weekStart = ref('2025-08-01'); // Можно изменить на динамическую дату
+const weekStart = ref('');
 const loading = ref(false);
-const openEmployeeId = ref(null); // Идентификатор сотрудника для открытия/закрытия
+const openEmployeeId = ref(null);
+const searchQuery = ref('');
 
 const fetchSchedule = async () => {
   loading.value = true;
@@ -73,7 +72,6 @@ const fetchSchedule = async () => {
 };
 
 const toggleEmployeeSlots = (employeeId) => {
-  // Переключаем открытие/закрытие слотов для сотрудника
   openEmployeeId.value = openEmployeeId.value === employeeId ? null : employeeId;
 };
 
@@ -97,16 +95,12 @@ const groupByDate = (data) => {
   return grouped;
 };
 
-const toast = useToast();
-const employeeStore = useEmployeeStore();
-const profileStore = useProfileStore();
-
-const activeTab = ref(0);
-const defaultAvatar = defaultAvatarImg;
-const selectedConsultant = ref(null);
-const consultationType = ref('');
-const selectedDate = ref('');
-const selectedTime = ref('');
+const filteredEmployees = computed(() => {
+  return scheduleData.value.filter(employee => {
+    const fullName = `${employee.firstName} ${employee.lastName}`.toLowerCase();
+    return fullName.includes(searchQuery.value.toLowerCase());
+  });
+});
 
 const submitForm = async () => {
   try {
@@ -178,6 +172,12 @@ const saveProfile = async () => {
     console.error('Ошибка при обновлении профиля:', error);
   }
 };
+
+onMounted(() => {
+  const today = new Date();
+  const formattedDate = today.toISOString().split('T')[0];
+  weekStart.value = formattedDate;
+});
 
 onMounted(() => {
   employeeStore.fetchEmployees();
@@ -284,56 +284,97 @@ onMounted(() => {
       <div v-show="activeTab === 1" class="container mx-auto py-8 px-4">
         <div class="bg-white rounded-xl shadow-lg p-6">
           <div class="text-center mb-6">
-            <h2 class="text-3xl font-semibold text-gray-900">Расписание сотрудников на неделю</h2>
-            <p class="text-lg text-gray-500 mt-2">Выберите дату, чтобы посмотреть доступные слоты</p>
+            <h2 class="text-3xl font-semibold text-gray-900">
+              Расписание сотрудников на неделю
+            </h2>
+            <p class="text-lg text-gray-500 mt-2">
+              Выберите дату, чтобы посмотреть доступные слоты
+            </p>
           </div>
-
-          <div class="flex justify-center mb-6">
-            <input
-                v-model="weekStart"
-                type="date"
-                class="border-2 border-gray-300 rounded-md py-2 px-4"
-                @change="fetchSchedule"
-            />
+          <div class="flex justify-between">
+            <div class="flex  mb-6">
+              <input
+                  v-model="searchQuery"
+                  type="text"
+                  placeholder="Поиск по ФИО..."
+                  class="border-2 border-gray-300 rounded-md py-2 px-4 w-full "
+              />
+            </div>
+            <div class="flex mb-6">
+              <input
+                  v-model="weekStart"
+                  type="date"
+                  class="border-2 border-gray-300 rounded-md py-2 px-4"
+                  @change="fetchSchedule"
+              />
+            </div>
           </div>
-
-          <div v-if="loading" class="flex justify-center items-center text-lg text-gray-500">
-            <span>Загрузка данных...</span>
+          <div
+              v-if="loading"
+              class="flex justify-center items-center text-lg text-gray-500"
+          >
+            <span>
+              Загрузка данных...
+            </span>
           </div>
-
           <div v-else>
-            <div v-if="scheduleData.length === 0" class="text-center text-xl text-gray-500">
+            <div
+                v-if="filteredEmployees.length === 0"
+                class="text-center text-xl text-gray-500"
+            >
               Нет доступных слотов на выбранную неделю.
             </div>
-
-            <div v-else class="space-y-4">
-              <div v-for="employee in scheduleData" :key="employee.employee_id" class="bg-gray-50 rounded-lg shadow-sm p-4">
-                <!-- Имя сотрудника с кнопкой раскрытия -->
-                <div @click="toggleEmployeeSlots(employee.employee_id)" class="cursor-pointer flex justify-between text-sm text-gray-700">
-                  <span class="text-lg font-medium text-gray-800">{{ employee.firstName }} {{ employee.lastName }}</span>
+            <div
+                v-else
+                class="space-y-4"
+            >
+              <div
+                  v-for="employee in filteredEmployees"
+                  :key="employee.employee_id"
+                  class="bg-gray-50 rounded-lg shadow-sm p-4"
+              >
+                <div
+                    @click="toggleEmployeeSlots(employee.employee_id)"
+                    class="cursor-pointer flex justify-between text-sm text-gray-700"
+                >
+                  <span
+                      class="text-lg font-medium text-gray-800">
+                    {{ employee.firstName }} {{ employee.lastName }}
+                  </span>
                   <span :class="openEmployeeId === employee.employee_id ? 'text-indigo-600' : 'text-gray-500'">
-                {{ openEmployeeId === employee.employee_id ? 'Скрыть' : 'Показать' }}
-              </span>
+                    {{ openEmployeeId === employee.employee_id ? 'Скрыть' : 'Показать' }}
+                  </span>
                 </div>
 
-                <!-- Таблица слотов, раскрывается при клике на имя сотрудника -->
-                <div v-if="openEmployeeId === employee.employee_id" class="mt-4 overflow-x-auto">
+                <div
+                    v-if="openEmployeeId === employee.employee_id"
+                    class="mt-4 overflow-x-auto"
+                >
                   <table class="min-w-full table-auto border-collapse">
                     <thead>
                     <tr class="bg-orange-500 text-white">
-                      <!-- Выводим уникальные даты -->
-                      <th v-for="(date, index) in Object.keys(groupByDate([employee]))" :key="index" class="px-6 py-3  text-center border-r border-gray-600">
+                      <th
+                          v-for="(date, index) in Object.keys(groupByDate([employee]))"
+                          :key="index"
+                          class="px-6 py-3 text-center border-r border-gray-600"
+                      >
                         {{ date }}
                       </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- Единственная строка с датами и временными слотами для каждого дня -->
                     <tr>
-                      <td v-for="date in Object.keys(groupByDate([employee]))" :key="date" class="content-start bg-gray-200 px-6 py-3 text-sm border-r border-gray-600">
-                        <!-- Используем Tailwind Grid для выравнивания слотов по одному уровню -->
+                      <td
+                          v-for="date in Object.keys(groupByDate([employee]))"
+                          :key="date"
+                          class="content-start bg-gray-200 px-6 py-3 text-sm border-r border-gray-600"
+                      >
                         <div class="grid grid-cols-1 gap-6">
-                          <div v-for="slot in groupByDate([employee])[date]" :key="slot.start_time" class="text-center rounded px-1 md:px-2 py-1 text-[10px] md:text-sm lg:text-lg space-y-1 md:space-y-2 bg-orange-100">
+                          <div
+                              v-for="slot in groupByDate([employee])[date]"
+                              :key="slot.start_time"
+                              class="text-center rounded px-1 md:px-2 py-1 text-[10px] md:text-sm lg:text-lg space-y-1 md:space-y-2 bg-orange-100"
+                          >
                             {{ slot.start_time }} - {{ slot.end_time }}
                           </div>
                         </div>
@@ -623,7 +664,6 @@ button {
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
-
 
 
 </style>
