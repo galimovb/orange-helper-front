@@ -286,8 +286,7 @@ const priceListPsychologic = [
 <template>
   <Header/>
 
-  <section
-      class="pedagogical-consultation flex flex-col gap-3 px-8 pt-4 md:px-11 md:pt-6 lg:px-[55px] lg:pt-10 mb-[30px]">
+  <section class="pedagogical-consultation flex flex-col gap-3 px-8 pt-4 md:px-11 md:pt-6 lg:px-[55px] lg:pt-10 mb-[30px]">
     <div class="flex flex-col gap-4 md:gap-6 lg:gap-[30px]">
       <h1 class="text-orange-500 text-xl md:text-4xl lg:text-[55px] leading-[100%]">
         Педагогическая консультация
@@ -302,9 +301,7 @@ const priceListPsychologic = [
     </div>
   </section>
 
-  <SectionWithLines
-      title="Стоимость"
-  >
+  <SectionWithLines title="Стоимость">
     <div class="space-y-4">
       <div
           v-for="priceItem in priceListPedagogic"
@@ -362,7 +359,7 @@ const priceListPsychologic = [
                 track-by="id"
                 label="fullName"
                 placeholder="Выберите специалистов"
-                class="custom-multiselect "
+                class="custom-multiselect"
                 @focus="checkAuth"
                 :noOptions="'Нет доступных вариантов'"
                 :noResult="'Ничего не найдено'"
@@ -405,9 +402,9 @@ const priceListPsychologic = [
                 :class="{ '!border-black border-[2px]': pedagogicalErrors.date }"
 
             />
-            <span v-if="pedagogicalErrors.date" class="text-black text-sm md:text-base lg:text-lg">{{
-                pedagogicalErrors.date
-              }}</span>
+            <span v-if="pedagogicalErrors.date" class="text-black text-sm md:text-base lg:text-lg">
+              {{ pedagogicalErrors.date }}
+            </span>
           </div>
 
           <div class="flex flex-col gap-1 md:gap-4">
@@ -444,13 +441,13 @@ const priceListPsychologic = [
         <div class="flex items-center gap-2">
           <input
               type="checkbox"
-              id="consent"
+              id="consentPedagogical"
               name="consent"
               value="yes"
               required
               class="w-4 h-4 md:w-6 md:h-6 lg:w-9 lg:h-9"
           >
-          <label for="consent" class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
+          <label for="consentPedagogical" class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
             Я ознакомлен(-а) с Политикой конфиденциальности
           </label>
         </div>
@@ -618,13 +615,13 @@ const priceListPsychologic = [
       <div class="flex items-center gap-2">
         <input
             type="checkbox"
-            id="consent"
+            id="consentPsychological"
             name="consent"
             value="yes"
             required
             class="w-4 h-4 md:w-6 md:h-6 lg:w-9 lg:h-9"
         >
-        <label for="consent" class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
+        <label for="consentPsychological" class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
           Я ознакомлен(-а) с Политикой конфиденциальности
         </label>
       </div>
@@ -782,13 +779,13 @@ const priceListPsychologic = [
       <div class="flex items-center gap-2">
         <input
             type="checkbox"
-            id="consent"
+            id="consentJob"
             name="consent"
             value="yes"
             required
             class="w-4 h-4 md:w-6 md:h-6 lg:w-9 lg:h-9"
         >
-        <label for="consent" class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
+        <label for="consentJob" class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
           Я ознакомлен(-а) с Политикой конфиденциальности
         </label>
       </div>
