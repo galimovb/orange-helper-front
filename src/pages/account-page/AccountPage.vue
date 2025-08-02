@@ -513,7 +513,10 @@ onMounted(() => {
               >
                 {{ consultation.description }}
               </div>
-              <div class="flex flex-col gap-y-4 mt-auto">
+              <div
+                  v-if="!consultation?.isReviewExist"
+                  class="flex flex-col gap-y-4 mt-auto"
+              >
                 <div class="">
                   <label class="block text-base md:text-lg lg:text-xl mb-2">
                     Оставить отзыв
