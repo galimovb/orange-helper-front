@@ -5,6 +5,39 @@ import Button from "@/components/Button.vue";
 import Input from "@/components/Input.vue";
 import Footer from "@/components/Footer.vue";
 import Accordion from "@/components/Accordion.vue";
+import AxiosWrapper from "@/config/AxiosWrapper";
+import {useToast} from "vue-toastification";
+import {ref} from "vue";
+
+const toast = useToast();
+
+const email = ref('');
+const consent = ref(false);
+
+const subscribeToNewsletter = async () => {
+  // Валидация
+  if (!email.value) {
+    toast.error('Пожалуйста, введите email')
+    return
+  }
+
+  try {
+    const response = await AxiosWrapper.post('/newsletter/subscribe', {
+      email: email.value
+    })
+
+    toast.success('Вы успешно подписались на рассылку!')
+    email.value = ''
+    consent.value = false
+  } catch (error) {
+    if (error.response && error.response.status === 409) {
+      toast.warning('Этот email уже подписан на рассылку')
+    } else {
+      toast.error('Ошибка при подписке: ' + (error.response?.data?.message || 'Попробуйте позже'))
+      console.error('Subscription error:', error)
+    }
+  }
+}
 
 const accordion = [
   {
@@ -29,21 +62,22 @@ const accordion = [
 
 <template>
   <div class="new-page">
-    <Header />
-    <section class="q&a flex flex-col gap-[50px]  px-8 md:px-10 lg:px-[55px] py-3 md:py-6 lg:pt-10 lg:pb-5 lg:mb-[50px]">
+    <Header/>
+    <section
+        class="q&a flex flex-col gap-[50px]  px-8 md:px-10 lg:px-[55px] py-3 md:py-6 lg:pt-10 lg:pb-5 lg:mb-[50px]">
       <h1 class="text-xl md:text-4xl lg:text-[55px] leading-[100%] text-center text-orange-500">
         Ответы на популярные вопросы
       </h1>
       <div class="flex flex-col gap-6 md:gap-8 lg:gap-10">
         <Accordion
-          v-for="(item, index) in accordion"
-          :key="index"
-          :title="item.title"
-          :content="item.content"
+            v-for="(item, index) in accordion"
+            :key="index"
+            :title="item.title"
+            :content="item.content"
         />
       </div>
     </section>
-    <div class="content-rectangle h-[30px] md:h-[45px] lg:h-[60px] bg-orange-500 lg:mb-[50px]" />
+    <div class="content-rectangle h-[30px] md:h-[45px] lg:h-[60px] bg-orange-500 lg:mb-[50px]"/>
     <section class="receive px-8 py-3 md:px-10 md:py-4 lg:px-[55px] lg:py-[30px] lg:mb-[50px]">
       <div class="mb-[20px] lg:flex justify-center items-center hidden">
         <div class="line-left bg-orange-500 h-[5px] inline-block flex-grow"></div>
@@ -55,9 +89,9 @@ const accordion = [
       <div class="receive__content flex lg:flex-row flex-col gap-6 items-center mx-auto">
         <div class="receice__content-left flex flex-col items-center justify-center py-3">
           <img
-            src="/img/receive-1.svg"
-            alt="receive-1.svg"
-            class="w-[184px] md:w-[285px] lg:w-[386px]"
+              src="/img/receive-1.svg"
+              alt="receive-1.svg"
+              class="w-[184px] md:w-[285px] lg:w-[386px]"
           >
           <div class="flex flex-col gap-3">
             <h2 class="text-xl md:text-2xl lg:text-4xl leading-[100%] text-center ">
@@ -70,15 +104,15 @@ const accordion = [
           </div>
         </div>
         <img
-          src="/img/plus.svg"
-          alt="plus"
-          class="w-10 h-10 lg:h-[100px] lg:w-[100px] block"
+            src="/img/plus.svg"
+            alt="plus"
+            class="w-10 h-10 lg:h-[100px] lg:w-[100px] block"
         >
         <div class="receive__content-right flex flex-col items-center py-3">
           <img
-            src="/img/receive-2.svg"
-            alt="receive-2.svg"
-            class="w-[184px] md:w-[272px] lg:w-[320px]"
+              src="/img/receive-2.svg"
+              alt="receive-2.svg"
+              class="w-[184px] md:w-[272px] lg:w-[320px]"
           >
           <div class="flex flex-col gap-3">
             <h2 class="text-xl md:text-2xl lg:text-4xl leading-[100%] text-center ">
@@ -119,14 +153,14 @@ const accordion = [
         <div class="lg:flex-row flex flex-col justify-center items-center gap-8 md:gap-10 lg:gap-[90px]">
           <div class="lg:max-w-[480px]  cursor-pointer">
             <a
-              href="https://www.google.com"
-              target="_blank"
-              class="flex flex-col gap-2 items-center"
+                href="https://www.google.com"
+                target="_blank"
+                class="flex flex-col gap-2 items-center"
             >
               <img
-                src="/img/useful-articles-1.svg"
-                alt="useful-articles-1.svg"
-                class="w-[183px] md:w-[250px] lg:w-[320px]"
+                  src="/img/useful-articles-1.svg"
+                  alt="useful-articles-1.svg"
+                  class="w-[183px] md:w-[250px] lg:w-[320px]"
               >
               <p class="text-base md:text-2xl lg:text-[32px] leading-[100%] text-center">
                 Как говорить с ребёнком, чтобы он слышал
@@ -135,14 +169,14 @@ const accordion = [
           </div>
           <div class="lg:max-w-[480px] cursor-pointer">
             <a
-              href="https://www.google.com"
-              target="_blank"
-              class="flex flex-col gap-2 items-center"
+                href="https://www.google.com"
+                target="_blank"
+                class="flex flex-col gap-2 items-center"
             >
               <img
-                src="/img/useful-articles-2.svg"
-                alt="useful-articles-2.svg"
-                class="w-[183px] md:w-[250px] lg:w-[320px]"
+                  src="/img/useful-articles-2.svg"
+                  alt="useful-articles-2.svg"
+                  class="w-[183px] md:w-[250px] lg:w-[320px]"
               >
               <p class="text-base md:text-2xl lg:text-[32px] leading-[100%] text-center">
                 Детская тревожность: как распознать и поддержать
@@ -157,11 +191,11 @@ const accordion = [
         </button>
       </div>
     </section>
-    <div class="content-rectangle h-[30px] md:h-[45px] lg:h-[60px] bg-orange-500 lg:mb-[50px]" />
+    <div class="content-rectangle h-[30px] md:h-[45px] lg:h-[60px] bg-orange-500 lg:mb-[50px]"/>
     <section class="mailing px-8 py-3 md:px-10 md:py-4 lg:px-[55px] lg:py-[30px]">
       <div class="flex flex-col gap-6 md:gap-6 lg:gap-[50px]">
         <div class="flex flex-col gap-5">
-          <h5 class="text-orange-500 text-xl md:text-4xl lg:text-[55px] leading-[100%]">
+          <h5 class="text-orange-500 text-xl md:text-4xl lg:text-[55px] !leading-[120%]">
             Хотите получать больше полезных материалов?
           </h5>
           <p class="text-base md:text-2xl lg:text-4xl leading-[100%]">
@@ -173,31 +207,32 @@ const accordion = [
             Ваш E-mail
           </h5>
           <form
-            action=""
-            method="post"
-            class="flex flex-col gap-5 items-left max-w-[742px]"
+              @submit.prevent="subscribeToNewsletter"
+              class="flex flex-col gap-5 items-left max-w-[742px]"
           >
             <div>
               <Input
-                type="Email"
-                placeholder="person123@gmail.com"
+                  v-model="email"
+                  type="email"
+                  placeholder="person123@gmail.com"
               />
             </div>
             <div class="flex items-center gap-2">
-              <input
-                type="checkbox"
-                id="consent"
-                name="consent"
-                value="yes"
-                required
-                class="w-4 h-4 md:w-6 md:h-6 lg:w-9 lg:h-9"
-              >
+              <Input
+                  v-model="consent"
+                  type="checkbox"
+                  id="consent"
+                  name="consent"
+                  class="w-4 h-4 md:w-6 md:h-6 lg:w-9 lg:h-9"
+                  required
+              />
               <label for="consent" class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
                 Я ознакомлен(-а) с Политикой конфиденциальности
               </label>
             </div>
             <button
-                class="bg-orange-500 text-white rounded-[10px] px-4 py-2 md:px-10 md:py-4 lg:px-4 lg:py-7 text-base ld:text-4xl md:text-2xl"
+                type="submit"
+                class="bg-orange-500 text-white rounded-[10px] px-4 py-2  md:py-3  text-base ld:text-4xl md:text-2xl"
             >
               Получать рассылку
             </button>
@@ -205,7 +240,7 @@ const accordion = [
         </div>
       </div>
     </section>
-    <Footer />
+    <Footer/>
   </div>
 </template>
 

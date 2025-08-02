@@ -18,6 +18,10 @@ const localValue = ref(props.modelValue);
 watch(localValue, (newValue) => {
   emit('update:modelValue', newValue);
 });
+
+watch(() => props.modelValue, (newValue) => {
+  localValue.value = newValue;
+});
 </script>
 
 <template>
@@ -35,7 +39,7 @@ watch(localValue, (newValue) => {
       v-model="localValue"
       :type="props.type"
       :placeholder="props.placeholder"
-      class="input w-full text-base md:text-xl lg:text-2x"
+      class="input w-full text-base md:text-xl lg:text-2xl"
       v-bind="$attrs"
   />
 </template>

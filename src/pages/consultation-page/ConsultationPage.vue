@@ -16,6 +16,7 @@ import Footer from '@/components/Footer.vue';
 import Input from '@/components/Input.vue';
 import Circle from '@/components/Circle.vue';
 import SectionWithLines from '@/components/main-page/SectionWithLines.vue';
+import {storeToRefs} from "pinia";
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -23,6 +24,8 @@ const toast = useToast();
 
 const profileStore = useProfileStore();
 const employeeStore = useEmployeeStore();
+
+const {psychologists, teachers} = storeToRefs(useEmployeeStore());
 
 onMounted(() => {
   employeeStore.fetchEmployees();
@@ -353,7 +356,7 @@ const priceListPsychologic = [
             </label>
             <multiselect
                 v-model="selectedConsultantPedagogical"
-                :options="employeeStore.allEmployees"
+                :options="teachers"
                 :searchable="true"
                 :closeOnSelect="true"
                 track-by="id"
@@ -361,8 +364,19 @@ const priceListPsychologic = [
                 placeholder="Выберите специалистов"
                 class="custom-multiselect "
                 @focus="checkAuth"
+                :noOptions="'Нет доступных вариантов'"
+                :noResult="'Ничего не найдено'"
                 :class="{ '!border-black !border-[2px]': pedagogicalErrors.consultant }"
-            />
+            >
+              <template #noOptions>
+                Нет доступных вариантов
+              </template>
+
+              <!-- Текст когда нет результатов поиска -->
+              <template #noResult>
+                Ничего не найдено
+              </template>
+            </multiselect>
             <span v-if="pedagogicalErrors.consultant" class="text-black text-sm md:text-base lg:text-lg">{{ pedagogicalErrors.consultant }}</span>
           </div>
           <div class="flex flex-col gap-1 md:gap-4">
@@ -517,7 +531,7 @@ const priceListPsychologic = [
           </label>
           <multiselect
               v-model="selectedConsultantPsychological"
-              :options="employeeStore.allEmployees"
+              :options="psychologists"
               :searchable="true"
               :closeOnSelect="true"
               track-by="id"
@@ -526,8 +540,16 @@ const priceListPsychologic = [
               class="custom-multiselect "
               @focus="checkAuth"
               :class="{ '!border-black !border-[2px]': psychologicalErrors.consultant }"
+          >
+            <template #noOptions>
+              Нет доступных вариантов
+            </template>
 
-          />
+            <!-- Текст когда нет результатов поиска -->
+            <template #noResult>
+              Ничего не найдено
+            </template>
+          </multiselect>
           <span v-if="psychologicalErrors.consultant"
                 class="text-black text-sm md:text-base lg:text-lg">{{ psychologicalErrors.consultant }}</span>
         </div>
@@ -797,7 +819,6 @@ button {
   width: 100%;
   border: 1px solid #ddd;
   border-radius: 0.5rem;
-  padding: 0.75rem;
   background-color: white;
   cursor: pointer;
 }
