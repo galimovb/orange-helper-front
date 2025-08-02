@@ -14,7 +14,11 @@ import defaultAvatarImg from '/public/img/empty-photo.jpg';
 
 import {mask} from 'vue-the-mask';
 import {Label} from "radix-vue";
+import {useAuthStore} from "@/stores/auth";
+import {useRouter} from "vue-router";
 
+const authStore = useAuthStore();
+const router = useRouter();
 
 const tabs = [
   {name: 'Личный кабинет'},
@@ -234,8 +238,14 @@ onMounted(() => {
   weekStart.value = formattedDate;
 
 });
+const checkAuth = () => {
+  if (!authStore.isAuthenticated) {
+    router.push({name: 'login', query: {redirect: router.currentRoute.value.fullPath}});
+  }
+};
 
 onMounted(() => {
+  checkAuth();
   employeeStore.fetchEmployees();
   profileStore.fetchProfile();
   fetchSchedule();

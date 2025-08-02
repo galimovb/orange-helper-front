@@ -5,7 +5,7 @@
         font-family: inherit;
         font-size: 1rem;
         line-height: 1.5;
-        @apply w-full text-base md:text-xl lg:text-2xl;
+        @apply w-full text-base md:text-xl lg:text-2xl p-2 md:p-3;
     }
 
     /* Поле ввода */
