@@ -5,7 +5,7 @@
     <div class="text-white flex flex-col items-center gap-6 w-full">
       <div
         v-if="title"
-        class="leading-[100%] min-h-[100px] lg:min-h-[128px] "
+        class="leading-[100%] min-h-[100px] lg:min-h-[160px] "
       >
         <h2 :class="titleSize" class="text-base md:text-2xl lg:text-4xl">
           {{ title }}

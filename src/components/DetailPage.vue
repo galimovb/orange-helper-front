@@ -30,15 +30,45 @@ onMounted(async () => {
 
 <template>
   <Header />
-  <div v-if="materialDetail" class="px-[55px] py-8">
-    <h1 class="text-3xl mb-8">
+  <div
+      v-if="materialDetail"
+      class="px-8 py-3 md:px-11 md:py-6 lg:px-[55px] lg:py-8"
+  >
+    <h1 class="text-lg md:text-xl lg:text-3xl mb-4 lg:mb-8">
       {{ materialDetail.name }}
     </h1>
-    <div v-html="materialDetail.materialContent" class="text-xl"></div>
+    <div
+        v-html="materialDetail.materialContent"
+        class="text-base md:text-lg lg:text-xl">
+    </div>
   </div>
 </template>
 
 <style>
+@media (max-width: 768px) {
+  .styled-table {
+    font-size: 14px;
+    overflow-x: auto;
+    display: block;
+    -webkit-overflow-scrolling: touch;
+
+  }
+
+  .styled-table th, .styled-table td {
+    text-align: center;
+  }
+
+
+  .styled-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .styled-table, .styled-table th, .styled-table td {
+    border: 1px solid #ccc !important;
+    padding: 1px !important;
+  }
+}
+
 .styled-table {
   width: 100%;
   border-collapse: collapse !important;
@@ -47,8 +77,8 @@ onMounted(async () => {
 }
 
 .styled-table, .styled-table th, .styled-table td {
-  border: 1px solid #ccc !important;
-  padding: 8px 12px !important;
+  border: 1px solid #ccc ;
+  padding: 8px 12px ;
 }
 
 </style>
