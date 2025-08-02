@@ -223,7 +223,7 @@ const accordion = [
                   type="checkbox"
                   id="consent"
                   name="consent"
-                  class="w-4 h-4 md:w-6 md:h-6 lg:w-9 lg:h-9"
+                  class="!w-4 !h-4 md:!w-6 md:!h-6 lg:!w-9 lg:!h-9"
                   required
               />
               <label for="consent" class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
