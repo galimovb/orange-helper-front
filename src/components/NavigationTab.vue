@@ -8,8 +8,6 @@ import {
 } from 'radix-vue'
 
 import { useRouter, useRoute } from 'vue-router'
-import Button from "@/components/Button.vue";
-
 const router = useRouter()
 const route = useRoute()
 
@@ -37,10 +35,10 @@ function navigateTo(path: string) {
       <PopoverContent
           side="bottom"
           :side-offset="5"
-          class="z-[100] rounded w-[260px] px-[30px] pt-6 lg:w-[655px] lg:pt-10 lg:pl-[30px] lg:pr-[30px] pb-5 bg-orange-500 shadow-lg text-white will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
+          class="z-[100] rounded w-[260px] px-[30px] pt-6 lg:w-[655px] lg:pt-10 lg:px-[30px]  pb-5 bg-orange-500 shadow-lg text-white will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
       >
         <div class="">
-          <div class="flex flex-col gap-6 text-2xl lg:text-6xl">
+          <div class="flex flex-col gap-6 text-base md:text-xl lg:text-4xl">
             <button
                 v-for="item in navItems"
                 :key="item.path"
@@ -53,12 +51,13 @@ function navigateTo(path: string) {
               {{ item.name }}
             </button>
 
-            <Button
-                color="white"
-                class="!text-orange-500 mt-10 !text-2xl !lg:text-6xl"
+            <button
+                class="bg-white text-orange-500 mt-10 text-base md:text-xl lg:text-4xl px-2 py-1.5 lg:px-5 lg:py-3 rounded-[10px]"
                 @click="navigateTo('/login')"
-                label="Вход и регистрация"
-            />
+
+            >
+              Вход и регистрация
+            </button>
           </div>
         </div>
         <PopoverArrow class="fill-orange-500" />

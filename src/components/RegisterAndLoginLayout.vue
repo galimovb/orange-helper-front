@@ -14,7 +14,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="bg-orange-500 h-screen flex justify-center items-center">
+  <div class="bg-orange-500 h-screen flex justify-center items-center p-8">
     <div
         class="bg-white rounded-[10px] w-full"
         :style="{

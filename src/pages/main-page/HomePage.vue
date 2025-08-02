@@ -5,6 +5,9 @@ import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
 import Circle from "@/components/Circle.vue";
 import Button from "@/components/Button.vue";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
 
 const teamMembers = [
   {
@@ -62,22 +65,22 @@ const priceList = [
       <div class="main-content flex flex-wrap xl:flex-nowrap justify-between px-[55px]">
         <div>
           <div class="relative z-20 xl:mt-[100px] mt-[50px]">
-            <h1 class="xl:text-white text-black leading-[100%] text-[96px] z-30">
+            <h1 class="xl:text-white text-black leading-[100%] text-2xl md:text-[60px] lg:text-[96px] z-30">
               Оранжевый <br> помощник
             </h1>
           </div>
-          <p class="leading-[100%] text-4xl mt-[60px]">
+          <p class="leading-[100%] text-base lg:text-4xl mt-2.5 md:mt-9 lg:mt-[60px]">
             проект для улучшения взаимоотношений родителей и детей.
           </p>
         </div>
         <img src="/img/main-illustration.svg" alt="main-illustration" class="z-20">
       </div>
     </section>
-    <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]"/>
+    <div class="content-rectangle h-[30px] md:h-[45px] lg:h-[60px] bg-orange-500 md:mb-7 lg:mb-[50px]"/>
     <section class="partners-info bg-white flex justify-center mb-[50px] px-[55px]">
       <div class=" flex flex-col gap-[30px]">
         <div class="partners-info__title p-[10px] max-w-[1024px]">
-          <h1 class="text-center leading-none text-4xl">
+          <h1 class="text-center leading-none text-base md:text-2xl lg:text-4xl">
             Проект создан при поддержке Федерального государственного бюджетного учреждения
             "Фонд содействия развитию малых форм предприятий в научно-технической сфере в рамках программы "Студенческий
             стартап"
@@ -99,12 +102,12 @@ const priceList = [
         </div>
       </div>
     </section>
-    <section class="project-info bg-orange-500 text-white py-8 px-[55px]" id="about-project">
-      <div class="project-info__content max-w-[1024px] mx-auto">
-        <h1 class="text-center leading-none text-[96px] mb-[30px]">
+    <section class="project-info bg-orange-500 text-white px-8 md:px-10 lg:px-[55px]" id="about-project">
+      <div class="project-info__content max-w-[1024px] mx-auto py-2">
+        <h1 class="text-center leading-none text-xl md:text-[56px] lg:text-[96px] md:mb-4 lg:mb-[30px]">
           О проекте
         </h1>
-        <p class="text-center leading-none text-4xl p-[10px]">
+        <p class="text-center leading-none text-base md:text-2xl lg:text-4xl p-[10px]">
           «Оранжевый помощник» это образовательный интернет-сайт, созданный для психолого-педагогической поддержки и
           сопровождения детско-родительских отношений. Мы объединяем усилия педагогов и психологов, чтобы помочь
           родителям и детям выстроить максимально гармоничные взаимоотношения.
@@ -120,12 +123,12 @@ const priceList = [
           >
         </div>
         <div class="project-goals__content max-w-[800px] leading-[100%] text-4xl text-left">
-          <h2 class="text-[55px] text-orange-500 mb-8">
-            Цели и задачи проекта
+          <h2 class="text-base md:text-4xl lg:text-[55px] text-orange-500 mb-6 lg:mb-8">
+            Цели и задачи проекта:
           </h2>
-          <div class="project-goals__goals">
+          <div class="project-goals__goals text-base md:text-2xl lg:text-4xl">
             <h3>
-              Цель:
+              Цели:
             </h3>
             <ul class="list-disc pl-10">
               <li>
@@ -133,7 +136,7 @@ const priceList = [
               </li>
             </ul>
           </div>
-          <div class="project-goals__tasks">
+          <div class="project-goals__tasks text-base md:text-2xl lg:text-4xl">
             <h3>
               Задачи:
             </h3>
@@ -152,8 +155,8 @@ const priceList = [
         </div>
       </div>
     </section>
-    <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]"/>
-    <section class="key-concept bg-white p-8 px-[55px]">
+    <div class="content-rectangle h-[30px] md:h-[45px] lg:h-[60px] bg-orange-500 md:mb-7 lg:mb-[50px]"/>
+    <section class="key-concept bg-white md:px-7 lg:px-[55px] py-6">
       <SectionWithLines
           title="Ключевая концепция"
       >
@@ -165,10 +168,10 @@ const priceList = [
     <section class="useful-platform bg-orange-500 text-white py-8 px-[55px]">
       <div class="mx-auto flex lg:flex-row flex-col justify-center  gap-[30px]">
         <div class="useful-platform__content flex flex-col gap-[30px] text-left">
-          <h4 class="text-[55px]">
+          <h4 class="text-xl md:text-4xl lg:text-[55px]">
             Платформа будет полезна
           </h4>
-          <ul class="list-disc pl-10 text-4xl flex flex-col gap-[20px]">
+          <ul class="list-disc pl-10 text-base md:text-2xl lg:text-4xl flex flex-col gap-[20px]">
             <li>
               Родителям и законным представителям, которые хотят лучше понимать своих детей и получать
               профессиональную
@@ -201,13 +204,13 @@ const priceList = [
           >
         </div>
         <div class="consultation__content max-w-[630px] leading-[100%] text-4xl text-left">
-          <h5 class="text-[55px] mb-8">
+          <h5 class="text-xl md:text-4xl lg:text-[55px] mb-8">
             Консультация
           </h5>
-          <p>
+          <p class="text-base md:text-2xl lg:text-4xl ">
             Вы можете
           </p>
-          <ul class="list-disc pl-10">
+          <ul class="list-disc pl-10 text-base md:text-2xl lg:text-4xl ">
             <li>Обратиться к специалисту напрямую</li>
             <li>Получить индивидуальную консультацию в удобное время</li>
             <li>Обсудить актуальные трудности или тревоги</li>
@@ -216,7 +219,7 @@ const priceList = [
         </div>
       </div>
     </section>
-    <div class="content-rectangle h-[60px] bg-orange-500 mb-[50px]"/>
+    <div class="content-rectangle h-[30px] md:h-[45px] lg:h-[60px] bg-orange-500 md:mb-7 lg:mb-[50px]"/>
     <section class="financing bg-white p-8 px-[55px]">
       <SectionWithLines
           title="Финансовая выгода"
@@ -246,9 +249,9 @@ const priceList = [
         </div>
       </SectionWithLines>
     </section>
-    <section class="project-team bg-orange-500 text-white px-[55px] py-8 mb-12" id="project-team">
+    <section class="project-team bg-orange-500 text-white px-[55px] py-8 lg:mb-12" id="project-team">
       <div class="flex flex-col gap-8">
-        <h6 class="text-[55px]">
+        <h6 class="text-xl md:text-4xl lg:text-[55px]">
           Наша команда
         </h6>
         <div class="project-team__members flex lg:flex-row flex-col items-center gap-10 justify-between">
@@ -263,12 +266,12 @@ const priceList = [
         </div>
       </div>
     </section>
-    <section class="path-platform px-[55px]">
-      <div class="flex flex-col gap-[75px]">
-        <h6 class="text-[55px]">
+    <section class="path-platform gap-5 md:gap-9 lg:px-[55px] py-3 md:py-7 lg:py-11">
+      <div class="flex flex-col gap-4 md:gap-11 lg:gap-[75px]">
+        <h6 class="text-xl md:text-4xl lg:text-[55px] px-8">
           Путь на платформе
         </h6>
-        <div class="grid grid-cols-5 gap-10 mb-[50px]">
+        <div class="grid grid-cols-5 gap-2 md:gap-6 lg:gap-10 mb-5 lg:mb-[50px]">
           <Circle
               v-for="circle in circleLabel"
               :label="circle.label"
@@ -276,14 +279,15 @@ const priceList = [
         </div>
       </div>
       <div class="flex justify-center mb-[50px]">
-        <Button
-            label="Записаться на консультацию"
-            color="orange"
-            size="large"
-        />
+        <button
+            class="bg-orange-500 text-white rounded-[10px] px-1 py-1 md:px-10 md:py-4 lg:px-4 lg:py-7 text-base ld:text-4xl md:text-2xl"
+            @click="router.push('/consultation')"
+        >
+         Записаться на консультацию
+        </button>
       </div>
     </section>
-    <div class="content-rectangle h-[2px] bg-orange-500 mb-[50px]"/>
+    <div class="content-rectangle h-[2px] bg-orange-500 mb-2 md:mb-7 lg:mb-[50px]"/>
     <Footer/>
   </div>
 </template>

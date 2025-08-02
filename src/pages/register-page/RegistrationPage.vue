@@ -2,15 +2,15 @@
   <RegisterAndLoginLayout :max-width="916" :min-width="300">
     <div class="px-5 py-3 space-y-6 w-full">
       <div class="flex items-center flex-col">
-        <img src="/img/logo-bg__orange.svg" class="w-[60px] md:w-[80px]" />
+        <img src="/img/logo-bg__orange.png" class="w-[60px] md:w-[80px]" />
         <h1 class="text-3xl md:text-[32px] text-orange-500 font-medium">Регистрация</h1>
       </div>
 
       <form @submit.prevent="handleSubmit" class="space-y-7">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:gap-5">
           <!-- Фамилия -->
-          <div>
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Фамилия</label>
+          <div class="space-y-1 md:space-y-4 ">
+            <label class="block text-sm md:text-xl text-orange-500">Фамилия</label>
             <Input
                 v-model="formData.lastName"
                 type="text"
@@ -18,12 +18,12 @@
                 @blur="validateField('lastName')"
                 :class="{ '!border-red-500 !border-[2px]': errors.lastName }"
             />
-            <span v-if="errors.lastName" class="text-red-500 text-sm">{{ errors.lastName }}</span>
+            <span v-if="errors.lastName" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.lastName }}</span>
           </div>
 
           <!-- Имя -->
-          <div>
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Имя</label>
+          <div class="space-y-1 md:space-y-4 ">
+            <label class="block text-sm md:text-xl text-orange-500">Имя</label>
             <Input
                 v-model="formData.firstName"
                 type="text"
@@ -31,12 +31,12 @@
                 @blur="validateField('firstName')"
                 :class="{ '!border-red-500 !border-[2px]': errors.firstName }"
             />
-            <span v-if="errors.firstName" class="text-red-500 text-sm">{{ errors.firstName }}</span>
+            <span v-if="errors.firstName" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.firstName }}</span>
           </div>
 
           <!-- Отчество -->
-          <div>
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Отчество</label>
+          <div class="space-y-1 md:space-y-4 ">
+            <label class="block text-sm md:text-xl text-orange-500">Отчество</label>
             <Input
                 v-model="formData.secondName"
                 type="text"
@@ -44,12 +44,12 @@
                 @blur="validateField('secondName')"
                 :class="{ '!border-red-500 !border-[2px]': errors.secondName }"
             />
-            <span v-if="errors.secondName" class="text-red-500 text-sm">{{ errors.secondName }}</span>
+            <span v-if="errors.secondName" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.secondName }}</span>
           </div>
 
           <!-- Возраст -->
-          <div>
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Возраст</label>
+          <div class="space-y-1 md:space-y-4 ">
+            <label class="block text-sm md:text-xl text-orange-500">Возраст</label>
             <Input
                 v-model="formData.age"
                 type="number"
@@ -59,12 +59,12 @@
                 @blur="validateField('age')"
                 :class="{ '!border-red-500 !border-[2px]': errors.age }"
             />
-            <span v-if="errors.age" class="text-red-500 text-sm">{{ errors.age }}</span>
+            <span v-if="errors.age" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.age }}</span>
           </div>
 
           <!-- Email -->
-          <div>
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Email</label>
+          <div class="space-y-1 md:space-y-4 ">
+            <label class="block text-sm md:text-xl text-orange-500">Email</label>
             <Input
                 v-model="formData.email"
                 type="email"
@@ -72,12 +72,12 @@
                 @blur="validateField('email')"
                 :class="{ '!border-red-500 !border-[2px]': errors.email }"
             />
-            <span v-if="errors.email" class="text-red-500 text-sm">{{ errors.email }}</span>
+            <span v-if="errors.email" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.email }}</span>
           </div>
 
           <!-- Телефон -->
-          <div>
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Телефон</label>
+          <div class="space-y-1 md:space-y-4 ">
+            <label class="block text-sm md:text-xl text-orange-500">Телефон</label>
             <Input
                 v-model="formData.phoneNumber"
                 type="tel"
@@ -85,12 +85,12 @@
                 @blur="validateField('phoneNumber')"
                 :class="{ '!border-red-500 !border-[2px]': errors.phoneNumber }"
             />
-            <span v-if="errors.phoneNumber" class="text-red-500 text-sm">{{ errors.phoneNumber }}</span>
+            <span v-if="errors.phoneNumber" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.phoneNumber }}</span>
           </div>
 
           <!-- Пароль -->
-          <div>
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Пароль</label>
+          <div class="space-y-1 md:space-y-4 ">
+            <label class="block text-sm md:text-xl text-orange-500">Пароль</label>
             <Input
                 v-model="formData.password"
                 type="password"
@@ -98,7 +98,7 @@
                 @blur="validateField('password')"
                 :class="{ '!border-red-500 !border-[2px]': errors.password }"
             />
-            <span v-if="errors.password" class="text-red-500 text-sm">{{ errors.password }}</span>
+            <span v-if="errors.password" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.password }}</span>
           </div>
         </div>
 
@@ -200,14 +200,19 @@ const validateField = async (field) => {
 // Отправка формы
 const handleSubmit = async () => {
   try {
-    // Валидация всей формы
     await schema.validate(formData, { abortEarly: false });
-    isSubmitting.value = true;
+  } catch (err) {
+    Object.keys(errors).forEach(key => (errors[key] = ''));
+    err.inner.forEach((error) => {
+      errors[error.path] = error.message;
+    });
+    return;
+  }
 
-    // Нормализация телефона
+  try {
+    isSubmitting.value = true;
     const cleanedPhone = formData.phoneNumber.replace(/[^\d+]/g, '');
 
-    // Подготовка данных для отправки
     const payload = {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -218,37 +223,12 @@ const handleSubmit = async () => {
       password: formData.password
     };
 
-    // Отправка на сервер
     const response = await registerRaw(payload);
-
-    router.push('/login')
+    router.push('/login');
   } catch (err) {
-    toast.error(err?.response.data.error.message);
+    toast.error(err?.response?.data?.error?.message || 'Ошибка при регистрации');
   } finally {
     isSubmitting.value = false;
   }
 };
-
-onMounted(() => {
-  // Удаляем все существующие viewport мета-теги
-  const metas = document.querySelectorAll('meta[name="viewport"]');
-  metas.forEach(meta => document.head.removeChild(meta));
-
-  // Создаём и вставляем свой
-  const newMeta = document.createElement('meta');
-  newMeta.name = 'viewport';
-  newMeta.content = 'width=device-width, initial-scale=1.0';
-  document.head.appendChild(newMeta);
-});
-
-onBeforeUnmount(() => {
-  // Удаляем все viewport мета-теги (включая наш)
-  const metas = document.querySelectorAll('meta[name="viewport"]');
-  metas.forEach(meta => {
-    if (document.head.contains(meta)) {
-      document.head.removeChild(meta);
-    }
-  });
-});
-
 </script>

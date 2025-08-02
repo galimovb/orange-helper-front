@@ -11,7 +11,7 @@ const props = defineProps({
 const showPlayer = ref(false);
 
 
-const BASE_URL = 'https://orangehelper.ru';
+const BASE_URL = 'https://api.oranzhevyi-pomoshnik.ru';
 
 const audioPreviews = [
   '/img/audio_1.svg',
@@ -90,7 +90,7 @@ const previewImage = computed(() => {
         </video>
       </div>
     </div>
-    <p class="text-3xl leading-[100%] text-center mt-4">
+    <p class="text-base md:text-2xl lg:text-4xl leading-[100%] text-center mt-4">
       {{ name }}
     </p>
   </div>
