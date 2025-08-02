@@ -5,15 +5,15 @@
     <div class="text-white flex flex-col items-center gap-6 w-full">
       <div
         v-if="title"
-        class="lg:text-2xl text-4xl leading-[100%] lg:min-h-[128px] min-h-[160px]"
+        class="leading-[100%] min-h-[100px] lg:min-h-[160px] "
       >
-        <h2 :class="titleSize">
+        <h2 :class="titleSize" class="text-base md:text-2xl lg:text-4xl">
           {{ title }}
         </h2>
       </div>
       <div
         v-if="text"
-        class="lg:text-2xl text-4xl leading-[100%]"
+        class="text-base md:text-2xl lg:text-4xl leading-[100%] truncate"
       >
         <p>
           {{ text }}
@@ -24,23 +24,21 @@
           v-if="image"
           :src="image"
           alt="image"
-          class="bg-white max-w-[241px] min-h-[202px] rounded-[5px] "
+          class="bg-white rounded-[5px] "
         />
       </div>
     </div>
 
-    <Button
+    <button
         v-if="showButton"
-        label="Подробнее"
-        color="white"
-        size="medium"
-      />
+        class="bg-white text-orange-500 rounded-[10px] px-4 py-2.5 text-base md:text-xl lg:text-2xl"
+    >
+      Подробнее
+    </button>
   </div>
 </template>
 
 <script setup>
-import Button from "@/components/Button.vue";
-
 defineProps({
   title: String,
   text: String,

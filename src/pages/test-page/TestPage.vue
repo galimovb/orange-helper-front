@@ -1,7 +1,7 @@
 <script setup>
 import {ref, onMounted} from "vue";
 import {useRoute} from "vue-router";
-import {useTestStore} from '@/stores/testStore'; // Подключаем хранилище для тестов
+import {useTestStore} from '@/stores/testStore';
 
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
@@ -67,22 +67,22 @@ const showResult = () => {
 
 <template>
   <Header/>
-  <section class="test-page px-[55px] py-8">
+  <section class="test-page px-8 py-3 md:px-11 md:py-6 lg:px-[55px] lg:py-8">
     <div
         v-if="testStore.currentTest"
-        class="bg-orange-500 flex flex-col gap-8 text-white lg:max-w-[90%] lg:min-h-[650px] lg:h-[70vh] mx-auto p-8 overflow-y-auto"
+        class="bg-orange-500 flex flex-col gap-4 lg:gap-8 text-white lg:max-w-[90%] lg:min-h-[650px] lg:h-[70vh] mx-auto p-2 md:p-4 lg:p-8 overflow-y-auto"
     >
-      <h1 class="lg:text-[32px] text-4xl">
+      <h1 class="text-lg md:text-xl lg:text-3xl">
         {{ testStore.currentTest.title }}
       </h1>
-      <div v-if="isDescriptionVisible" class="flex flex-col gap-6 lg:text-2xl text-[32px]">
+      <div v-if="isDescriptionVisible" class="flex flex-col gap-2 md:gap-4 lg:gap-6 text-base md:text-xl lg:text-2xl ">
         <b>
           {{ testStore.currentTest.source }}
         </b>
         <p>
           {{ testStore.currentTest.description }}
         </p>
-        <div class="lg:text-2xl text-[32px]">
+        <div class="text-base md:text-xl lg:text-2xl ">
           <b>
             Опросник состоит из четырех шкал:
           </b>
@@ -93,7 +93,7 @@ const showResult = () => {
             <li>4. Маленький неудачник.</li>
           </ol>
         </div>
-        <p>
+        <p class="text-base md:text-xl lg:text-2xl">
           <b>
             Инструкция:
           </b>
@@ -105,7 +105,7 @@ const showResult = () => {
           v-else-if="result === null"
           class="test-question-container flex flex-col gap-4"
       >
-        <h2 class="lg:text-3xl text-4xl">
+        <h2 class="text-lg md:text-xl lg:text-3xl">
           {{ testStore.currentTest.questions[currentQuestionIndex].question }}
         </h2>
         <div class="flex flex-col lg:gap-4 gap-8">
@@ -114,9 +114,9 @@ const showResult = () => {
                 type="radio"
                 v-model="answers[currentQuestionIndex]"
                 value="+"
-                class="lg:w-[25px] lg:h-[25px] w-[50px] h-[50px]"
+                class="w-6 h-6 "
             />
-            <label class="lg:text-2xl text-4xl leading-[100%]">
+            <label class="text-2xl leading-[100%]">
               +
             </label>
           </div>
@@ -125,19 +125,19 @@ const showResult = () => {
                 type="radio"
                 v-model="answers[currentQuestionIndex]"
                 value="-"
-                class="lg:w-[25px] lg:h-[25px] w-[50px] h-[50px]"
+                class="w-6 h-6"
             />
-            <label class="lg:text-2xl text-4xl leading-[100%]">
+            <label class="text-2xl leading-[100%]">
               -
             </label>
           </div>
         </div>
       </div>
-      <div v-else class="test-results flex flex-col gap-4">
-        <h2 class="lg:text-3xl text-4xl">
+      <div v-else class="test-results flex flex-col gap-2 lg:gap-4">
+        <h2 class="text-lg md:text-xl lg:text-3xl">
           Результаты теста:
         </h2>
-        <div class="text-xl">
+        <div class="text-base md:text-lg lg:text-xl">
           <p>
             <b>Общий балл:</b>
             {{ result.totalScore }}
@@ -161,7 +161,7 @@ const showResult = () => {
             </li>
           </ul>
         </div>
-        <p class="text-xl ">
+        <p class="text-base md:text-lg lg:text-xl">
           Шкала «принятие — отвержение» — максимальная сумма составляет 13 баллов.
           <br>
           Если взрослый набирает от 0 до 4 баллов, то это говорит о том, что взрослому (педагогу или родителю) нравятся
@@ -210,7 +210,7 @@ const showResult = () => {
             @click="prevQuestion"
             class="transform rotate-90 border-2 border-white p-2 rounded-full"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-white stroke-white" viewBox="0 0 24 24"
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 l-4 lg:w-6 lg:h-6  fill-white stroke-white" viewBox="0 0 24 24"
                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 9l-7 7-7-7"></path>
           </svg>
@@ -219,7 +219,7 @@ const showResult = () => {
             @click="nextQuestion"
             class="transform rotate-90 border-2 border-white p-2 rounded-full"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-white stroke-white" viewBox="0 0 24 24"
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 l-4 lg:w-6 lg:h-6  fill-white stroke-white" viewBox="0 0 24 24"
                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 15l7-7 7 7"></path>
           </svg>

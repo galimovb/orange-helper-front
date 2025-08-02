@@ -5,6 +5,9 @@ import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
 import Circle from "@/components/Circle.vue";
 import Button from "@/components/Button.vue";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
 
 const teamMembers = [
   {
@@ -153,7 +156,7 @@ const priceList = [
       </div>
     </section>
     <div class="content-rectangle h-[30px] md:h-[45px] lg:h-[60px] bg-orange-500 md:mb-7 lg:mb-[50px]"/>
-    <section class="key-concept bg-white p-8 px-[55px]">
+    <section class="key-concept bg-white md:px-7 lg:px-[55px] py-6">
       <SectionWithLines
           title="Ключевая концепция"
       >
@@ -165,10 +168,10 @@ const priceList = [
     <section class="useful-platform bg-orange-500 text-white py-8 px-[55px]">
       <div class="mx-auto flex lg:flex-row flex-col justify-center  gap-[30px]">
         <div class="useful-platform__content flex flex-col gap-[30px] text-left">
-          <h4 class="text-[55px]">
+          <h4 class="text-xl md:text-4xl lg:text-[55px]">
             Платформа будет полезна
           </h4>
-          <ul class="list-disc pl-10 text-4xl flex flex-col gap-[20px]">
+          <ul class="list-disc pl-10 text-base md:text-2xl lg:text-4xl flex flex-col gap-[20px]">
             <li>
               Родителям и законным представителям, которые хотят лучше понимать своих детей и получать
               профессиональную
@@ -201,13 +204,13 @@ const priceList = [
           >
         </div>
         <div class="consultation__content max-w-[630px] leading-[100%] text-4xl text-left">
-          <h5 class="text-[55px] mb-8">
+          <h5 class="text-xl md:text-4xl lg:text-[55px] mb-8">
             Консультация
           </h5>
-          <p>
+          <p class="text-base md:text-2xl lg:text-4xl ">
             Вы можете
           </p>
-          <ul class="list-disc pl-10">
+          <ul class="list-disc pl-10 text-base md:text-2xl lg:text-4xl ">
             <li>Обратиться к специалисту напрямую</li>
             <li>Получить индивидуальную консультацию в удобное время</li>
             <li>Обсудить актуальные трудности или тревоги</li>
@@ -246,9 +249,9 @@ const priceList = [
         </div>
       </SectionWithLines>
     </section>
-    <section class="project-team bg-orange-500 text-white px-[55px] py-8 mb-12" id="project-team">
+    <section class="project-team bg-orange-500 text-white px-[55px] py-8 lg:mb-12" id="project-team">
       <div class="flex flex-col gap-8">
-        <h6 class="text-[55px]">
+        <h6 class="text-xl md:text-4xl lg:text-[55px]">
           Наша команда
         </h6>
         <div class="project-team__members flex lg:flex-row flex-col items-center gap-10 justify-between">
@@ -263,12 +266,12 @@ const priceList = [
         </div>
       </div>
     </section>
-    <section class="path-platform px-[55px]">
-      <div class="flex flex-col gap-[75px]">
-        <h6 class="text-[55px]">
+    <section class="path-platform gap-5 md:gap-9 lg:px-[55px] py-3 md:py-7 lg:py-11">
+      <div class="flex flex-col gap-4 md:gap-11 lg:gap-[75px]">
+        <h6 class="text-xl md:text-4xl lg:text-[55px] px-8">
           Путь на платформе
         </h6>
-        <div class="grid grid-cols-5 gap-10 mb-[50px]">
+        <div class="grid grid-cols-5 gap-2 md:gap-6 lg:gap-10 mb-5 lg:mb-[50px]">
           <Circle
               v-for="circle in circleLabel"
               :label="circle.label"
@@ -276,11 +279,12 @@ const priceList = [
         </div>
       </div>
       <div class="flex justify-center mb-[50px]">
-        <Button
-            label="Записаться на консультацию"
-            color="orange"
-            size="large"
-        />
+        <button
+            class="bg-orange-500 text-white rounded-[10px] px-1 py-1 md:px-10 md:py-4 lg:px-4 lg:py-7 text-base ld:text-4xl md:text-2xl"
+            @click="router.push('/consultation')"
+        >
+         Записаться на консультацию
+        </button>
       </div>
     </section>
     <div class="content-rectangle h-[2px] bg-orange-500 mb-2 md:mb-7 lg:mb-[50px]"/>

@@ -3,6 +3,7 @@ import {createApp} from "vue";
 import App from "./App.vue";
 import {router} from "./router";
 import "./assets/styles/main.css";
+import "./assets/styles/multiselect.css";
 import VueTheMask from 'vue-the-mask';
 import { createPinia } from 'pinia'
 import AxiosWrapper from '@/config/AxiosWrapper.js'

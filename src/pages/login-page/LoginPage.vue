@@ -1,10 +1,9 @@
 <template>
   <RegisterAndLoginLayout :max-width="680" :min-width="320">
-    {{error}}
     <div class="px-5 py-3 space-y-6 w-full">
       <div class="flex items-center flex-col">
         <img
-            src="/img/logo-bg__orange.svg"
+            src="/img/logo-bg__orange.png"
             class="w-[60px] md:w-[80px]"
         />
         <h1
@@ -18,32 +17,39 @@
           class="space-y-7"
           @submit.prevent="handleSubmit"
       >
-        <div>
-          <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Телефон</label>
+        <div class="space-y-1 md:space-y-4 ">
+          <label class="block text-sm md:text-xl text-orange-500">Телефон</label>
           <Input
               v-model="formData.phoneNumber"
               type="phone"
               placeholder="+7 912 345 67 89"
+              @blur="validateField('phoneNumber')"
+              :class="{ '!border-red-500 !border-[2px]': errors.phoneNumber }"
               class="w-full"
           />
+          <span v-if="errors.phoneNumber" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.phoneNumber }}</span>
         </div>
 
-        <div>
-          <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Пароль</label>
+        <div class="space-y-1 md:space-y-4 ">
+          <label class="block text-sm md:text-xl text-orange-500">Пароль</label>
           <Input
               v-model="formData.password"
               type="password"
               placeholder="Введите пароль"
-              required
+              @blur="validateField('password')"
+              :class="{ '!border-red-500 !border-[2px]': errors.password }"
               class="w-full"
           />
+          <span v-if="errors.password" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.password }}</span>
         </div>
 
         <button
             type="submit"
             class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200 text-lg md:text-xl"
+            :disabled="isSubmitting"
         >
-          Войти
+          <span v-if="!isSubmitting">Войти</span>
+          <span v-else>Загрузка...</span>
         </button>
       </form>
 
@@ -65,37 +71,52 @@ import {onBeforeUnmount, onMounted, reactive, ref} from 'vue';
 import RegisterAndLoginLayout from "@/components/RegisterAndLoginLayout.vue";
 import Input from "@/components/Input.vue";
 import authApi from "@/config/api/authApi"
-import Button from "@/components/Button.vue";
 import {useAuthStore} from "@/stores/auth";
 import {router} from "@/router";
 import {useToast} from "vue-toastification";
+
 const toast = useToast();
-
-const error = ref('')
-
 const authStore = useAuthStore();
+const isSubmitting = ref(false);
 
 const formData = reactive({
   phoneNumber: '',
   password: ''
 });
 
+const errors = reactive({
+  phoneNumber: '',
+  password: ''
+});
+
+const validateField = (field) => {
+  if (field === 'phoneNumber') {
+    errors.phoneNumber = formData.phoneNumber.trim() ? '' : 'Телефон обязателен';
+  } else if (field === 'password') {
+    errors.password = formData.password.trim() ? '' : 'Пароль обязателен';
+  }
+};
+
+const validateForm = () => {
+  validateField('phoneNumber');
+  validateField('password');
+  return !errors.phoneNumber && !errors.password;
+};
+
 const handleSubmit = async () => {
+  if (!validateForm()) return;
+
   try {
-    // Оставляем только цифры и плюс
+    isSubmitting.value = true;
+
     let cleanedPhone = formData.phoneNumber.replace(/[^\d+]/g, '');
 
-    // Гарантируем, что номер начинается с +7
     if (!cleanedPhone.startsWith('+')) {
       cleanedPhone = '+7' + cleanedPhone.replace(/^[78]?/, '');
-    } else if (cleanedPhone.startsWith('+') && !cleanedPhone.startsWith('+7')) {
-      cleanedPhone = '+7' + cleanedPhone.slice(1).replace(/\D/g, '');
     }
 
-    // Удаляем возможные дубли плюсов
     cleanedPhone = cleanedPhone.replace(/\++/g, '+');
 
-    // Проверяем минимальную длину (например, +79123456789 - 12 символов)
     if (cleanedPhone.length < 12) {
       throw new Error('Номер телефона слишком короткий');
     }
@@ -105,44 +126,15 @@ const handleSubmit = async () => {
       phoneNumber: cleanedPhone
     };
 
-    // 1. Выполняем запрос на авторизацию
     await authApi.login(requestData);
-
-    // 2. Проверяем авторизацию
     await authStore.check();
 
-    // 3. Получаем URL для редиректа из query параметров
     const redirectPath = router.currentRoute.value.query.redirect || '/';
-
-    // 4. Выполняем переход
     await router.push(redirectPath);
   } catch (err) {
-    console.error('Ошибка:', err.message);
-    toast.error(`Ошибка входа: ${err?.response.data.error.message}`);
-    error.value = err.response.status || err?.response.data.error.message
+    toast.error(err?.response?.data?.error?.message || 'Ошибка входа');
+  } finally {
+    isSubmitting.value = false;
   }
 };
-
-onMounted(() => {
-  // Удаляем все существующие viewport мета-теги
-  const metas = document.querySelectorAll('meta[name="viewport"]');
-  metas.forEach(meta => document.head.removeChild(meta));
-
-  // Создаём и вставляем свой
-  const newMeta = document.createElement('meta');
-  newMeta.name = 'viewport';
-  newMeta.content = 'width=device-width, initial-scale=1.0';
-  document.head.appendChild(newMeta);
-});
-
-onBeforeUnmount(() => {
-  // Удаляем все viewport мета-теги (включая наш)
-  const metas = document.querySelectorAll('meta[name="viewport"]');
-  metas.forEach(meta => {
-    if (document.head.contains(meta)) {
-      document.head.removeChild(meta);
-    }
-  });
-});
-
 </script>

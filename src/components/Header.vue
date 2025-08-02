@@ -1,5 +1,5 @@
 <template>
-  <header class="px-8 md:px-10 lg:px-[55px] ">
+  <header class="px-8 md:px-10 lg:px-[55px] pt-2">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-4 lg:gap-8 z-20">
         <NavigationTab>
@@ -8,7 +8,7 @@
           </template>
         </NavigationTab>
         <button>
-          <img src="/img/logo-bg__orange.svg" alt="logo" class="h-9 w-9 md:w-[60px] md:h-[60px] lg:w-[100px] lg:h-[100px]">
+          <img src="/img/logo-bg__orange.png" alt="logo" class="h-9 w-11 md:w-[60px] md:h-[60px] lg:w-[100px] lg:h-[100px]">
         </button>
       </div>
       <div class="text-sm md:text-4xl lg:text-4xl leading-none">
