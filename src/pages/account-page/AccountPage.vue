@@ -13,6 +13,7 @@ import Footer from "@/components/Footer.vue";
 import defaultAvatarImg from '/public/img/empty-photo.jpg';
 
 import {mask} from 'vue-the-mask';
+import {Label} from "radix-vue";
 import {useAuthStore} from "@/stores/auth";
 import {useRouter} from "vue-router";
 
@@ -28,23 +29,7 @@ const tabs = [
   {name: 'Подать заявку на консультацию'},
 ];
 
-const consultationHistory = [
-  {
-    teacher: 'Ильина К. В.',
-    post: 'Преподаватель',
-    date: new Date().toDateString(),
-    problem: 'Подготовка к школе',
-    description: 'Проведена первичная диагностика, даны рекомендации по играм на развитие внимания и памяти.',
-  },
-  {
-    teacher: 'Сабирова Э. Г.',
-    post: 'Преподаватель',
-    date: new Date().toDateString(),
-    problem: 'Эмоциональные всплески у подростка',
-    description: 'Консультация была направлена на определение причин, обсуждение особенностей подросткового возраста, ' +
-        'подходов к диалогу. Выработана стратегия взаимодействия и предложены упражнения на эмоциональную саморегуляцию.',
-  }
-];
+
 
 const toast = useToast();
 const employeeStore = useEmployeeStore();
@@ -57,11 +42,22 @@ const consultationType = ref('');
 const selectedDate = ref('');
 const selectedTime = ref('');
 
+const consultationData = ref([]);
 const scheduleData = ref([]);
 const weekStart = ref('');
 const loading = ref(false);
 const openEmployeeId = ref(null);
 const searchQuery = ref('');
+const consultationVisibility = ref([]);
+const ratings = ref({});
+
+const setRating = (consultationId, value) => {
+  ratings.value[consultationId] = value;
+};
+
+const toggleDescription = (index) => {
+  consultationVisibility.value[index] = !consultationVisibility.value[index];
+}
 
 const filteredConsultants = computed(() => {
   if (!consultationType.value) return [];
@@ -88,6 +84,30 @@ const fetchSchedule = async () => {
     loading.value = false;
   }
 
+};
+
+const fetchConsultation = async () => {
+  loading.value = true;
+  try {
+    const response = await AxiosWrapper.get(`/consultations`);
+    consultationData.value = response.data;
+  } catch (error) {
+    toast.error('Ошибка при загрузке данных');
+  } finally {
+    loading.value = false;
+  }
+};
+
+const completedConsultations = computed(() => {
+  return consultationData.value.filter((consultation) => consultation.status === 'COMPLETED');
+});
+
+const getConsultantName = (consultantId) => {
+  const consultant = employeeStore.teachers.concat(employeeStore.psychologists)
+      .find((employee) => employee.id === consultantId);
+
+
+  return consultant ? `${consultant.fullName}` : 'Не найден';
 };
 
 const toggleEmployeeSlots = (employeeId) => {
@@ -123,6 +143,23 @@ const filteredEmployees = computed(() => {
   });
 
 });
+
+const submitReview = async (consultation) => {
+  const reviewData = {
+    rating: ratings.value[consultation.id],
+    comment: consultation.comment || '',
+    consultationId: consultation.id
+  };
+
+  try {
+    const response = await AxiosWrapper.post('/reviews', reviewData);
+    console.log('Отзыв отправлен:', response.data);
+    toast.success('Отзыв успешно отправлен!');
+  } catch (error) {
+    console.error('Ошибка при отправке отзыва:', error);
+    toast.error('Произошла ошибка при отправке отзыва.');
+  }
+};
 
 const submitForm = async () => {
   try {
@@ -212,6 +249,7 @@ onMounted(() => {
   employeeStore.fetchEmployees();
   profileStore.fetchProfile();
   fetchSchedule();
+  fetchConsultation();
 });
 </script>
 
@@ -439,36 +477,77 @@ onMounted(() => {
               class="grid grid-cols-1 lg:grid-cols-2 gap-[30px]"
           >
             <div
-                v-for="consultation in consultationHistory"
+                v-for="(consultation, index) in completedConsultations"
+                :key="consultation.id"
                 class="px-3 py-2 lg:px-5 lg:py-2.5 flex flex-col gap-2.5 border border-black/50 rounded-[10px]"
             >
               <div class="flex  justify-between">
                 <div class="space-y-1.5">
                   <div class="text-base md:text-xl lg:text-2xl font-bold">
-                    {{ consultation.teacher }}
+                    {{ getConsultantName(consultation.consultantId) }}
                   </div>
                   <div class="text-sm md:text-base lg:text-xl">
-                    {{ consultation.post }}
+                    {{ consultation.consultationType === 'PEDAGOGICAL' ? 'Педагогическая' : 'Психологическая' }}
                   </div>
                 </div>
                 <div class="space-y-1.5">
                   <div class="text-base md:text-xl lg:text-2xl text-right">
-                    {{ consultation.date }}
+                    {{
+                      new Date(consultation.consultationDate).toISOString().split('T')[0].split('-').reverse().join('-')
+                    }}
                   </div>
                   <div class="text-sm md:text-base lg:text-xl text-right">
-                    {{ consultation.problem }}
+                    {{ new Date(consultation.consultationTime).toLocaleTimeString() }}
                   </div>
                 </div>
               </div>
-              <div class="text-base md:text-xl lg:text-2xl">
+              <div
+                  @click="toggleDescription(index)"
+                  class="text-base md:text-lg lg:text-xl cursor-pointer"
+              >
+                Пометка от консультанта
+              </div>
+              <div
+                  v-if="consultationVisibility[index]"
+                  class="text-base md:text-lg lg:text-xl"
+              >
                 {{ consultation.description }}
               </div>
-              <button
-                  @click="activeTab=4"
-                  class="w-full bg-orange-500 text-white rounded-[10px] text-base md:text-2xl lg:text-[32px] px-4 py-2.5 mt-auto"
-              >
-                Записаться повторно
-              </button>
+              <div class="flex flex-col gap-y-4 mt-auto">
+                <div class="">
+                  <label class="block text-base md:text-lg lg:text-xl mb-2">
+                    Оставить отзыв
+                  </label>
+                  <textarea
+                      v-model="consultation.comment"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-auto"
+                      placeholder="Оценка консультации.."
+                      style="height: 111px;"
+                  >
+
+                </textarea>
+                </div>
+                <div class="flex gap-2">
+                <span
+                    v-for="index in 5"
+                    :key="index"
+                    @click="setRating(consultation.id, index)"
+                    :class="{
+                      'text-yellow-500': ratings[consultation.id] >= index,
+                      'text-black': ratings[consultation.id] < index
+                    }"
+                    class="cursor-pointer text-3xl lg:text-5xl"
+                >
+                  &#9733;
+                </span>
+                </div>
+                <button
+                    @click="submitReview(consultation)"
+                    class="w-full bg-orange-500 text-white rounded-[10px] text-base md:text-xl lg:text-2xl px-4 py-2.5 mt-auto"
+                >
+                  Отправить отзыв
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -499,7 +578,7 @@ onMounted(() => {
               </div>
             </div>
             <div class="flex flex-col gap-2 lg:gap-5">
-              <div class="flex items-center gap-[10px] text-base md:text-xl lg:text-3xl">
+              <div class="flex gap-[10px] text-base md:text-xl lg:text-2xl">
                 <label>
                   Стаж:
                 </label>
@@ -507,7 +586,7 @@ onMounted(() => {
                   {{ teacher.experience }}
                 </label>
               </div>
-              <div class="flex items-center gap-[10px] text-3xl">
+              <div class="flex gap-[10px] text-base md:text-xl lg:text-2xl ">
                 <label>
                   Образование:
                 </label>
@@ -515,7 +594,7 @@ onMounted(() => {
                   {{ teacher.education }}
                 </label>
               </div>
-              <div class="flex items-center gap-[10px] text-base md:text-xl lg:text-3xl">
+              <div class="flex  gap-[10px] text-base md:text-xl lg:text-2xl">
                 <label>
                   Специализация:
                 </label>
@@ -523,7 +602,7 @@ onMounted(() => {
                   {{ teacher.specialization }}
                 </label>
               </div>
-              <div class="flex items-center gap-[10px] text-base md:text-xl lg:text-3xl">
+              <div class="flex  gap-[10px] text-base md:text-xl lg:text-2xl">
                 <label>
                   Отзывы:
                 </label>
@@ -560,7 +639,7 @@ onMounted(() => {
               </div>
             </div>
             <div class="flex flex-col gap-2 lg:gap-5">
-              <div class="flex items-center gap-[10px] text-base md:text-xl lg:text-3xl">
+              <div class="flex gap-[10px] text-base md:text-xl lg:text-2xl">
                 <label>
                   Стаж:
                 </label>
@@ -568,7 +647,7 @@ onMounted(() => {
                   {{ psychologist.experience }}
                 </label>
               </div>
-              <div class="flex items-center gap-[10px] text-base md:text-xl lg:text-3xl">
+              <div class="flex  gap-[10px] text-base md:text-xl lg:text-2xl">
                 <label>
                   Образование:
                 </label>
@@ -576,7 +655,7 @@ onMounted(() => {
                   {{ psychologist.education || 'Не указано' }}
                 </label>
               </div>
-              <div class="flex items-center gap-[10px] text-base md:text-xl lg:text-3xl">
+              <div class="flex gap-[10px] text-base md:text-xl lg:text-2xl">
                 <label>
                   Специализация:
                 </label>
@@ -584,7 +663,7 @@ onMounted(() => {
                   {{ psychologist.specialization || 'Не указано' }}
                 </label>
               </div>
-              <div class="flex items-center gap-[10px] text-base md:text-xl lg:text-3xl">
+              <div class="flex  gap-[10px] text-base md:text-xl lg:text-2xl">
                 <label>
                   Отзывы:
                 </label>
@@ -732,5 +811,13 @@ button {
   padding: 0.75rem;
   background-color: white;
   cursor: pointer;
+}
+
+.text-yellow-500 {
+  color: #fbbf24;
+}
+
+.text-black {
+  color: black;
 }
 </style>
