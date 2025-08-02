@@ -67,7 +67,7 @@ const submitFormPedagogical = async () => {
       type: consultationTypePedagogical.value
     };
 
-    await pedagogicalSchema.validate(dataToValidate, { abortEarly: false });
+    await pedagogicalSchema.validate(dataToValidate, {abortEarly: false});
 
     const requestData = {
       consultationType: 'pedagogical',
@@ -120,7 +120,7 @@ const submitFormPsychological = async () => {
       type: consultationTypePsychological.value
     };
 
-    await psychologicalSchema.validate(dataToValidate, { abortEarly: false });
+    await psychologicalSchema.validate(dataToValidate, {abortEarly: false});
 
     const requestData = {
       consultationType: 'psychological',
@@ -151,7 +151,7 @@ const formData = ref({
   beenWorkingYears: '',
   employeeSphera: '',
   phone: '',
-  email:'',
+  email: '',
 });
 
 const jobErrors = reactive({
@@ -162,7 +162,7 @@ const jobErrors = reactive({
   beenWorkingYears: '',
   employeeSphera: '',
   phone: '',
-  email:''
+  email: ''
 });
 
 const jobSchema = yup.object().shape({
@@ -224,7 +224,7 @@ const handleJobSubmit = async () => {
       phone: cleanedPhone
     };
 
-    await jobSchema.validate(dataToValidate, { abortEarly: false });
+    await jobSchema.validate(dataToValidate, {abortEarly: false});
 
     const payload = {
       ...formData.value,
@@ -247,20 +247,20 @@ const handleJobSubmit = async () => {
 
 // ===================== Прочее =====================
 const circleLabel = [
-  { label: "Вы оставляете заявку" },
-  { label: "Наш специалист уточняет детали с вами" },
-  { label: "Прохождение консультациии" },
-  { label: "Получение рекомендаций" }
+  {label: "Вы оставляете заявку"},
+  {label: "Наш специалист уточняет детали с вами"},
+  {label: "Прохождение консультациии"},
+  {label: "Получение рекомендаций"}
 ];
 
 const priceListPedagogic = [
-  { title: 'Первая консультация', prices: ['бесплатная'] },
-  { title: 'Консультация с педагогом', prices: ['30 минут - 1500 руб', '60 минут - 2500 руб'] }
+  {title: 'Первая консультация', prices: ['бесплатная']},
+  {title: 'Консультация с педагогом', prices: ['30 минут - 1500 руб', '60 минут - 2500 руб']}
 ];
 
 const priceListPsychologic = [
-  { title: 'Первая консультация', prices: ['бесплатная'] },
-  { title: 'Консультация с психологом', prices: ['30 минут - 1500 руб', '60 минут - 2500 руб'] }
+  {title: 'Первая консультация', prices: ['бесплатная']},
+  {title: 'Консультация с психологом', prices: ['30 минут - 1500 руб', '60 минут - 2500 руб']}
 ];
 </script>
 
@@ -341,7 +341,8 @@ const priceListPsychologic = [
                 @focus="checkAuth"
                 :class="{ '!border-black !border-[2px]': pedagogicalErrors.consultant }"
             />
-            <span v-if="pedagogicalErrors.consultant" class="text-black text-sm md:text-base">{{ pedagogicalErrors.consultant }}</span>
+            <span v-if="pedagogicalErrors.consultant"
+                  class="text-black text-sm md:text-base">{{ pedagogicalErrors.consultant }}</span>
           </div>
           <div class="flex flex-col gap-3">
             <label class="text-white text-3xl leading-[100%]">
@@ -369,7 +370,9 @@ const priceListPsychologic = [
                 :class="{ '!border-black border-[2px]': pedagogicalErrors.date }"
 
             />
-            <span v-if="pedagogicalErrors.date" class="text-black text-sm md:text-base">{{ pedagogicalErrors.date }}</span>
+            <span v-if="pedagogicalErrors.date" class="text-black text-sm md:text-base">{{
+                pedagogicalErrors.date
+              }}</span>
           </div>
 
           <div class="flex flex-col gap-3">
@@ -384,7 +387,9 @@ const priceListPsychologic = [
                 @focus="checkAuth"
                 :class="{ '!border-black border-[2px]': pedagogicalErrors.date }"
             />
-            <span v-if="pedagogicalErrors.time" class="text-black text-sm md:text-base">{{ pedagogicalErrors.time }}</span>
+            <span v-if="pedagogicalErrors.time" class="text-black text-sm md:text-base">{{
+                pedagogicalErrors.time
+              }}</span>
           </div>
 
           <div class="flex flex-col gap-3">
@@ -495,7 +500,8 @@ const priceListPsychologic = [
                 :class="{ '!border-black !border-[2px]': psychologicalErrors.consultant }"
 
             />
-            <span v-if="psychologicalErrors.consultant" class="text-black text-sm md:text-base">{{ psychologicalErrors.consultant }}</span>
+            <span v-if="psychologicalErrors.consultant"
+                  class="text-black text-sm md:text-base">{{ psychologicalErrors.consultant }}</span>
           </div>
           <div class="flex flex-col gap-3">
             <label class="text-white text-3xl leading-[100%]">
@@ -523,7 +529,9 @@ const priceListPsychologic = [
                 :class="{ '!border-black border-[2px]': psychologicalErrors.date }"
 
             />
-            <span v-if="psychologicalErrors.date" class="text-black text-sm md:text-base">{{ psychologicalErrors.date }}</span>
+            <span v-if="psychologicalErrors.date" class="text-black text-sm md:text-base">{{
+                psychologicalErrors.date
+              }}</span>
           </div>
 
           <div class="flex flex-col gap-3">
@@ -539,7 +547,8 @@ const priceListPsychologic = [
                 :class="{ '!border-black border-[2px]': psychologicalErrors.time }"
 
             />
-            <span v-if="psychologicalErrors.consultant" class="text-black text-sm md:text-base">{{ psychologicalErrors.time }}</span>
+            <span v-if="psychologicalErrors.consultant"
+                  class="text-black text-sm md:text-base">{{ psychologicalErrors.time }}</span>
           </div>
 
           <div class="flex flex-col gap-3">
@@ -689,7 +698,9 @@ const priceListPsychologic = [
             <option value="PEDAGOGY">Педагог</option>
           </select>
 
-          <span v-if="jobErrors.employeeSphera" class="text-red-500 text-sm md:text-base">{{ jobErrors.employeeSphera }}</span>
+          <span v-if="jobErrors.employeeSphera" class="text-red-500 text-sm md:text-base">{{
+              jobErrors.employeeSphera
+            }}</span>
         </div>
         <div class="flex flex-col gap-3">
           <label class="text-3xl leading-[100%]">

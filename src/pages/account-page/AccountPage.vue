@@ -67,14 +67,27 @@ const selectedTime = ref('');
 
 const submitForm = async () => {
   try {
+
+    const localDate = new Date(selectedDate.value + ' ' + selectedTime.value);
+
+    // Получаем смещение времени в минутах относительно UTC
+    const timezoneOffset = localDate.getTimezoneOffset();
+
+    // Преобразуем локальное время в UTC
+    const utcDate = new Date(localDate.getTime() - timezoneOffset * 60000);
+
+    // Преобразуем дату в нужный формат ISO с часовым поясом (+00:00)
+    const formattedDate = utcDate.toISOString().replace('.000Z', '+00:00');
+    const formattedTime = `1970-01-01T${selectedTime.value}:00+00:00`; // Формат времени с искусственной датой
+
     const requestData = {
       consultationType: consultationType.value,
       consultantId: selectedConsultant.value.id,
       userId: profileStore.userInfo.id,
-      requestDate: selectedDate.value,
-      requestTime: selectedTime.value,
-      childrenFullName: profileStore.userInfo.childName,
-      childrenAge: profileStore.userInfo.childrenAge
+      requestDate: formattedDate,  // Отправляем дату в формате UTC с часовым поясом
+      requestTime: formattedTime,  // Отправляем время с часовым поясом
+      childrenFullName: profileStore.userInfo.childName || null,
+      childrenAge: profileStore.userInfo.childrenAge || null
     };
 
     const response = await AxiosWrapper.post('/consultation-requests', requestData);
@@ -500,7 +513,6 @@ onMounted(() => {
                   v-model="profileStore.userInfo.childName"
                   type="text"
                   placeholder="Иванов Иван Иванович"
-                  required
                   class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
               />
             </div>
@@ -544,12 +556,4 @@ button {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.custom-multiselect {
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 0.5rem;
-  padding: 0.75rem;
-  background-color: white;
-  cursor: pointer;
-}
 </style>
