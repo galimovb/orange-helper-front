@@ -35,7 +35,6 @@ const toast = useToast();
 const employeeStore = useEmployeeStore();
 const profileStore = useProfileStore();
 
-const activeTab = ref(0);
 const defaultAvatar = defaultAvatarImg;
 const selectedConsultant = ref(null);
 const consultationType = ref('');
@@ -50,6 +49,12 @@ const openEmployeeId = ref(null);
 const searchQuery = ref('');
 const consultationVisibility = ref([]);
 const ratings = ref({});
+const activeTab = ref(localStorage.getItem('activeTab') ? parseInt(localStorage.getItem('activeTab')) : 0);
+
+const setActiveTab = (index) => {
+  activeTab.value = index;
+  localStorage.setItem('activeTab', index);
+};
 
 const profileErrors = reactive({
   fullName: '',
@@ -219,13 +224,6 @@ const submitForm = async () => {
   }
 };
 
-
-
-
-
-
-
-
 const saveProfile = async () => {
   try {
     Object.keys(profileErrors).forEach((key) => (profileErrors[key] = ''));
@@ -258,12 +256,6 @@ const saveProfile = async () => {
   }
 };
 
-
-
-
-
-
-
 onMounted(() => {
   const today = new Date();
   const formattedDate = today.toISOString().split('T')[0];
@@ -293,7 +285,7 @@ onMounted(() => {
       <button
           v-for="(tab, index) in tabs"
           :key="tab.name"
-          @click="activeTab = index"
+          @click="setActiveTab(index)"
           :class="[
           'text-sm md:text-2xl lg:text-3xl',
           activeTab === index ? 'text-black' : 'text-gray-300'
