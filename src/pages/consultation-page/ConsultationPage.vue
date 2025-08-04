@@ -78,7 +78,7 @@ const submitFormPedagogical = async () => {
       requestDate: selectedDatePedagogical.value,
       requestTime: selectedTimePedagogical.value,
       childrenFullName: profileStore.userInfo.childName,
-      childrenAge: profileStore.userInfo.childrenAge,
+      childrenAge: profileStore.userInfo.childrenAge || null,
     };
 
     const response = await AxiosWrapper.post('/consultation-requests', requestData);
@@ -139,7 +139,7 @@ const submitFormPsychological = async () => {
       requestDate: selectedDatePsychological.value,
       requestTime: selectedTimePsychological.value,
       childrenFullName: profileStore.userInfo.childName,
-      childrenAge: profileStore.userInfo.childrenAge,
+      childrenAge: profileStore.userInfo.childrenAge || null,
     };
 
     const response = await AxiosWrapper.post('/consultation-requests', requestData);
@@ -432,11 +432,22 @@ const priceListPsychologic = [
                 v-model="profileStore.userInfo.childName"
                 type="text"
                 placeholder="Иванов Иван Иванович"
-                required
                 class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
                 @focus="checkAuth"
             />
           </div>
+          <div class="flex flex-col gap-1 md:gap-4">
+            <label class="text-white text-sm md:text-xl lg:text-2xl leading-[100%]">
+              Возраст ребенка
+            </label>
+            <input
+                v-model="profileStore.userInfo.childrenAge"
+                type="number"
+                class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
+                @focus="checkAuth"
+            />
+          </div>
+
         </div>
         <div class="flex items-center gap-2">
           <input
@@ -609,6 +620,17 @@ const priceListPsychologic = [
               class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
               @focus="checkAuth"
 
+          />
+        </div>
+        <div class="flex flex-col gap-1 md:gap-4">
+          <label class="text-white text-sm md:text-xl lg:text-2xl leading-[100%]">
+            Возраст ребенка
+          </label>
+          <input
+              v-model="profileStore.userInfo.childrenAge"
+              type="number"
+              class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
+              @focus="checkAuth"
           />
         </div>
       </div>

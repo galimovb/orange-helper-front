@@ -1,8 +1,9 @@
 <script setup>
-import {ref, onMounted, computed, watch} from 'vue';
+import {ref, onMounted, computed, watch, reactive} from 'vue';
 import {useProfileStore} from '@/stores/profileStore';
 import {useEmployeeStore} from '@/stores/employeeStore';
 import Multiselect from 'vue-multiselect';
+import * as yup from 'yup';
 import {useToast} from 'vue-toastification';
 import AxiosWrapper from "@/config/AxiosWrapper";
 
@@ -30,7 +31,6 @@ const tabs = [
 ];
 
 
-
 const toast = useToast();
 const employeeStore = useEmployeeStore();
 const profileStore = useProfileStore();
@@ -50,6 +50,23 @@ const openEmployeeId = ref(null);
 const searchQuery = ref('');
 const consultationVisibility = ref([]);
 const ratings = ref({});
+
+const profileErrors = reactive({
+  fullName: '',
+  age: '',
+  email: '',
+  childName: '',
+  childrenAge: ''
+});
+
+const profileSchema = yup.object().shape({
+  fullName: yup.string().required('ФИО обязательно'),
+  age: yup.number().required('Возраст обязателен').min(1, 'Возраст должен быть больше 0').max(120, 'Возраст не может быть больше 120'),
+  email: yup.string().email('Некорректный email').required('Email обязателен'),
+  childName: yup.string().nullable(),
+
+});
+
 
 const setRating = (consultationId, value) => {
   ratings.value[consultationId] = value;
@@ -200,37 +217,41 @@ const submitForm = async () => {
 
 const saveProfile = async () => {
   try {
-    const currentPhone = profileStore.userInfo.phone || '';
-    const originalPhone = profileStore.originalPhone || '';
+    Object.keys(profileErrors).forEach((key) => (profileErrors[key] = ''));
 
-    let cleanedPhone = currentPhone;
-
-    if (currentPhone !== originalPhone) {
-      cleanedPhone = cleanedPhone.replace(/[^\d+]/g, '');
-
-      if (!cleanedPhone.startsWith('+')) {
-        cleanedPhone = '+7' + cleanedPhone.replace(/^[78]?/, '');
-      } else if (!cleanedPhone.startsWith('+7')) {
-        cleanedPhone = '+7' + cleanedPhone.slice(1).replace(/\D/g, '');
-      }
-      cleanedPhone = cleanedPhone.replace(/\++/g, '+');
-
-      if (!/^\+7\d{10}$/.test(cleanedPhone)) {
-        throw new Error('Номер телефона должен быть в формате +7XXXXXXXXXX');
-      }
+    if (profileStore.userInfo.childrenAge === "") {
+      profileStore.userInfo.childrenAge = null;  // Отправляем null, если поле пустое
     }
 
+    await profileSchema.validate(profileStore.userInfo, { abortEarly: false });
+
+    loading.value = true;
+
     await profileStore.saveProfile({
-      ...profileStore.userInfo,
-      phone: cleanedPhone
+      ...profileStore.userInfo
     });
 
     await profileStore.fetchProfile();
     toast.success('Профиль обновлен');
   } catch (error) {
-    console.error('Ошибка при обновлении профиля:', error);
+    if (error.name === 'ValidationError') {
+      // Обработка ошибок валидации
+      error.inner.forEach((e) => {
+        profileErrors[e.path] = e.message;
+      });
+    } else {
+      toast.error('Произошла ошибка при обновлении профиля');
+    }
+  } finally {
+    loading.value = false;
   }
 };
+
+
+
+
+
+
 
 onMounted(() => {
   const today = new Date();
@@ -288,8 +309,15 @@ onMounted(() => {
           <input
               v-model="profileStore.userInfo.fullName"
               type="text"
+              required
               class="w-full text-sm md:text-xl lg:text-2xl p-3 border border-gray-400 rounded-lg"
           />
+          <span
+              v-if="profileErrors.fullName"
+              class="text-red-500 text-sm"
+          >
+            {{ profileErrors.fullName }}
+          </span>
         </div>
 
         <div class="flex flex-col gap-2 md:gap-3.5 lg:gap-5">
@@ -299,6 +327,7 @@ onMounted(() => {
           <input
               v-model="profileStore.userInfo.age"
               type="number"
+              required
               class="w-full text-sm md:text-xl lg:text-2xl p-3 border border-gray-400 rounded-lg"
           />
         </div>
@@ -324,8 +353,15 @@ onMounted(() => {
           <input
               v-model="profileStore.userInfo.email"
               type="text"
+              required
               class="w-full text-sm md:text-xl lg:text-2xl p-3 border border-gray-400 rounded-lg"
           />
+          <span
+              v-if="profileErrors.email"
+              class="text-red-500 text-sm"
+          >
+            {{ profileErrors.email }}
+          </span>
         </div>
 
         <div class="flex flex-col gap-2 md:gap-3.5 lg:gap-5">
@@ -357,7 +393,6 @@ onMounted(() => {
         >
           Сохранить
         </button>
-        <!--        <Button label="Сохранить" color="orange" @click="saveProfile"/>-->
       </div>
 
       <div
@@ -696,6 +731,7 @@ onMounted(() => {
               <input
                   v-model="profileStore.userInfo.fullName"
                   type="text"
+                  required
                   readonly
                   class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
               />
@@ -704,7 +740,11 @@ onMounted(() => {
               <label class="text-white text-sm md:text-xl lg:text-2xl leading-[100%]">
                 Тип консультации
               </label>
-              <select v-model="consultationType" class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3">
+              <select
+                  v-model="consultationType"
+                  required
+                  class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
+              >
                 <option value="psychological">
                   Психологическая
                 </option>
@@ -743,6 +783,7 @@ onMounted(() => {
               <input
                   v-model="selectedDate"
                   type="date"
+                  required
                   class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
               />
             </div>
@@ -753,8 +794,9 @@ onMounted(() => {
               <input
                   v-model="selectedTime"
                   type="time"
-                  class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
+                  required
                   placeholder="15:00"
+                  class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
               />
             </div>
             <div class="flex flex-col gap-3">
@@ -768,6 +810,17 @@ onMounted(() => {
                   class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
               />
             </div>
+            <div class="flex flex-col gap-3">
+              <label class="text-white text-sm md:text-xl lg:text-2xl leading-[100%]">
+                Возраст ребенка
+              </label>
+              <input
+                  v-model="profileStore.userInfo.childrenAge"
+                  type="number"
+                  class="w-full lg:text-2xl border border-gray-400 rounded-lg p-3"
+              />
+            </div>
+
             <div class="flex items-center gap-2">
               <input
                   type="checkbox"
