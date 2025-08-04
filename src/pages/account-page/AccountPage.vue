@@ -180,25 +180,30 @@ const submitReview = async (consultation) => {
 
 const submitForm = async () => {
   try {
-
-    const localDate = new Date(selectedDate.value + ' ' + selectedTime.value);
+    // Создаем объект Date из выбранной даты и времени
+    const localDate = new Date(`${selectedDate.value} ${selectedTime.value}`);
 
     // Получаем смещение времени в минутах относительно UTC
-    const timezoneOffset = localDate.getTimezoneOffset();
+    const timezoneOffset = localDate.getTimezoneOffset(); // Смещение в минутах относительно UTC
 
-    // Преобразуем локальное время в UTC
-    const utcDate = new Date(localDate.getTime() - timezoneOffset * 60000);
+    // Преобразуем локальное время в UTC, вычитая смещение для поля requestTime
+    const utcDate = new Date(localDate.getTime() - timezoneOffset * 60000); // Смещение в миллисекундах (вычитаем для получения UTC)
 
-    // Преобразуем дату в нужный формат ISO с часовым поясом (+00:00)
-    const formattedDate = utcDate.toISOString().replace('.000Z', '+00:00');
-    const formattedTime = `1970-01-01T${selectedTime.value}:00+00:00`; // Формат времени с искусственной датой
+    // Преобразуем дату в строку в формате ISO с часовым поясом (+00:00)
+    const formattedDate = utcDate.toISOString().split('T')[0]; // Получаем только дату, без времени
+
+    // Преобразуем время в нужный формат для requestTime (часы и минуты)
+    const formattedTime = new Date(`${selectedDate.value}T${selectedTime.value}:00`).toISOString().split('T')[1].split('.')[0];
+
+    // Формируем итоговый requestDate (в UTC)
+    const requestDate = `${formattedDate}T${formattedTime}+00:00`;
 
     const requestData = {
       consultationType: consultationType.value,
       consultantId: selectedConsultant.value.id,
       userId: profileStore.userInfo.id,
-      requestDate: formattedDate,  // Отправляем дату в формате UTC с часовым поясом
-      requestTime: formattedTime,  // Отправляем время с часовым поясом
+      requestDate: requestDate,  // Отправляем дату в UTC с нужным временем
+      requestTime: `1970-01-01T${formattedTime}+00:00`,  // Отправляем время в UTC
       childrenFullName: profileStore.userInfo.childName || null,
       childrenAge: profileStore.userInfo.childrenAge || null
     };
@@ -213,6 +218,12 @@ const submitForm = async () => {
     toast.error('Произошла ошибка при отправке заявки.');
   }
 };
+
+
+
+
+
+
 
 
 const saveProfile = async () => {
@@ -330,6 +341,12 @@ onMounted(() => {
               required
               class="w-full text-sm md:text-xl lg:text-2xl p-3 border border-gray-400 rounded-lg"
           />
+          <span
+              v-if="profileErrors.age"
+              class="text-red-500 text-sm"
+          >
+            {{ profileErrors.age }}
+          </span>
         </div>
 
         <div class="flex flex-col gap-2 md:gap-3.5 lg:gap-5">

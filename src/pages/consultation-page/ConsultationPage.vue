@@ -71,12 +71,30 @@ const submitFormPedagogical = async () => {
 
     await pedagogicalSchema.validate(dataToValidate, {abortEarly: false});
 
+    // Создаем объект Date из выбранной даты и времени
+    const localDate = new Date(`${selectedDatePedagogical.value} ${selectedTimePedagogical.value}`);
+
+    // Получаем смещение времени в минутах относительно UTC
+    const timezoneOffset = localDate.getTimezoneOffset(); // Смещение в минутах относительно UTC
+
+    // Преобразуем локальное время в UTC, вычитая смещение для поля requestTime
+    const utcDate = new Date(localDate.getTime() - timezoneOffset * 60000); // Смещение в миллисекундах (вычитаем для получения UTC)
+
+    // Преобразуем дату в строку в формате ISO с часовым поясом (+00:00) для requestDate
+    const formattedDate = utcDate.toISOString().split('T')[0]; // Получаем только дату, без времени
+
+    // Преобразуем время в нужный формат для requestTime (часы и минуты)
+    const formattedTime = new Date(`${selectedDatePedagogical.value}T${selectedTimePedagogical.value}:00`).toISOString().split('T')[1].split('.')[0];
+
+    // Формируем итоговый requestDate (в UTC)
+    const requestDate = `${formattedDate}T${formattedTime}+00:00`;
+
     const requestData = {
       consultationType: 'pedagogical',
       consultantId: selectedConsultantPedagogical.value.id,
       userId: profileStore.userInfo.id,
-      requestDate: selectedDatePedagogical.value,
-      requestTime: selectedTimePedagogical.value,
+      requestDate: requestDate,  // Отправляем дату в UTC с нужным временем
+      requestTime: `1970-01-01T${formattedTime}+00:00`,  // Отправляем время в UTC
       childrenFullName: profileStore.userInfo.childName,
       childrenAge: profileStore.userInfo.childrenAge || null,
     };
@@ -132,12 +150,30 @@ const submitFormPsychological = async () => {
 
     await psychologicalSchema.validate(dataToValidate, {abortEarly: false});
 
+    // Создаем объект Date из выбранной даты и времени
+    const localDate = new Date(`${selectedDatePsychological.value} ${selectedTimePsychological.value}`);
+
+    // Получаем смещение времени в минутах относительно UTC
+    const timezoneOffset = localDate.getTimezoneOffset(); // Смещение в минутах относительно UTC
+
+    // Преобразуем локальное время в UTC, вычитая смещение для поля requestTime
+    const utcDate = new Date(localDate.getTime() - timezoneOffset * 60000); // Смещение в миллисекундах (вычитаем для получения UTC)
+
+    // Преобразуем дату в строку в формате ISO с часовым поясом (+00:00) для requestDate
+    const formattedDate = utcDate.toISOString().split('T')[0]; // Получаем только дату, без времени
+
+    // Преобразуем время в нужный формат для requestTime (часы и минуты)
+    const formattedTime = new Date(`${selectedDatePsychological.value}T${selectedTimePsychological.value}:00`).toISOString().split('T')[1].split('.')[0];
+
+    // Формируем итоговый requestDate (в UTC)
+    const requestDate = `${formattedDate}T${formattedTime}+00:00`;
+
     const requestData = {
       consultationType: 'psychological',
       consultantId: selectedConsultantPsychological.value.id,
       userId: profileStore.userInfo.id,
-      requestDate: selectedDatePsychological.value,
-      requestTime: selectedTimePsychological.value,
+      requestDate: requestDate,  // Отправляем дату в UTC с нужным временем
+      requestTime: `1970-01-01T${formattedTime}+00:00`,  // Отправляем время в UTC
       childrenFullName: profileStore.userInfo.childName,
       childrenAge: profileStore.userInfo.childrenAge || null,
     };
