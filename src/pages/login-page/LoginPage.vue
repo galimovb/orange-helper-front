@@ -132,13 +132,18 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import {onBeforeUnmount, onMounted, reactive, ref} from 'vue';
 import RegisterAndLoginLayout from "@/components/RegisterAndLoginLayout.vue";
 import Input from "@/components/Input.vue";
+import authApi from "@/config/api/authApi"
+import {useAuthStore} from "@/stores/auth";
+import {router} from "@/router";
+import {useToast} from "vue-toastification";
 import axios from "axios";
-import { useToast } from "vue-toastification";
+import {BASE_API_URL} from "@/config/apiConfig";
 
 const toast = useToast();
+const authStore = useAuthStore();
 
 const formData = reactive({
   phoneNumber: '',
@@ -194,17 +199,25 @@ const handleSubmit = async () => {
 
   try {
     isSubmitting.value = true;
+
     let cleanedPhone = formData.phoneNumber.replace(/[^\d+]/g, '');
+
     if (!cleanedPhone.startsWith('+')) {
       cleanedPhone = '+7' + cleanedPhone.replace(/^[78]?/, '');
     }
+
     cleanedPhone = cleanedPhone.replace(/\++/g, '+');
+
     if (cleanedPhone.length < 12) {
       throw new Error('Номер телефона слишком короткий');
     }
     const requestData = { ...formData, phoneNumber: cleanedPhone };
-    await axios.post('/admin/login/check', requestData);
-    window.location.href = '/admin';
+
+    await authApi.login(requestData);
+    await authStore.check();
+
+    const redirectPath = router.currentRoute.value.query.redirect || '/';
+    await router.push(redirectPath);
   } catch (err) {
     toast.error(err.response?.data?.error?.message || err.message || 'Ошибка при авторизации');
   } finally {
@@ -219,7 +232,7 @@ const handleResetStep = async () => {
         toast.error('Email обязателен');
         return;
       }
-      await axios.post('https://api.oranzhevyi-pomoshnik.ru/api/reset-password/request', { email: resetData.email });
+      await axios.post(`${BASE_API_URL}/reset-password/request`, { email: resetData.email });
       toast.success('Код для сброса пароля отправлен на email.');
       step.value++;
     } else if (step.value === 2) {
@@ -227,7 +240,7 @@ const handleResetStep = async () => {
         toast.error('Код обязателен');
         return;
       }
-      await axios.post('https://api.oranzhevyi-pomoshnik.ru/api/reset-password/verify', { email: resetData.email, token: resetData.token });
+      await axios.post(`${BASE_API_URL}/reset-password/verify`, { email: resetData.email, token: resetData.token });
       toast.success('Код подтверждён. Введите новый пароль.');
       step.value++;
     }
@@ -242,7 +255,7 @@ const submitNewPassword = async () => {
       toast.error('Введите новый пароль');
       return;
     }
-    await axios.post('https://api.oranzhevyi-pomoshnik.ru/api/reset-password/confirm', {
+    await axios.post(`${BASE_API_URL}/reset-password/confirm`, {
       email: resetData.email,
       token: resetData.token,
       newPassword: resetData.newPassword
