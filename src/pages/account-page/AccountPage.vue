@@ -81,6 +81,10 @@ const toggleDescription = (index) => {
   consultationVisibility.value[index] = !consultationVisibility.value[index];
 }
 
+const initializeVisibility = () => {
+  consultationVisibility.value = consultationData.value.map(() => true); // Все консультации видны изначально
+};
+
 const filteredConsultants = computed(() => {
   if (!consultationType.value) return [];
 
@@ -113,6 +117,7 @@ const fetchConsultation = async () => {
   try {
     const response = await AxiosWrapper.get(`/consultations`);
     consultationData.value = response.data;
+    initializeVisibility();
   } catch (error) {
     toast.error('Ошибка при загрузке данных');
   } finally {
@@ -547,13 +552,13 @@ onMounted(() => {
               </div>
               <div
                   @click="toggleDescription(index)"
-                  class="text-base md:text-lg lg:text-xl cursor-pointer"
+                  class="inline-block text-base md:text-lg lg:text-xl cursor-pointer"
               >
-                Пометка от консультанта
+                Пометка от консультанта:
               </div>
               <div
                   v-if="consultationVisibility[index]"
-                  class="text-base md:text-lg lg:text-xl"
+                  class="text-base lg:text-lg"
               >
                 {{ consultation.description }}
               </div>
