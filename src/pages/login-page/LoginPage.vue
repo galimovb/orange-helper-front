@@ -1,146 +1,180 @@
 <template>
   <RegisterAndLoginLayout :max-width="680" :min-width="320">
     <div class="px-5 py-3 space-y-6 w-full">
+      <!-- Заголовок -->
       <div class="flex items-center flex-col">
         <h1 class="text-3xl md:text-[32px] text-orange-500 font-medium">
           Авторизация
         </h1>
       </div>
 
-      <form class="space-y-7" @submit.prevent="handleSubmit">
-        <div v-if="!isResettingPassword">
-          <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Телефон</label>
-          <Input
-              v-model="formData.phoneNumber"
-              type="phone"
-              placeholder="+7 912 345 67 89"
-              @blur="validateField('phoneNumber')"
-              :class="{ '!border-red-500 !border-[2px]': errors.phoneNumber }"
-              class="w-full"
-          />
-          <span v-if="errors.phoneNumber" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.phoneNumber }}</span>
+      <!-- Основной контент -->
+      <div class="space-y-6">
+        <!-- Форма входа -->
+        <div v-show="!isResettingPassword">
+          <form @submit.prevent="handleSubmit" class="space-y-7">
+            <!-- Телефон -->
+            <div>
+              <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Телефон</label>
+              <Input
+                  v-model="formData.phoneNumber"
+                  type="phone"
+                  placeholder="+7 912 345 67 89"
+                  class="w-full"
+              />
+            </div>
+
+            <!-- Пароль -->
+            <div>
+              <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Пароль</label>
+              <Input
+                  v-model="formData.password"
+                  type="password"
+                  placeholder="Введите пароль"
+                  required
+                  class="w-full"
+              />
+            </div>
+
+            <!-- Кнопка входа -->
+            <button
+                type="submit"
+                class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200 text-lg md:text-xl"
+                :disabled="isSubmitting"
+            >
+              <span v-if="!isSubmitting">Войти</span>
+              <span v-else>Загрузка...</span>
+            </button>
+          </form>
+
+          <!-- Ссылка на сброс пароля -->
+          <button
+              @click="startPasswordReset"
+              class="w-full text-center text-orange-500 underline hover:text-orange-600"
+          >
+            Забыли пароль?
+          </button>
         </div>
 
-        <div v-if="!isResettingPassword">
-          <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Пароль</label>
-          <Input
-              v-model="formData.password"
-              type="password"
-              placeholder="Введите пароль"
-              @blur="validateField('password')"
-              :class="{ '!border-red-500 !border-[2px]': errors.password }"
-              class="w-full"
-          />
-          <span v-if="errors.password" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.password }}</span>
+        <!-- Форма сброса пароля -->
+        <div v-show="isResettingPassword">
+          <!-- Шаг 1 -->
+          <form v-show="step === 1" @submit.prevent="handleResetStep" class="space-y-7">
+            <div>
+              <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Email для сброса пароля</label>
+              <Input
+                  v-model="resetData.email"
+                  type="email"
+                  placeholder="example@mail.com"
+                  required
+                  class="w-full"
+              />
+            </div>
+
+            <!-- Капча -->
+            <div
+                id="captcha-container"
+                class="smart-captcha mt-4"
+            ></div>
+
+            <!-- Кнопки -->
+            <div class="flex flex-col space-y-4">
+              <button
+                  type="submit"
+                  :disabled="isLoading || !captchaToken"
+                  class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200 text-lg md:text-xl disabled:opacity-50"
+              >
+                <span v-if="isLoading">Отправка...</span>
+                <span v-else>Далее</span>
+              </button>
+
+              <button
+                  type="button"
+                  @click="cancelReset"
+                  class="w-full text-center text-gray-500 underline hover:text-gray-700"
+              >
+                Отмена
+              </button>
+            </div>
+          </form>
+
+          <!-- Шаг 2 -->
+          <form v-show="step === 2" @submit.prevent="handleResetStep" class="space-y-7">
+            <div>
+              <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Код из письма (проверьте папку
+                спам!)</label>
+              <Input
+                  v-model="resetData.token"
+                  type="text"
+                  placeholder="Введите код"
+                  required
+                  class="w-full"
+              />
+            </div>
+
+            <div class="flex flex-col space-y-4">
+              <button
+                  type="submit"
+                  class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200 text-lg md:text-xl"
+              >
+                Далее
+              </button>
+              <button
+                  type="button"
+                  @click="cancelReset"
+                  class="w-full text-center text-gray-500 underline hover:text-gray-700"
+              >
+                Отмена
+              </button>
+            </div>
+          </form>
+
+          <!-- Шаг 3 -->
+          <form v-show="step === 3" @submit.prevent="submitNewPassword" class="space-y-7">
+            <div>
+              <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Новый пароль</label>
+              <Input
+                  v-model="resetData.newPassword"
+                  type="password"
+                  placeholder="Введите новый пароль"
+                  required
+                  class="w-full"
+              />
+            </div>
+
+            <div class="flex flex-col space-y-4">
+              <button
+                  type="submit"
+                  class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200 text-lg md:text-xl"
+              >
+                Сменить пароль
+              </button>
+              <button
+                  type="button"
+                  @click="cancelReset"
+                  class="w-full text-center text-gray-500 underline hover:text-gray-700"
+              >
+                Отмена
+              </button>
+            </div>
+          </form>
         </div>
-
-        <button
-            v-if="!isResettingPassword"
-            type="submit"
-            class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200 text-lg md:text-xl"
-            :disabled="isSubmitting"
-        >
-          <span v-if="!isSubmitting">Войти</span>
-          <span v-else>Загрузка...</span>
-        </button>
-      </form>
-
-      <div
-          v-if="!isResettingPassword"
-          class="text-center text-gray-500 text-sm md:text-base"
-      >
-        Нет аккаунта?
-        <router-link
-            to="/register"
-            class="text-orange-500 hover:underline"
-        >
-          Зарегистрироваться
-        </router-link>
-      </div>
-
-      <button
-          v-if="!isResettingPassword"
-          @click="startPasswordReset"
-          class="w-full mt-4 text-center text-orange-500 underline hover:text-orange-600"
-      >
-        Забыли пароль?
-      </button>
-
-      <div v-if="isResettingPassword">
-        <form @submit.prevent="handleResetStep">
-          <div v-if="step === 1">
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Email для сброса пароля</label>
-            <Input
-                v-model="resetData.email"
-                type="email"
-                placeholder="example@mail.com"
-                required
-                class="w-full mb-4"
-            />
-          </div>
-
-          <div v-if="step === 2">
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Код из письма (проверьте папку спам!)</label>
-            <Input
-                v-model="resetData.token"
-                type="text"
-                placeholder="Введите код"
-                required
-                class="w-full mb-4"
-            />
-          </div>
-
-          <div v-if="step === 3">
-            <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Новый пароль</label>
-            <Input
-                v-model="resetData.newPassword"
-                type="password"
-                placeholder="Введите новый пароль"
-                required
-                class="w-full mb-4"
-            />
-          </div>
-
-          <button
-              v-if="step < 3"
-              type="button"
-              @click="handleResetStep"
-              class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200 text-lg md:text-xl"
-          >
-            Далее
-          </button>
-
-          <button
-              v-if="step === 3"
-              type="button"
-              @click="submitNewPassword"
-              class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200 text-lg md:text-xl"
-          >
-            Сменить пароль
-          </button>
-
-          <button
-              @click="cancelReset"
-              class="w-full mt-4 text-center text-gray-500 underline hover:text-gray-700"
-          >
-            Отмена
-          </button>
-        </form>
       </div>
     </div>
   </RegisterAndLoginLayout>
 </template>
 
+
 <script setup>
-import {onBeforeUnmount, onMounted, reactive, ref} from 'vue';
+import {onMounted, reactive, ref} from 'vue';
 import RegisterAndLoginLayout from "@/components/RegisterAndLoginLayout.vue";
 import Input from "@/components/Input.vue";
-import authApi from "@/config/api/authApi"
+import authApi from "@/config/api/authApi";
 import {useAuthStore} from "@/stores/auth";
 import {router} from "@/router";
 import {useToast} from "vue-toastification";
 import axios from "axios";
-import {BASE_API_URL} from "@/config/apiConfig";
+import {BASE_API_URL, YANDEX_CAPTCHA_KEY} from "@/config/apiConfig";
 
 const toast = useToast();
 const authStore = useAuthStore();
@@ -159,6 +193,9 @@ const resetData = reactive({
 const isResettingPassword = ref(false);
 const step = ref(1);
 const isSubmitting = ref(false);
+const isLoading = ref(false);
+const captchaToken = ref(null);
+
 const errors = reactive({
   phoneNumber: '',
   password: ''
@@ -167,17 +204,15 @@ const errors = reactive({
 const startPasswordReset = () => {
   isResettingPassword.value = true;
   step.value = 1;
-  resetData.email = '';
-  resetData.token = '';
-  resetData.newPassword = '';
+  Object.assign(resetData, {email: '', token: '', newPassword: ''});
+  captchaToken.value = null;
 };
 
 const cancelReset = () => {
   isResettingPassword.value = false;
   step.value = 1;
-  resetData.email = '';
-  resetData.token = '';
-  resetData.newPassword = '';
+  Object.assign(resetData, {email: '', token: '', newPassword: ''});
+  captchaToken.value = null;
 };
 
 const validateField = (field) => {
@@ -201,18 +236,14 @@ const handleSubmit = async () => {
     isSubmitting.value = true;
 
     let cleanedPhone = formData.phoneNumber.replace(/[^\d+]/g, '');
-
     if (!cleanedPhone.startsWith('+')) {
       cleanedPhone = '+7' + cleanedPhone.replace(/^[78]?/, '');
     }
-
     cleanedPhone = cleanedPhone.replace(/\++/g, '+');
 
-    if (cleanedPhone.length < 12) {
-      throw new Error('Номер телефона слишком короткий');
-    }
-    const requestData = { ...formData, phoneNumber: cleanedPhone };
+    if (cleanedPhone.length < 12) throw new Error('Номер телефона слишком короткий');
 
+    const requestData = {...formData, phoneNumber: cleanedPhone};
     await authApi.login(requestData);
     await authStore.check();
 
@@ -232,20 +263,40 @@ const handleResetStep = async () => {
         toast.error('Email обязателен');
         return;
       }
-      await axios.post(`${BASE_API_URL}/reset-password/request`, { email: resetData.email });
-      toast.success('Код для сброса пароля отправлен на email.');
+      if (!captchaToken.value) {
+        toast.error('Пожалуйста, подтвердите капчу');
+        return;
+      }
+
+      isLoading.value = true;
+
+      await axios.post(`${BASE_API_URL}/reset-password/request`, {
+        email: resetData.email,
+        captcha_token: captchaToken.value
+      });
+
+      toast.success('Код отправлен. Проверьте почту (включая Спам).');
       step.value++;
     } else if (step.value === 2) {
       if (!resetData.token) {
-        toast.error('Код обязателен');
+        toast.error('Введите код подтверждения');
         return;
       }
-      await axios.post(`${BASE_API_URL}/reset-password/verify`, { email: resetData.email, token: resetData.token });
+
+      isLoading.value = true;
+
+      await axios.post(`${BASE_API_URL}/reset-password/verify`, {
+        email: resetData.email,
+        token: resetData.token
+      });
+
       toast.success('Код подтверждён. Введите новый пароль.');
       step.value++;
     }
   } catch (err) {
     toast.error(err.response?.data?.message || err.message || 'Ошибка');
+  } finally {
+    isLoading.value = false;
   }
 };
 
@@ -255,15 +306,34 @@ const submitNewPassword = async () => {
       toast.error('Введите новый пароль');
       return;
     }
+
+    isLoading.value = true;
+
     await axios.post(`${BASE_API_URL}/reset-password/confirm`, {
       email: resetData.email,
       token: resetData.token,
       newPassword: resetData.newPassword
     });
-    toast.success('Пароль успешно изменён');
+
+    toast.success('Пароль изменён. Теперь войдите заново.');
     cancelReset();
   } catch (err) {
     toast.error(err.response?.data?.message || err.message || 'Ошибка при смене пароля');
+  } finally {
+    isLoading.value = false;
   }
 };
+
+onMounted(() => {
+  if (window.smartCaptcha) {
+    window.smartCaptcha.render('captcha-container', {
+      sitekey: YANDEX_CAPTCHA_KEY,
+      hl: 'ru',
+      callback: (token) => {
+        captchaToken.value = token;
+      }
+    });
+  }
+});
 </script>
+

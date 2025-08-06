@@ -184,7 +184,7 @@ const submitReview = async (consultation) => {
     toast.success('Отзыв успешно отправлен!');
   } catch (error) {
     console.error('Ошибка при отправке отзыва:', error);
-    toast.error('Произошла ошибка при отправке отзыва.');
+    toast.error(err?.response?.data?.error?.message || 'Произошла ошибка при отправке отзыва.');
   }
 };
 
