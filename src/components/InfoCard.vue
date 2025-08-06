@@ -7,7 +7,7 @@
         v-if="title"
         class="leading-[100%] min-h-[100px] lg:min-h-[160px] "
       >
-        <h2 :class="titleSize" class="text-base md:text-2xl lg:text-4xl">
+        <h2 :class="titleSize" class="text-base md:text-lg lg:text-2xl">
           {{ title }}
         </h2>
       </div>
@@ -24,7 +24,7 @@
           v-if="image"
           :src="image"
           alt="image"
-          class="bg-white rounded-[5px] "
+          class="bg-white rounded-[5px] h-[150px]"
         />
       </div>
     </div>
