@@ -1,5 +1,4 @@
 <script setup>
-
 import Header from "@/components/Header.vue";
 import Button from "@/components/Button.vue";
 import Input from "@/components/Input.vue";
@@ -7,12 +6,27 @@ import Footer from "@/components/Footer.vue";
 import Accordion from "@/components/Accordion.vue";
 import AxiosWrapper from "@/config/AxiosWrapper";
 import {useToast} from "vue-toastification";
-import {ref} from "vue";
+import {useRouter} from "vue-router";
+import {onMounted, ref} from "vue";
+
+import {useMaterialStore} from '@/stores/materialStore';
+
+const materialStore = useMaterialStore();
 
 const toast = useToast();
+const router = useRouter();
 
 const email = ref('');
 const consent = ref(false);
+
+const images = [
+  '/img/useful-articles-1.svg',
+  '/img/useful-articles-2.svg',
+];
+
+const getImageForIndex = (index) => {
+  return images[index % images.length];
+};
 
 const subscribeToNewsletter = async () => {
   // Валидация
@@ -58,6 +72,9 @@ const accordion = [
   }
 ];
 
+onMounted(async () => {
+  await materialStore.fetchAllMaterials();
+});
 </script>
 
 <template>
@@ -87,11 +104,11 @@ const accordion = [
         <div class="line-right bg-orange-500 h-[5px] inline-block flex-grow"></div>
       </div>
       <div class="receive__content flex lg:flex-row flex-col gap-6 items-center mx-auto">
-        <div class="receice__content-left flex flex-col items-center justify-center py-3">
+        <div class="receice__content-left flex flex-col items-center justify-center py-3 gap-2 lg:gap-4">
           <img
               src="/img/receive-1.svg"
               alt="receive-1.svg"
-              class="w-[184px] md:w-[285px] lg:w-[386px]"
+              class="h-[200px] md:h-[240px] lg:h-[330px]"
           >
           <div class="flex flex-col gap-3">
             <h2 class="text-xl md:text-2xl lg:text-4xl leading-[100%] text-center ">
@@ -108,11 +125,11 @@ const accordion = [
             alt="plus"
             class="w-10 h-10 lg:h-[100px] lg:w-[100px] block"
         >
-        <div class="receive__content-right flex flex-col items-center py-3">
+        <div class="receive__content-right flex flex-col items-center py-3 gap-2 lg:gap-4">
           <img
               src="/img/receive-2.svg"
               alt="receive-2.svg"
-              class="w-[184px] md:w-[272px] lg:w-[320px]"
+              class="h-[200px] md:h-[240px] lg:h-[330px]"
           >
           <div class="flex flex-col gap-3">
             <h2 class="text-xl md:text-2xl lg:text-4xl leading-[100%] text-center ">
@@ -150,45 +167,25 @@ const accordion = [
         <h4 class="text-xl md:text-4xl lg:text-[55px] leading-[100%] p-2.5">
           Полезные статьи
         </h4>
-        <div class="lg:flex-row flex flex-col justify-center items-center gap-8 md:gap-10 lg:gap-[90px]">
-          <div class="lg:max-w-[480px]  cursor-pointer">
-            <a
-                href="https://www.google.com"
-                target="_blank"
-                class="flex flex-col gap-2 items-center"
-            >
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-center mx-auto">
+          <router-link
+              v-for="(material, key) in materialStore.materials && Array.isArray(materialStore.materials) ? materialStore.materials.filter(item => item.section === 'USEFUL_ARTICLES') : []"
+              :key="key"
+              :to="`/news/useful-articles/${material.id}`"
+              target="_blank"
+          >
+            <div class="flex flex-col gap-2 items-center">
               <img
-                  src="/img/useful-articles-1.svg"
-                  alt="useful-articles-1.svg"
-                  class="w-[183px] md:w-[250px] lg:w-[320px]"
-              >
+                  :src="getImageForIndex(key)"
+                  :alt="`useful-articles-${(key % 2) + 1}.svg`"
+                  class="h-[150px] lg:h-[250px]"
+              />
               <p class="text-base md:text-2xl lg:text-[32px] leading-[100%] text-center">
-                Как говорить с ребёнком, чтобы он слышал
+                {{ material.name }}
               </p>
-            </a>
-          </div>
-          <div class="lg:max-w-[480px] cursor-pointer">
-            <a
-                href="https://www.google.com"
-                target="_blank"
-                class="flex flex-col gap-2 items-center"
-            >
-              <img
-                  src="/img/useful-articles-2.svg"
-                  alt="useful-articles-2.svg"
-                  class="w-[183px] md:w-[250px] lg:w-[320px]"
-              >
-              <p class="text-base md:text-2xl lg:text-[32px] leading-[100%] text-center">
-                Детская тревожность: как распознать и поддержать
-              </p>
-            </a>
-          </div>
+            </div>
+          </router-link>
         </div>
-        <button
-            class="bg-orange-500 text-white rounded-[10px] px-4 py-2 md:px-10 md:py-4 lg:px-4 lg:py-7 text-base ld:text-4xl md:text-2xl"
-        >
-          Больше полезных статей
-        </button>
       </div>
     </section>
     <div class="content-rectangle h-[30px] md:h-[45px] lg:h-[60px] bg-orange-500 lg:mb-[50px]"/>

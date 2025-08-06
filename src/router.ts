@@ -19,6 +19,7 @@ const routes = [
   { path: "/register", component: RegistrationPage },
   { path: "/about", component: AboutView },
   { path: "/news", component: NewsPage },
+  {path: "/news/useful-articles/:id", component: DetailPage, props: true},
   { path: "/diagnostics", component: DiagnosticsPage },
   { path: "/diagnostics/pedagogy/:id", component: DetailPage, props: true },
   { path: "/diagnostics/psychology/:id", component: DetailPage, props: true },

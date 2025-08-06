@@ -10,7 +10,7 @@ import Footer from "@/components/Footer.vue";
 import {useRouter} from "vue-router";
 
 const router = useRouter();
-const materialStore = useMaterialStore();
+  const materialStore = useMaterialStore();
 const testStore = useTestStore();
 
 const images = [
