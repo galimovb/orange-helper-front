@@ -36,7 +36,7 @@ const nextQuestion = () => {
   } else if (isImageVisible.value) {
     // Если изображение показано, скрываем его и показываем результаты
     isImageVisible.value = false;
-  } else if (currentQuestionIndex.value < testStore.currentTest.questions.length - 1) {
+  } else if (currentQuestionIndex.value < testStore.currentTest?.questions?.length - 1) {
     currentQuestionIndex.value++;
   } else {
     showResult();
@@ -48,21 +48,21 @@ const showResult = () => {
   let scoreBreakdown = {};
 
   // Динамически создаем шкалы, основываясь на данных из API
-  testStore.currentTest.scales.forEach(scale => {
+  testStore.currentTest?.scales.forEach(scale => {
     scoreBreakdown[scale.name] = 0;
   });
 
   // Подсчитываем баллы по шкалам для каждого вопроса
-  testStore.currentTest.questions.forEach((question, index) => {
+  testStore.currentTest?.questions.forEach((question, index) => {
     const userAnswer = answers.value[index]; // Получаем ответ пользователя для текущего вопроса
     const correctAnswerIndex = question.correctAnswer; // Индекс правильного ответа
 
     // Проверяем, правильный ли ответ
-    const isCorrect = userAnswer === question.answers[correctAnswerIndex];
+    const isCorrect = userAnswer === question?.answers[correctAnswerIndex];
 
     // Если ответ правильный, увеличиваем счет по шкале
     if (isCorrect) {
-      const scaleName = testStore.currentTest.scales.find(scale => scale.id === question.scaleId).name;
+      const scaleName = testStore.currentTest?.scales.find(scale => scale.id === question.scaleId).name;
       scoreBreakdown[scaleName]++;
     }
   });
@@ -110,11 +110,11 @@ const showResult = () => {
           class="test-question-container flex flex-col gap-4"
       >
         <h2 class="text-lg md:text-xl lg:text-2xl">
-          {{ testStore.currentTest.questions[currentQuestionIndex].question }}
+          {{ testStore.currentTest?.questions[currentQuestionIndex]?.question }}
         </h2>
         <div class="flex flex-col gap-4 lg:gap-8">
           <div
-              v-for="(answer, index) in testStore.currentTest.questions[currentQuestionIndex].answers" :key="index"
+              v-for="(answer, index) in testStore.currentTest?.questions[currentQuestionIndex]?.answers" :key="index"
               class="flex items-center gap-2"
           >
             <input
@@ -162,7 +162,10 @@ const showResult = () => {
           {{ testStore.currentTest.result }}
         </p>
       </div>
-      <div class="flex gap-6 mt-auto justify-end">
+      <div
+          v-if="testStore.currentTest?.questions.length !== 0 && testStore.currentTest?.scales.length !== 0"
+          class="flex gap-6 mt-auto justify-end"
+      >
         <button
             @click="prevQuestion"
             class="transform rotate-90 border-2 border-white p-2 rounded-full"
