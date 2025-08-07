@@ -3,6 +3,10 @@
     <div class="px-5 py-3 space-y-6 w-full">
       <!-- Заголовок -->
       <div class="flex items-center flex-col">
+        <img
+            src="/img/logo-bg__orange.png"
+            class="w-[60px] md:w-[80px]"
+        />
         <h1 class="text-3xl md:text-[32px] text-orange-500 font-medium">
           Авторизация
         </h1>
@@ -14,8 +18,8 @@
         <div v-show="!isResettingPassword">
           <form @submit.prevent="handleSubmit" class="space-y-7">
             <!-- Телефон -->
-            <div>
-              <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Телефон</label>
+            <div class="space-y-1 md:space-y-4 ">
+              <label class="block text-sm md:text-xl text-orange-500">Телефон</label>
               <Input
                   v-model="formData.phoneNumber"
                   type="phone"
@@ -25,8 +29,8 @@
             </div>
 
             <!-- Пароль -->
-            <div>
-              <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Пароль</label>
+            <div class="space-y-1 md:space-y-4 ">
+              <label class="block text-sm md:text-xl text-orange-500">Пароль</label>
               <Input
                   v-model="formData.password"
                   type="password"
@@ -34,6 +38,12 @@
                   required
                   class="w-full"
               />
+              <button
+                  @click="startPasswordReset"
+                  class="w-full text-left text-orange-500 underline hover:text-orange-600 text-sm md:text-xl"
+              >
+                Забыли пароль?
+              </button>
             </div>
 
             <!-- Кнопка входа -->
@@ -47,21 +57,18 @@
             </button>
           </form>
 
-          <!-- Ссылка на сброс пароля -->
-          <button
-              @click="startPasswordReset"
-              class="w-full text-center text-orange-500 underline hover:text-orange-600"
-          >
-            Забыли пароль?
-          </button>
+          <div class="text-center text-gray-500 text-sm md:text-xl md:text-base mt-2">
+            Нет аккаунта?
+            <router-link to="/register" class="text-orange-500 hover:underline">Зарегистрироваться</router-link>
+          </div>
         </div>
 
         <!-- Форма сброса пароля -->
         <div v-show="isResettingPassword">
           <!-- Шаг 1 -->
           <form v-show="step === 1" @submit.prevent="handleResetStep" class="space-y-7">
-            <div>
-              <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Email для сброса пароля</label>
+            <div class="space-y-1 md:space-y-4 ">
+              <label class="block text-sm md:text-xl text-orange-500">Email для сброса пароля</label>
               <Input
                   v-model="resetData.email"
                   type="email"
@@ -100,8 +107,8 @@
 
           <!-- Шаг 2 -->
           <form v-show="step === 2" @submit.prevent="handleResetStep" class="space-y-7">
-            <div>
-              <label class="block text-sm md:text-xl text-orange-500 mb-2.5">Код из письма (проверьте папку
+            <div class="space-y-1 md:space-y-4 ">
+              <label class="block text-sm md:text-xl text-orange-500">Код из письма (проверьте папку
                 спам!)</label>
               <Input
                   v-model="resetData.token"
