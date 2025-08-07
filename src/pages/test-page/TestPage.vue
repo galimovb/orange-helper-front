@@ -15,6 +15,8 @@ const currentQuestionIndex = ref(0);
 
 const answers = ref({});
 const result = ref(null);
+const isImageVisible = ref(true); // Флаг для отображения изображения
+
 
 onMounted(async () => {
   await testStore.fetchTestById(testId);
@@ -31,6 +33,9 @@ const prevQuestion = () => {
 const nextQuestion = () => {
   if (isDescriptionVisible.value) {
     isDescriptionVisible.value = false;
+  } else if (isImageVisible.value) {
+    // Если изображение показано, скрываем его и показываем результаты
+    isImageVisible.value = false;
   } else if (currentQuestionIndex.value < testStore.currentTest.questions.length - 1) {
     currentQuestionIndex.value++;
   } else {
@@ -82,28 +87,32 @@ const showResult = () => {
       <h1 class="text-lg md:text-xl lg:text-3xl">
         {{ testStore.currentTest.title }}
       </h1>
-      <div v-if="isDescriptionVisible" class="flex flex-col gap-2 md:gap-4 lg:gap-6 text-base md:text-xl lg:text-2xl ">
-        <p class="text-base md:text-xl lg:text-2xl">
+      <div v-if="isDescriptionVisible" class="flex flex-col gap-2 md:gap-4 lg:gap-6 ">
+        <p class="text-base md:text-lg lg:text-xl">
           <b>
             Описание:
           </b>
-          {{ testStore.currentTest.description }}
+          <span class="whitespace-pre-line">
+            {{ testStore.currentTest.description }}
+          </span>
         </p>
-        <p class="text-base md:text-xl lg:text-2xl">
+        <p class="text-base md:text-lg lg:text-xl">
           <b>
             Инструкция:
           </b>
-          {{ testStore.currentTest.instructions }}
+          <span class="whitespace-pre-line">
+            {{ testStore.currentTest.instructions }}
+          </span>
         </p>
       </div>
       <div
-          v-else-if="result === null"
+          v-else-if="result === null && testStore.currentTest.image === null"
           class="test-question-container flex flex-col gap-4"
       >
-        <h2 class="text-lg md:text-xl lg:text-3xl">
+        <h2 class="text-lg md:text-xl lg:text-2xl">
           {{ testStore.currentTest.questions[currentQuestionIndex].question }}
         </h2>
-        <div class="flex flex-col lg:gap-4 gap-8">
+        <div class="flex flex-col gap-4 lg:gap-8">
           <div
               v-for="(answer, index) in testStore.currentTest.questions[currentQuestionIndex].answers" :key="index"
               class="flex items-center gap-2"
@@ -120,11 +129,24 @@ const showResult = () => {
           </div>
         </div>
       </div>
-      <div v-else class="test-results flex flex-col gap-2 lg:gap-4">
+
+      <div v-else-if="testStore.currentTest.image && isImageVisible">
+        <div class="mx-auto w-[50%] h-[50%]">
+          <img
+              :src="`https://api.oranzhevyi-pomoshnik.ru/${testStore.currentTest.image}`"
+              alt="test image"
+          />
+        </div>
+      </div>
+
+      <div v-else-if="!isImageVisible" class="test-results flex flex-col gap-2 lg:gap-4">
         <h2 class="text-lg md:text-xl lg:text-3xl">
           Результаты теста:
         </h2>
-        <div class="text-base md:text-lg lg:text-xl">
+        <div
+            v-if="testStore.currentTest.image === null"
+            class="text-base md:text-lg lg:text-xl"
+        >
           <p>
             <b>Общий балл:</b>
             {{ result.totalScore }}
@@ -136,7 +158,7 @@ const showResult = () => {
             </li>
           </ul>
         </div>
-        <p class="text-base md:text-lg lg:text-xl">
+        <p class="text-base md:text-lg lg:text-xl whitespace-pre-line">
           {{ testStore.currentTest.result }}
         </p>
       </div>

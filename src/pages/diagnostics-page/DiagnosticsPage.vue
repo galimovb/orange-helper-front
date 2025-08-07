@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted} from 'vue';
+import {onMounted, computed} from 'vue';
 import {useTestStore} from '@/stores/testStore';
 import {useMaterialStore} from '@/stores/materialStore';
 
@@ -10,7 +10,7 @@ import Footer from "@/components/Footer.vue";
 import {useRouter} from "vue-router";
 
 const router = useRouter();
-  const materialStore = useMaterialStore();
+const materialStore = useMaterialStore();
 const testStore = useTestStore();
 
 const images = [
@@ -21,6 +21,10 @@ const images = [
   "/img/infoCard_5.svg",
   "/img/infoCard_6.svg"
 ];
+
+const filteredTests = computed(() => {
+  return testStore.tests.filter(test => test.isExpressTest === false);
+});
 
 onMounted(async () => {
   await materialStore.fetchAllMaterials();
@@ -101,7 +105,7 @@ onMounted(async () => {
           :key="key"
           :to="`/diagnostics/psychology/${material.id}`"
           target="_blank"
-          class="bg-white text-base md:text-2xl lg:text-4xl text-left rounded-[5px] px-4 py-8 lg:px-7 lg:py-5 cursor-pointer hover:bg-orange-50 transition"
+          class="bg-white text-base md:text-xl lg:text-2xl text-left rounded-[5px] px-4 py-8 lg:px-7 lg:py-5 cursor-pointer hover:bg-orange-50 transition"
       >
         <p>
           {{ material.name }}
@@ -122,7 +126,7 @@ onMounted(async () => {
     </div>
     <div class="grid lg:grid-cols-3 grid-cols-2 gap-[30px] md:px-9 lg:px-[72px]">
       <router-link
-          v-for="(test, key) in testStore.tests"
+          v-for="(test, key) in filteredTests"
           :key="key"
           :to="`/test/${test.id}`"
           target="_blank"

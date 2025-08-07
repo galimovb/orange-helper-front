@@ -2,7 +2,7 @@
   <div
     class="info-card bg-orange-500 rounded-[10px] shadow-[8px_14px_16px_1px_rgba(0,0,0,0.25)] flex flex-col justify-between"
   >
-    <div class="text-white flex flex-col items-center gap-6 w-full">
+    <div class="text-white flex flex-col items-center gap-2 w-full">
       <div
         v-if="title"
         class="leading-[100%] min-h-[100px] lg:min-h-[160px] "
@@ -13,7 +13,7 @@
       </div>
       <div
         v-if="text"
-        class="text-base md:text-2xl lg:text-4xl leading-[100%] truncate"
+        class="text-base md:text-lg lg:text-xl leading-[100%] truncate"
       >
         <p>
           {{ text }}

@@ -10,8 +10,10 @@ import {useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
 
 import {useMaterialStore} from '@/stores/materialStore';
+import {useTestStore} from "@/stores/testStore";
 
 const materialStore = useMaterialStore();
+const testStore = useTestStore();
 
 const toast = useToast();
 const router = useRouter();
@@ -23,6 +25,18 @@ const images = [
   '/img/useful-articles-1.svg',
   '/img/useful-articles-2.svg',
 ];
+
+const goToExpressTest = async () => {
+  await testStore.fetchAllTests();
+
+  const expressTest = testStore.tests.find(test => test.isExpressTest === true);
+
+  if (expressTest) {
+    router.push(`/test/${expressTest.id}`);
+  } else {
+    console.log('Экспресс-тест не найден');
+  }
+};
 
 const getImageForIndex = (index) => {
   return images[index % images.length];
@@ -156,6 +170,8 @@ onMounted(async () => {
           </p>
         </div>
         <button
+            @click="goToExpressTest"
+            target="_blank"
             class="text-orange-500 bg-white rounded-[10px] px-1 py-1 md:px-10 md:py-4 lg:px-4 lg:py-7 text-base ld:text-4xl md:text-2xl"
         >
           Пройти экспресс-тест
