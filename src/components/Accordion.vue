@@ -26,7 +26,7 @@ const toggleAccordion = () => {
         class="transition-transform duration-200 w-6 h-2.5 md:w-9 md:h-4 lg:w-13 lg:h-6"
       >
     </div>
-    <p class="text-base md:text-2xl lg:text-4xl leading-[100%]" v-if="isOpen">
+    <p class="text-sm md:text-xl lg:text-2xl leading-[100%]" v-if="isOpen">
       {{content}}
     </p>
   </div>
