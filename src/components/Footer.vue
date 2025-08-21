@@ -13,57 +13,57 @@
             </h1>
             <ul class="flex flex-col gap-1 md:gap-3 lg:gap-5">
               <li>
-                <a href="#" target="_blank" class="text-xs md:text-lg lg:text-2xl">
+                <a
+                    href="#"
+                    target="_blank"
+                    class="text-xs md:text-lg lg:text-2xl"
+                >
                   О нас
                 </a>
               </li>
               <li>
-                <a href="#" target="_blank" class="text-xs md:text-lg lg:text-2xl">
+                <a
+                    href="#"
+                    target="_blank"
+                    class="text-xs md:text-lg lg:text-2xl"
+                >
                   Диагностика
                 </a>
               </li>
               <li>
-                <a href="#" target="_blank" class="text-xs md:text-lg lg:text-2xl">
+                <a
+                    href="#"
+                    target="_blank"
+                    class="text-xs md:text-lg lg:text-2xl"
+                >
                   Новости
                 </a>
               </li>
               <li>
-                <a href="#" target="_blank" class="text-xs md:text-lg lg:text-2xl break-all">
+                <a
+                    href="#"
+                    target="_blank"
+                    class="text-xs md:text-lg lg:text-2xl break-all"
+                >
                   Полезные материалы
                 </a>
               </li>
               <li>
-                <a href="#" target="_blank" class="text-xs md:text-lg lg:text-2xl break-all">
+                <a
+                    href="#"
+                    target="_blank"
+                    class="text-xs md:text-lg lg:text-2xl break-all"
+                >
                   Консультации
                 </a>
               </li>
               <li>
-                <a href="#" target="_blank" class="text-xs md:text-lg lg:text-2xl break-all">
+                <a
+                    href="#"
+                    target="_blank"
+                    class="text-xs md:text-lg lg:text-2xl break-all"
+                >
                   Личный кабинет
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="footer-contacts leading-[100%]">
-          <div class="flex flex-col gap-1 md:gap-4 lg:gap-8">
-            <h1 class="footer__title text-base md:text-2xl lg:text-4xl ">
-              Контакты
-            </h1>
-            <ul class="flex flex-col gap-1 md:gap-3 lg:gap-5">
-              <li>
-                <a href="tel:+7 912 384 22 00" class="text-xs md:text-lg lg:text-2xl">
-                  +7 912 384 22 00
-                </a>
-              </li>
-              <li>
-                <a href="mailto:orangehelp@gmail.com" class="text-xs md:text-lg lg:text-2xl break-all">
-                  orangehelp@gmail.com
-                </a>
-              </li>
-              <li>
-                <a href="mailto:support@orangepomoshnik.ru" class="text-xs md:text-lg lg:text-2xl break-all">
-                  support@orangepomoshnik.ru
                 </a>
               </li>
             </ul>
@@ -72,11 +72,68 @@
         <div class="footer-privacy leading-[100%]">
           <div class="flex flex-col gap-1 md:gap-4 lg:gap-8">
             <h1 class="footer__title text-base md:text-2xl lg:text-4xl">
-              Политика
+              Документы
             </h1>
-            <a href="#" target="_blank" class="text-xs md:text-lg lg:text-2xl break-all">
+            <a
+                href="/files/Privacy_policy.docx"
+                download="Политика конфиденциальности.docx"
+                target="_blank"
+                class="text-xs md:text-lg lg:text-2xl break-all"
+            >
               Политика конфиденциальности
             </a>
+            <a
+                href="/files/Consent_to_Data_Processing.docx"
+                download="Согласие на обработку персональных данных.docx"
+                target="_blank"
+                class="text-xs md:text-lg lg:text-2xl break-all"
+            >
+              Согласие на обработку персональных данных
+            </a>
+            <a
+                href="/files/Consent_to_Marketing_Emails.docx"
+                download="Согласие_на_рекламную_и_информационную_рассылку.docx"
+                target="_blank"
+                class="text-xs md:text-lg lg:text-2xl break-all"
+            >
+              Согласие на рекламную и информационну рассылку
+            </a>
+            <a
+                href="/files/Privacy_policy.docx"
+                download="Договор-оферта.docx"
+                target="_blank"
+                class="text-xs md:text-lg lg:text-2xl break-all"
+            >
+              Договор-оферта
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-contacts leading-[100%]">
+          <div class="flex flex-col gap-1 md:gap-4 lg:gap-8">
+            <h1 class="footer__title text-base md:text-2xl lg:text-4xl ">
+              Контакты
+            </h1>
+            <ul class="flex flex-col gap-1 md:gap-3 lg:gap-5">
+              <li>
+                <a
+                    href="https://t.me/orange_helper"
+                    target="_blank"
+                    class="text-xs md:text-lg lg:text-2xl break-all"
+                >
+                  tg: @orange_helper
+                </a>
+              </li>
+              <li>
+                <a
+                    href="mailto:orange_helper@mail.ru"
+                    target="_blank"
+                    class="text-xs md:text-lg lg:text-2xl break-all"
+                >
+                  orange_helper@mail.ru
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
