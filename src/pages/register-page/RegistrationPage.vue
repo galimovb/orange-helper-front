@@ -2,7 +2,7 @@
   <RegisterAndLoginLayout :max-width="916" :min-width="300">
     <div class="px-5 py-3 space-y-6 w-full">
       <div class="flex items-center flex-col">
-        <img src="/img/logo-bg__orange.png" class="w-[60px] md:w-[80px]" />
+        <img src="/img/logo-bg__orange.png" class="w-[60px] md:w-[80px]"/>
         <h1 class="text-3xl md:text-[32px] text-orange-500 font-medium">Регистрация</h1>
       </div>
 
@@ -18,7 +18,9 @@
                 @blur="validateField('lastName')"
                 :class="{ '!border-red-500 !border-[2px]': errors.lastName }"
             />
-            <span v-if="errors.lastName" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.lastName }}</span>
+            <span v-if="errors.lastName" class="text-red-500 text-sm md:text-base lg:text-lg">{{
+                errors.lastName
+              }}</span>
           </div>
 
           <!-- Имя -->
@@ -31,7 +33,9 @@
                 @blur="validateField('firstName')"
                 :class="{ '!border-red-500 !border-[2px]': errors.firstName }"
             />
-            <span v-if="errors.firstName" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.firstName }}</span>
+            <span v-if="errors.firstName" class="text-red-500 text-sm md:text-base lg:text-lg">{{
+                errors.firstName
+              }}</span>
           </div>
 
           <!-- Отчество -->
@@ -44,7 +48,9 @@
                 @blur="validateField('secondName')"
                 :class="{ '!border-red-500 !border-[2px]': errors.secondName }"
             />
-            <span v-if="errors.secondName" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.secondName }}</span>
+            <span v-if="errors.secondName" class="text-red-500 text-sm md:text-base lg:text-lg">{{
+                errors.secondName
+              }}</span>
           </div>
 
           <!-- Возраст -->
@@ -85,7 +91,9 @@
                 @blur="validateField('phoneNumber')"
                 :class="{ '!border-red-500 !border-[2px]': errors.phoneNumber }"
             />
-            <span v-if="errors.phoneNumber" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.phoneNumber }}</span>
+            <span v-if="errors.phoneNumber" class="text-red-500 text-sm md:text-base lg:text-lg">{{
+                errors.phoneNumber
+              }}</span>
           </div>
 
           <!-- Пароль -->
@@ -98,8 +106,49 @@
                 @blur="validateField('password')"
                 :class="{ '!border-red-500 !border-[2px]': errors.password }"
             />
-            <span v-if="errors.password" class="text-red-500 text-sm md:text-base lg:text-lg">{{ errors.password }}</span>
+            <span v-if="errors.password" class="text-red-500 text-sm md:text-base lg:text-lg">{{
+                errors.password
+              }}</span>
           </div>
+        </div>
+        <div class="flex items-center gap-4 md:gap-8 lg:gap-8">
+          <input
+              v-model="consent"
+              type="checkbox"
+              id="consent"
+              name="consent"
+              class="!w-8 !h-8 lg:!w-16 lg:!h-16"
+              required
+          />
+          <span class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
+                Я ознакомлен(-а) с
+                <a
+                    href="/files/Privacy_policy.docx"
+                    download="Политика конфиденциальности.docx"
+                    target="_blank"
+                    class="text-blue-600 underline"
+                >
+                  Политикой конфиденциальности
+                </a>
+                ,
+                <a
+                    href="/files/Consent_to_Data_Processing.docx"
+                    download="Согласие на обработку персональных данных.docx"
+                    target="_blank"
+                    class="text-blue-600 underline"
+                >
+                   Обработку персональных данных
+                </a>
+                и
+                <a
+                    href="/files/Privacy_policy.docx"
+                    download="Договор-оферта.docx"
+                    target="_blank"
+                    class="text-blue-600 underline"
+                >
+                   Договором-офертой
+                </a>
+              </span>
         </div>
 
         <button
@@ -121,17 +170,19 @@
 
 <script setup>
 import {onBeforeUnmount, onMounted, reactive, ref} from 'vue';
-import { useRouter } from 'vue-router';
+import {useRouter} from 'vue-router';
 import * as yup from 'yup';
 import RegisterAndLoginLayout from '@/components/RegisterAndLoginLayout.vue';
 import Input from '@/components/Input.vue';
-import { registerRaw } from '@/config/api/registerRaw';
+import {registerRaw} from '@/config/api/registerRaw';
 import {useToast} from "vue-toastification";
 
 const router = useRouter();
 const isSubmitting = ref(false);
 
 const toast = useToast();
+
+const consent = ref(false);
 
 // Данные формы
 const formData = reactive({
@@ -200,7 +251,7 @@ const validateField = async (field) => {
 // Отправка формы
 const handleSubmit = async () => {
   try {
-    await schema.validate(formData, { abortEarly: false });
+    await schema.validate(formData, {abortEarly: false});
   } catch (err) {
     Object.keys(errors).forEach(key => (errors[key] = ''));
     err.inner.forEach((error) => {

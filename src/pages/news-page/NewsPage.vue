@@ -81,6 +81,7 @@ const accordion = [
 onMounted(async () => {
   await materialStore.fetchAllMaterials();
 });
+
 </script>
 
 <template>
@@ -109,8 +110,8 @@ onMounted(async () => {
         </h2>
         <div class="line-right bg-orange-500 h-[5px] inline-block flex-grow"></div>
       </div>
-      <div class="receive__content flex lg:flex-row flex-col gap-6 items-center mx-auto">
-        <div class="receice__content-left flex flex-col items-center justify-center py-3 gap-2 lg:gap-4">
+      <div class="receive__content flex lg:flex-row flex-col gap-6 items-center justify-center mx-auto">
+        <div class="receice__content-left flex flex-col items-center justify-center max-w-[600px] py-3 gap-2 lg:gap-4">
           <img
               src="/img/receive-1.svg"
               alt="receive-1.svg"
@@ -131,7 +132,7 @@ onMounted(async () => {
             alt="plus"
             class="w-10 h-10 lg:h-[100px] lg:w-[100px] block"
         >
-        <div class="receive__content-right flex flex-col items-center py-3 gap-2 lg:gap-4">
+        <div class="receive__content-right flex flex-col items-center max-w-[400px] py-3 gap-2 lg:gap-4">
           <img
               src="/img/receive-2.svg"
               alt="receive-2.svg"
@@ -139,11 +140,11 @@ onMounted(async () => {
           >
           <div class="flex flex-col gap-3">
             <h2 class="text-xl md:text-2xl lg:text-4xl leading-[100%] text-center ">
-              Онлайн обучение на платформе
+              Расширение кругозора
             </h2>
             <p class="text-base md:text-xl lg:text-2xl leading-[100%] text-center">
-              Доступ к интерактивным курсам, видеоурокам, вебинарам и статьям по воспитанию, развитию и общению с
-              ребёнком. Обучение построено на практическом опыте и реальных кейсах.
+              Доступ к видео, аудио-материалам, педагогической и психологической литературе для развития, воспитания,
+              обучения детей.
             </p>
           </div>
         </div>
@@ -213,7 +214,7 @@ onMounted(async () => {
           </h5>
           <form
               @submit.prevent="subscribeToNewsletter"
-              class="flex flex-col gap-5 items-left max-w-[742px]"
+              class="flex flex-col gap-5 items-left max-w-[800px]"
           >
             <div>
               <Input
@@ -222,18 +223,35 @@ onMounted(async () => {
                   placeholder="person123@gmail.com"
               />
             </div>
-            <div class="flex items-center gap-2">
-              <Input
+            <div class="flex items-center gap-4 md:gap-8 lg:gap-10">
+              <input
                   v-model="consent"
                   type="checkbox"
                   id="consent"
                   name="consent"
-                  class="!w-4 !h-4 md:!w-6 md:!h-6 lg:!w-9 lg:!h-9"
+                  class="!w-8 !h-8 lg:!w-16 lg:!h-16"
                   required
               />
-              <label for="consent" class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
-                Я ознакомлен(-а) с Политикой конфиденциальности
-              </label>
+              <span class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
+                Я ознакомлен(-а) с
+                <a
+                    href="/files/Privacy_policy.docx"
+                    download="Политика конфиденциальности.docx"
+                    target="_blank"
+                    class="text-blue-600 underline"
+                >
+                  Политикой конфиденциальности
+                </a>
+                и согласием на
+                <a
+                    href="/files/Consent_to_Marketing_Emails.docx"
+                    download="Согласие_на_рекламную_и_информационную_рассылку.docx"
+                    target="_blank"
+                    class="text-blue-600 underline"
+                >
+                  рекламную и информационную рассылку
+                </a>
+              </span>
             </div>
             <button
                 type="submit"
