@@ -20,13 +20,13 @@ const teamMembers = [
     src: "/img/ksusha.png",
     name: "Ильина Ксения Алексеевна ",
     position: "Руководитель проекта",
-    description: "студент 5 курса ИпиО КФУ"
+    description: "Магистр 1 года обучения ИПиО КФУ , учитель начальных классов"
   },
   {
     src: "/img/alyona.png",
     name: "Иванова Алёна Кирилловна ",
-    position: "Педагог начального образования",
-    description: "Студент 5 курса ИпиО КФУ"
+    position: "",
+    description: "Учитель начальных классов."
   }
 ];
 
@@ -254,7 +254,7 @@ const priceList = [
         <h6 class="text-xl md:text-4xl lg:text-[55px]">
           Наша команда
         </h6>
-        <div class="project-team__members flex lg:flex-row flex-col items-center gap-10 justify-between">
+        <div class="project-team__members flex lg:flex-row flex-col gap-10 justify-between mx-auto">
           <MemberCard
               v-for="(member, index) in teamMembers"
               :key="index"
