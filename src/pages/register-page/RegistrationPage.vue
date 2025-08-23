@@ -111,16 +111,16 @@
               }}</span>
           </div>
         </div>
-        <div class="flex items-center gap-4 md:gap-8 lg:gap-8">
+        <div class="flex items-center gap-4 ">
           <input
               v-model="consent"
               type="checkbox"
               id="consent"
               name="consent"
-              class="!w-8 !h-8 lg:!w-16 lg:!h-16"
+              class="!w-8 !h-8"
               required
           />
-          <span class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
+          <span class="text-xs md:text-sm lg:text-xl leading-[100%] text-gray-600">
                 Я ознакомлен(-а) с
                 <a
                     href="/files/Privacy_policy.docx"
