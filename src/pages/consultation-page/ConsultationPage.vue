@@ -485,6 +485,7 @@ const priceListPsychologic = [
           </div>
 
         </div>
+
         <div class="flex items-center gap-2">
           <input
               type="checkbox"
@@ -494,10 +495,34 @@ const priceListPsychologic = [
               required
               class="w-4 h-4 md:w-6 md:h-6 lg:w-9 lg:h-9"
           >
-          <label for="consentPedagogical" class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
-            Я ознакомлен(-а) с Политикой конфиденциальности
-          </label>
+          <span class="text-xs md:text-sm lg:text-lg leading-[100%] text-gray-600">
+                Я ознакомлен(-а) с
+                <a
+                    href="/privacy-policy"
+                    target="_blank"
+                    class=" hover:underline"
+                >
+                  Политикой конфиденциальности
+                </a>
+                ,
+                <a
+                    href="/consent-to-data-processing"
+                    target="_blank"
+                    class=" hover:underline"
+                >
+                   Обработку персональных данных
+                </a>
+                и
+                <a
+                    href="/offer-agreement"
+                    target="_blank"
+                    class=" hover:underline"
+                >
+                   Договором-офертой
+                </a>
+              </span>
         </div>
+
         <button
             class="bg-black text-white rounded-[10px] text-base md:text-2xl lg:text-[32px]px-4 py-2.5"
         >
@@ -673,15 +698,38 @@ const priceListPsychologic = [
       <div class="flex items-center gap-2">
         <input
             type="checkbox"
-            id="consentPsychological"
+            id="consentPedagogical"
             name="consent"
             value="yes"
             required
             class="w-4 h-4 md:w-6 md:h-6 lg:w-9 lg:h-9"
         >
-        <label for="consentPsychological" class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
-          Я ознакомлен(-а) с Политикой конфиденциальности
-        </label>
+        <span class="text-xs md:text-sm lg:text-lg leading-[100%] text-gray-600">
+                Я ознакомлен(-а) с
+                <a
+                    href="/privacy-policy"
+                    target="_blank"
+                    class="hover:underline"
+                >
+                  Политикой конфиденциальности
+                </a>
+                ,
+                <a
+                    href="/consent-to-data-processing"
+                    target="_blank"
+                    class="hover:underline"
+                >
+                   Обработку персональных данных
+                </a>
+                и
+                <a
+                    href="/offer-agreement"
+                    target="_blank"
+                    class="hover:underline"
+                >
+                   Договором-офертой
+                </a>
+              </span>
       </div>
       <button
           class="bg-black text-white rounded-[10px] text-base md:text-2xl lg:text-[32px]px-4 py-2.5"
@@ -837,15 +885,38 @@ const priceListPsychologic = [
       <div class="flex items-center gap-2">
         <input
             type="checkbox"
-            id="consentJob"
+            id="consentPedagogical"
             name="consent"
             value="yes"
             required
             class="w-4 h-4 md:w-6 md:h-6 lg:w-9 lg:h-9"
         >
-        <label for="consentJob" class="text-xs md:text-sm lg:text-2xl leading-[100%] text-gray-600">
-          Я ознакомлен(-а) с Политикой конфиденциальности
-        </label>
+        <span class="text-xs md:text-sm lg:text-lg leading-[100%] text-gray-600">
+                Я ознакомлен(-а) с
+                <a
+                    href="/privacy-policy"
+                    target="_blank"
+                    class="hover:underline"
+                >
+                  Политикой конфиденциальности
+                </a>
+                ,
+                <a
+                    href="/consent-to-data-processing"
+                    target="_blank"
+                    class="hover:underline"
+                >
+                   Обработку персональных данных
+                </a>
+                и
+                <a
+                    href="/offer-agreement"
+                    target="_blank"
+                    class="hover:underline"
+                >
+                   Договором-офертой
+                </a>
+              </span>
       </div>
       <button
           class="bg-black text-white rounded-[10px] text-base md:text-2xl lg:text-[32px]px-4 py-2.5"
