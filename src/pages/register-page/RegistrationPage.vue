@@ -1,15 +1,15 @@
 <template>
   <RegisterAndLoginLayout :max-width="916" :min-width="300">
-    <div class="px-5 py-3 space-y-6 w-full">
+    <div class="px-5 py-2 space-y-6 w-full">
       <div class="flex items-center flex-col">
         <img src="/img/logo-bg__orange.png" class="w-[60px] md:w-[80px]"/>
         <h1 class="text-3xl md:text-[32px] text-orange-500 font-medium">Регистрация</h1>
       </div>
 
-      <form @submit.prevent="handleSubmit" class="space-y-7">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:gap-5">
+      <form @submit.prevent="handleSubmit" class="space-y-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:gap-3">
           <!-- Фамилия -->
-          <div class="space-y-1 md:space-y-4 ">
+          <div class="space-y-1">
             <label class="block text-sm md:text-xl text-orange-500">Фамилия</label>
             <Input
                 v-model="formData.lastName"
@@ -24,7 +24,7 @@
           </div>
 
           <!-- Имя -->
-          <div class="space-y-1 md:space-y-4 ">
+          <div class="space-y-1">
             <label class="block text-sm md:text-xl text-orange-500">Имя</label>
             <Input
                 v-model="formData.firstName"
@@ -39,7 +39,7 @@
           </div>
 
           <!-- Отчество -->
-          <div class="space-y-1 md:space-y-4 ">
+          <div class="space-y-1">
             <label class="block text-sm md:text-xl text-orange-500">Отчество</label>
             <Input
                 v-model="formData.secondName"
@@ -54,7 +54,7 @@
           </div>
 
           <!-- Возраст -->
-          <div class="space-y-1 md:space-y-4 ">
+          <div class="space-y-1">
             <label class="block text-sm md:text-xl text-orange-500">Возраст</label>
             <Input
                 v-model="formData.age"
@@ -69,7 +69,7 @@
           </div>
 
           <!-- Email -->
-          <div class="space-y-1 md:space-y-4 ">
+          <div class="space-y-1">
             <label class="block text-sm md:text-xl text-orange-500">Email</label>
             <Input
                 v-model="formData.email"
@@ -82,7 +82,7 @@
           </div>
 
           <!-- Телефон -->
-          <div class="space-y-1 md:space-y-4 ">
+          <div class="space-y-1">
             <label class="block text-sm md:text-xl text-orange-500">Телефон</label>
             <Input
                 v-model="formData.phoneNumber"
@@ -97,7 +97,7 @@
           </div>
 
           <!-- Пароль -->
-          <div class="space-y-1 md:space-y-4 ">
+          <div class="space-y-1">
             <label class="block text-sm md:text-xl text-orange-500">Пароль</label>
             <Input
                 v-model="formData.password"
@@ -111,7 +111,7 @@
               }}</span>
           </div>
         </div>
-        <div class="flex items-center gap-4 ">
+        <div class="flex items-center gap-4">
           <input
               v-model="consent"
               type="checkbox"
@@ -120,12 +120,12 @@
               class="!w-8 !h-8"
               required
           />
-          <span class="text-xs md:text-sm lg:text-xl leading-[100%] text-gray-600">
+          <span class="text-xs md:text-sm lg:text-lg leading-[100%] text-gray-600">
                 Я ознакомлен(-а) с
                 <a
                     href="/privacy-policy"
                     target="_blank"
-                    class="text-blue-600 underline"
+                    class="text-blue-600 hover:underline"
                 >
                   Политикой конфиденциальности
                 </a>
@@ -133,7 +133,7 @@
                 <a
                     href="/consent-to-data-processing"
                     target="_blank"
-                    class="text-blue-600 underline"
+                    class="text-blue-600 hover:underline"
                 >
                    Обработку персональных данных
                 </a>
@@ -141,7 +141,7 @@
                 <a
                     href="/offer-agreement"
                     target="_blank"
-                    class="text-blue-600 underline"
+                    class="text-blue-600 hover:underline"
                 >
                    Договором-офертой
                 </a>

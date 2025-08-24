@@ -16,7 +16,7 @@
       <div class="space-y-6">
         <!-- Форма входа -->
         <div v-show="!isResettingPassword">
-          <form @submit.prevent="handleSubmit" class="space-y-7">
+          <form @submit.prevent="handleSubmit" class="space-y-4">
             <!-- Телефон -->
             <div class="space-y-1 md:space-y-4 ">
               <label class="block text-sm md:text-xl text-orange-500">Телефон</label>
@@ -40,7 +40,7 @@
               />
               <button
                   @click="startPasswordReset"
-                  class="w-full text-left text-orange-500 underline hover:text-orange-600 text-sm md:text-xl"
+                  class="w-full text-left text-orange-500 hover:underline  hover:text-orange-600 text-sm md:text-xl"
               >
                 Забыли пароль?
               </button>
@@ -57,7 +57,7 @@
             </button>
           </form>
 
-          <div class="text-center text-gray-500 text-sm md:text-xl md:text-base mt-2">
+          <div class="text-center text-gray-500 text-sm md:text-lg mt-2">
             Нет аккаунта?
             <router-link to="/register" class="text-orange-500 hover:underline">Зарегистрироваться</router-link>
           </div>

@@ -16,7 +16,7 @@
                 <a
                     href="/#about-project"
                     target="_blank"
-                    class="text-xs md:text-lg lg:text-2xl"
+                    class="text-xs md:text-lg lg:text-2xl hover:underline"
                 >
                   О нас
                 </a>
@@ -25,7 +25,7 @@
                 <a
                     href="/diagnostics"
                     target="_blank"
-                    class="text-xs md:text-lg lg:text-2xl"
+                    class="text-xs md:text-lg lg:text-2xl hover:underline"
                 >
                   Диагностика
                 </a>
@@ -34,7 +34,7 @@
                 <a
                     href="#"
                     target="_blank"
-                    class="text-xs md:text-lg lg:text-2xl"
+                    class="text-xs md:text-lg lg:text-2xl hover:underline"
                 >
                   Новости
                 </a>
@@ -43,7 +43,7 @@
                 <a
                     href="/news"
                     target="_blank"
-                    class="text-xs md:text-lg lg:text-2xl break-all"
+                    class="text-xs md:text-lg lg:text-2xl break-all hover:underline"
                 >
                   Полезные материалы
                 </a>
@@ -52,7 +52,7 @@
                 <a
                     href="/consultation"
                     target="_blank"
-                    class="text-xs md:text-lg lg:text-2xl break-all"
+                    class="text-xs md:text-lg lg:text-2xl break-all hover:underline"
                 >
                   Консультации
                 </a>
@@ -61,7 +61,7 @@
                 <a
                     href="/account"
                     target="_blank"
-                    class="text-xs md:text-lg lg:text-2xl break-all"
+                    class="text-xs md:text-lg lg:text-2xl break-all hover:underline"
                 >
                   Личный кабинет
                 </a>
@@ -77,28 +77,28 @@
             <a
                 href="/privacy-policy"
                 target="_blank"
-                class="text-xs md:text-lg lg:text-2xl break-all"
+                class="text-xs md:text-lg lg:text-2xl break-all hover:underline"
             >
               Политика конфиденциальности
             </a>
             <a
                 href="/consent-to-data-processing"
                 target="_blank"
-                class="text-xs md:text-lg lg:text-2xl break-all"
+                class="text-xs md:text-lg lg:text-2xl break-all hover:underline"
             >
               Согласие на обработку персональных данных
             </a>
             <a
                 href="/consent-to-marketing-emails"
                 target="_blank"
-                class="text-xs md:text-lg lg:text-2xl break-all"
+                class="text-xs md:text-lg lg:text-2xl break-all hover:underline"
             >
               Согласие на рекламную и информационну рассылку
             </a>
             <a
                 href="/offer-agreement"
                 target="_blank"
-                class="text-xs md:text-lg lg:text-2xl break-all"
+                class="text-xs md:text-lg lg:text-2xl break-all hover:underline"
             >
               Договор-оферта
             </a>
@@ -115,7 +115,7 @@
                 <a
                     href="https://t.me/orange_helper"
                     target="_blank"
-                    class="text-xs md:text-lg lg:text-2xl break-all"
+                    class="text-xs md:text-lg lg:text-2xl break-all hover:underline"
                 >
                   tg: @orange_helper
                 </a>
@@ -124,7 +124,7 @@
                 <a
                     href="mailto:orange_helper@mail.ru"
                     target="_blank"
-                    class="text-xs md:text-lg lg:text-2xl break-all"
+                    class="text-xs md:text-lg lg:text-2xl break-all hover:underline"
                 >
                   orange_helper@mail.ru
                 </a>
