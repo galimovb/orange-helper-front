@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "@/pages/main-page/HomePage.vue";
-import AboutView from "@/pages/AboutView.vue";
 import NewsPage from "@/pages/news-page/NewsPage.vue";
 import DiagnosticsPage from "@/pages/diagnostics-page/DiagnosticsPage.vue";
 import UsefulMaterialsPage from "@/pages/useful-materials-page/UsefulMaterialsPage.vue";
@@ -11,13 +10,16 @@ import TestPage from "@/pages/test-page/TestPage.vue";
 import DetailPage from "@/components/DetailPage.vue";
 import RegistrationPage from "@/pages/register-page/RegistrationPage.vue";
 import LoginPage from "@/pages/login-page/LoginPage.vue";
+import PrivacyPolicy from "@/components/PrivacyPolicy.vue";
+import ConsentToDataProcessing from "@/components/ConsentToDataProcessing.vue";
+import ConsentToMarketingEmails from "@/components/ConsentToMarketingEmails.vue";
+import OfferAgreement from "@/components/OfferAgreement.vue";
 import { useAuthStore } from '@/stores/auth.js';
 
 const routes = [
   { path: "/", component: HomePage },
   { path: "/login", component: LoginPage, name: "login" },
   { path: "/register", component: RegistrationPage },
-  { path: "/about", component: AboutView },
   { path: "/news", component: NewsPage },
   {path: "/news/useful-articles/:id", component: DetailPage, props: true},
   { path: "/diagnostics", component: DiagnosticsPage },
@@ -30,6 +32,10 @@ const routes = [
   { path: "/account", component: AccountPage,  },
   { path: "/test/:id", component: TestPage, props: true,  meta: { requiresAuth: true }},
   { path: "/:pathMatch(.*)*", component: NotFoundPage },
+  {path: "/privacy-policy", component: PrivacyPolicy},
+  {path: "/consent-to-data-processing", component: ConsentToDataProcessing},
+  {path: "/consent-to-marketing-emails", component: ConsentToMarketingEmails},
+  {path: "/offer-agreement", component: OfferAgreement}
 ];
 
 export const router = createRouter({

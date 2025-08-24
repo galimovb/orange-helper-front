@@ -123,8 +123,7 @@
           <span class="text-xs md:text-sm lg:text-xl leading-[100%] text-gray-600">
                 Я ознакомлен(-а) с
                 <a
-                    href="/files/Privacy_policy.docx"
-                    download="Политика конфиденциальности.docx"
+                    href="/privacy-policy"
                     target="_blank"
                     class="text-blue-600 underline"
                 >
@@ -132,8 +131,7 @@
                 </a>
                 ,
                 <a
-                    href="/files/Consent_to_Data_Processing.docx"
-                    download="Согласие на обработку персональных данных.docx"
+                    href="/consent-to-data-processing"
                     target="_blank"
                     class="text-blue-600 underline"
                 >
@@ -141,8 +139,7 @@
                 </a>
                 и
                 <a
-                    href="/files/Privacy_policy.docx"
-                    download="Договор-оферта.docx"
+                    href="/offer-agreement"
                     target="_blank"
                     class="text-blue-600 underline"
                 >

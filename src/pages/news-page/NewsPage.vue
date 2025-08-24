@@ -235,8 +235,7 @@ onMounted(async () => {
               <span class="text-xs md:text-sm lg:text-xl leading-[100%] text-gray-600">
                 Я ознакомлен(-а) с
                 <a
-                    href="/files/Privacy_policy.docx"
-                    download="Политика конфиденциальности.docx"
+                    href="/privacy-policy"
                     target="_blank"
                     class="text-blue-600 underline"
                 >
@@ -244,8 +243,7 @@ onMounted(async () => {
                 </a>
                 и согласием на
                 <a
-                    href="/files/Consent_to_Marketing_Emails.docx"
-                    download="Согласие_на_рекламную_и_информационную_рассылку.docx"
+                    href="/consent-to-marketing-emails"
                     target="_blank"
                     class="text-blue-600 underline"
                 >

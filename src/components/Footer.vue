@@ -14,7 +14,7 @@
             <ul class="flex flex-col gap-1 md:gap-3 lg:gap-5">
               <li>
                 <a
-                    href="#"
+                    href="/#about-project"
                     target="_blank"
                     class="text-xs md:text-lg lg:text-2xl"
                 >
@@ -23,7 +23,7 @@
               </li>
               <li>
                 <a
-                    href="#"
+                    href="/diagnostics"
                     target="_blank"
                     class="text-xs md:text-lg lg:text-2xl"
                 >
@@ -41,7 +41,7 @@
               </li>
               <li>
                 <a
-                    href="#"
+                    href="/news"
                     target="_blank"
                     class="text-xs md:text-lg lg:text-2xl break-all"
                 >
@@ -50,7 +50,7 @@
               </li>
               <li>
                 <a
-                    href="#"
+                    href="/consultation"
                     target="_blank"
                     class="text-xs md:text-lg lg:text-2xl break-all"
                 >
@@ -59,7 +59,7 @@
               </li>
               <li>
                 <a
-                    href="#"
+                    href="/account"
                     target="_blank"
                     class="text-xs md:text-lg lg:text-2xl break-all"
                 >
@@ -75,32 +75,28 @@
               Документы
             </h1>
             <a
-                href="/files/Privacy_policy.docx"
-                download="Политика конфиденциальности.docx"
+                href="/privacy-policy"
                 target="_blank"
                 class="text-xs md:text-lg lg:text-2xl break-all"
             >
               Политика конфиденциальности
             </a>
             <a
-                href="/files/Consent_to_Data_Processing.docx"
-                download="Согласие на обработку персональных данных.docx"
+                href="/consent-to-data-processing"
                 target="_blank"
                 class="text-xs md:text-lg lg:text-2xl break-all"
             >
               Согласие на обработку персональных данных
             </a>
             <a
-                href="/files/Consent_to_Marketing_Emails.docx"
-                download="Согласие_на_рекламную_и_информационную_рассылку.docx"
+                href="/consent-to-marketing-emails"
                 target="_blank"
                 class="text-xs md:text-lg lg:text-2xl break-all"
             >
               Согласие на рекламную и информационну рассылку
             </a>
             <a
-                href="/files/Privacy_policy.docx"
-                download="Договор-оферта.docx"
+                href="/offer-agreement"
                 target="_blank"
                 class="text-xs md:text-lg lg:text-2xl break-all"
             >
