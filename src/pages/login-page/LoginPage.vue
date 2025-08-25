@@ -22,7 +22,7 @@
               <label class="block text-sm md:text-xl text-orange-500">Телефон</label>
               <Input
                   v-model="formData.phoneNumber"
-                  type="phone"
+                  type="tel"
                   placeholder="+7 912 345 67 89"
                   class="w-full"
               />

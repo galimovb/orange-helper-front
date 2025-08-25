@@ -110,12 +110,36 @@
             <h1 class="footer__title text-base md:text-2xl lg:text-4xl ">
               Контакты
             </h1>
-            <ul class="flex flex-col gap-1 md:gap-3 lg:gap-5">
+            <ul class="flex flex-col gap-1 md:gap-3 lg:gap-5 text-xs md:text-lg lg:text-2xl">
+              <li>
+                <span>
+                  ООО "Оранжевый помощник"
+                </span>
+              </li>
+              <li>
+                <span>
+                  ИНН: 1683024239
+                </span>
+              </li>
+              <li>
+                <span>
+                  ОГРН: 1241600052418
+                </span>
+              </li>
+              <li>
+                <a
+                    href="tel:+79393908158"
+                    target="_blank"
+                    class="break-all hover:underline"
+                >
+                  +79393908158
+                </a>
+              </li>
               <li>
                 <a
                     href="https://t.me/orange_helper"
                     target="_blank"
-                    class="text-xs md:text-lg lg:text-2xl break-all hover:underline"
+                    class="break-all hover:underline"
                 >
                   tg: @orange_helper
                 </a>
@@ -124,10 +148,16 @@
                 <a
                     href="mailto:orange_helper@mail.ru"
                     target="_blank"
-                    class="text-xs md:text-lg lg:text-2xl break-all hover:underline"
+                    class="break-all hover:underline"
                 >
                   orange_helper@mail.ru
                 </a>
+              </li>
+
+              <li>
+                <span class="text-xs md:text-lg lg:text-xl">
+                  422737, РТ, м.р-н Высокогорский, с.п. Бирюлинское, п.Бирюлинского Зверосовхоза, ул.Кольцевая, д.3А, кв.9
+                </span>
               </li>
             </ul>
           </div>

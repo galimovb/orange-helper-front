@@ -223,8 +223,7 @@ const schema = yup.object().shape({
       .email('Некорректный email'),
   phoneNumber: yup
       .string()
-      .required('Телефон обязателен')
-      .matches(/^\+7\d{10}$/, 'Формат: +7XXXXXXXXXX'),
+      .required('Телефон обязателен'),
   password: yup
       .string()
       .required('Пароль обязателен')
@@ -265,7 +264,7 @@ const handleSubmit = async () => {
       firstName: formData.firstName,
       lastName: formData.lastName,
       secondName: formData.secondName,
-      age: formData.age,
+      age: parseInt(formData.age),
       email: formData.email,
       phoneNumber: cleanedPhone,
       password: formData.password
