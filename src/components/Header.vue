@@ -7,9 +7,13 @@
             <img src="/img/menu.svg" alt="menu" class="w-6 h-6 md:w-10 md:h-10 lg:w-[60px] lg:h-[60px]">
           </template>
         </NavigationTab>
-        <button>
-          <img src="/img/logo-bg__orange.png" alt="logo" class="h-9 w-11 md:w-[60px] md:h-[60px] lg:w-[100px] lg:h-[100px]">
-        </button>
+        <router-link to="/">
+          <img
+              :src="logoImage"
+              alt="logo"
+              class="rounded-full h-9 w-11 md:w-[60px] md:h-[60px] lg:w-[100px] lg:h-[100px]"
+          >
+        </router-link>
       </div>
       <div class="text-sm md:text-4xl lg:text-4xl leading-none">
         <ul class="flex gap-5">
@@ -30,8 +34,17 @@
 </template>
 
 <script setup lang="ts">
-
 import NavigationTab from "@/components/NavigationTab.vue";
+import {computed} from "vue";
+import {useRoute} from "vue-router";
+
+const route = useRoute();
+
+const logoImage = computed(() => {
+  return route.path === ''
+      ? '/img/logo-bg__orange-main.png'
+      : '/img/logo-bg__white.png';
+});
 </script>
 
 <style scoped>
